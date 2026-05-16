@@ -3,441 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jhuls — My Nourishment Plan 🌿</title>
+<title>Jhuls — My Nourishment & Movement Plan 🌿</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #FDF8F2;
-    --warm-white: #FEFCF9;
-    --brown-deep: #3D2B1F;
-    --brown-mid: #6B4A35;
-    --brown-light: #A67C5B;
-    --terracotta: #C4704A;
-    --terracotta-light: #E8A882;
-    --sage: #7A9E7E;
-    --sage-light: #B8D4BA;
-    --sage-pale: #EDF5EE;
-    --gold: #C9954A;
-    --gold-pale: #FBF0DE;
-    --blush: #E8C4B0;
-    --text-dark: #2C1A0E;
-    --text-mid: #6B4A35;
-    --text-muted: #A67C5B;
-    --border: rgba(166,124,91,0.2);
-  }
+:root {
+  --cream:#FDF8F2; --warm-white:#FEFCF9;
+  --brown-deep:#3D2B1F; --brown-mid:#6B4A35; --brown-light:#A67C5B;
+  --terracotta:#C4704A; --terracotta-light:#E8A882;
+  --sage:#7A9E7E; --sage-light:#B8D4BA; --sage-pale:#EDF5EE;
+  --gold:#C9954A; --gold-pale:#FBF0DE;
+  --blush:#E8C4B0; --violet:#8B7BB5; --violet-pale:#F0EEF9;
+  --text-dark:#2C1A0E; --text-mid:#6B4A35; --text-muted:#A67C5B;
+  --border:rgba(166,124,91,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background-color:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text-dark);min-height:100vh;
+  background-image:radial-gradient(ellipse at 10% 20%,rgba(196,112,74,.06) 0%,transparent 50%),radial-gradient(ellipse at 90% 80%,rgba(122,158,126,.07) 0%,transparent 50%);}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* HEADER */
+.site-header{text-align:center;padding:2.5rem 2rem 1.5rem;position:relative;overflow:hidden;}
+.site-header::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(196,112,74,.12) 0%,transparent 70%);pointer-events:none;}
+.greeting{font-size:.78rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:.4rem;}
+.site-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3rem);color:var(--brown-deep);line-height:1.1;margin-bottom:.4rem;}
+.site-title em{font-style:italic;color:var(--terracotta);}
+.site-sub{font-size:.85rem;color:var(--text-muted);font-weight:300;margin-bottom:1.5rem;}
+.today-banner{display:inline-flex;align-items:center;gap:8px;background:var(--brown-deep);color:var(--cream);padding:.45rem 1.2rem;border-radius:50px;font-size:.82rem;font-weight:500;cursor:pointer;transition:background .2s;}
+.today-banner:hover{background:var(--terracotta);}
+.today-dot{width:7px;height:7px;background:var(--terracotta-light);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
-  body {
-    background-color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text-dark);
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 10% 20%, rgba(196,112,74,0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 90% 80%, rgba(122,158,126,0.07) 0%, transparent 50%);
-  }
+/* MONTH SELECTOR BAR */
+#monthSelectorBar{text-align:center;padding:.6rem 1rem 0;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
+#monthSelectorBar span{font-size:.75rem;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.1em;}
+#monthSelect{font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:500;color:var(--brown-deep);background:var(--warm-white);border:1px solid var(--border);border-radius:50px;padding:5px 14px;cursor:pointer;outline:none;appearance:none;}
+.reset-btn{font-family:'DM Sans',sans-serif;font-size:.72rem;color:var(--text-muted);background:transparent;border:1px solid var(--border);border-radius:50px;padding:4px 12px;cursor:pointer;}
 
-  /* --- HEADER --- */
-  .site-header {
-    text-align: center;
-    padding: 3rem 2rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .site-header::before {
-    content: '';
-    position: absolute;
-    top: -60px; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 300px;
-    background: radial-gradient(ellipse, rgba(196,112,74,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .greeting {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-    margin-bottom: 0.5rem;
-  }
-  .site-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    color: var(--brown-deep);
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-  .site-title em {
-    font-style: italic;
-    color: var(--terracotta);
-  }
-  .site-sub {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-weight: 300;
-    margin-bottom: 2rem;
-  }
+/* WEEK NAV */
+.month-nav{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:.75rem 1rem .25rem;}
+.week-tab{padding:4px 13px;border:1px solid var(--border);border-radius:50px;font-size:.75rem;cursor:pointer;background:var(--warm-white);color:var(--text-muted);transition:all .2s;font-weight:500;}
+.week-tab:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.week-tab.active{background:var(--terracotta);border-color:var(--terracotta);color:white;}
 
-  /* --- TODAY PILL --- */
-  .today-banner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--brown-deep);
-    color: var(--cream);
-    padding: 0.5rem 1.25rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-bottom: 2rem;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .today-banner:hover { background: var(--terracotta); }
-  .today-dot { width: 8px; height: 8px; background: var(--terracotta-light); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+/* DAY GRID */
+.day-grid-wrap{max-width:980px;margin:0 auto;padding:1rem 1.5rem 1.5rem;}
+.week-label{font-family:'Playfair Display',serif;font-size:1rem;color:var(--brown-light);margin:1.2rem 0 .6rem;font-style:italic;}
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.day-chip{background:var(--warm-white);border:1px solid var(--border);border-radius:10px;padding:.45rem .25rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.day-chip:hover{border-color:var(--terracotta);transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,112,74,.15);}
+.day-chip.active{background:var(--brown-deep);border-color:var(--brown-deep);color:white;box-shadow:0 6px 18px rgba(61,43,31,.25);transform:translateY(-2px);}
+.day-chip.today-chip{border-color:var(--terracotta);}
+.day-chip.today-chip::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--terracotta);border-radius:50%;}
+.day-chip.active.today-chip::after{background:var(--terracotta-light);}
+.chip-num{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;line-height:1;}
+.chip-name{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em;opacity:.6;margin-top:2px;}
+.chip-emoji{font-size:.78rem;margin-top:2px;}
 
-  /* --- NAV MONTH TABS --- */
-  .month-nav {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 0 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .week-tab {
-    padding: 5px 14px;
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    font-size: 0.78rem;
-    cursor: pointer;
-    background: var(--warm-white);
-    color: var(--text-muted);
-    transition: all 0.2s;
-    font-weight: 500;
-  }
-  .week-tab:hover { border-color: var(--terracotta); color: var(--terracotta); }
-  .week-tab.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
+/* CONTENT */
+.content-area{max-width:840px;margin:0 auto;padding:0 1.5rem 4rem;}
 
-  /* --- DAY GRID --- */
-  .day-grid-wrap {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 1.5rem 1.5rem 2rem;
-  }
-  .week-label {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--brown-light);
-    margin: 1.5rem 0 0.75rem;
-    font-style: italic;
-  }
-  .day-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    margin-bottom: 0.5rem;
-  }
-  .day-chip {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.55rem 0.3rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    min-height: 64px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .day-chip:hover { border-color: var(--terracotta); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(196,112,74,0.15); }
-  .day-chip.active {
-    background: var(--brown-deep);
-    border-color: var(--brown-deep);
-    color: white;
-    box-shadow: 0 6px 20px rgba(61,43,31,0.25);
-    transform: translateY(-2px);
-  }
-  .day-chip.today-chip { border-color: var(--terracotta); }
-  .day-chip.today-chip::after {
-    content: '';
-    position: absolute;
-    bottom: 5px; left: 50%; transform: translateX(-50%);
-    width: 4px; height: 4px;
-    background: var(--terracotta);
-    border-radius: 50%;
-  }
-  .day-chip.active.today-chip::after { background: var(--terracotta-light); }
-  .chip-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    line-height: 1;
-  }
-  .chip-name {
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.6;
-    margin-top: 3px;
-  }
-  .chip-emoji { font-size: 0.85rem; margin-top: 2px; }
+/* TABS: Diet / Exercise */
+.section-tabs{display:flex;gap:8px;margin-bottom:1.25rem;}
+.sec-tab{flex:1;padding:.6rem 1rem;border-radius:12px;border:1px solid var(--border);background:var(--warm-white);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:center;}
+.sec-tab.active{background:var(--brown-deep);border-color:var(--brown-deep);color:white;}
+.sec-tab:hover:not(.active){border-color:var(--terracotta);color:var(--terracotta);}
 
-  /* --- MAIN CONTENT AREA --- */
-  .content-area {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 0 1.5rem 4rem;
-  }
+/* DAY HERO */
+.day-hero{background:var(--warm-white);border:1px solid var(--border);border-radius:22px;padding:1.75rem 1.75rem 1.25rem;margin-bottom:1.25rem;position:relative;overflow:hidden;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.day-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(196,112,74,.09) 0%,transparent 70%);}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.2rem;}
+.hero-date-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin-bottom:3px;}
+.hero-day-name{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.2rem);color:var(--brown-deep);line-height:1;}
+.hero-day-name em{font-style:italic;color:var(--terracotta);}
+.hero-focus{background:var(--gold-pale);border:1px solid rgba(201,149,74,.25);border-radius:12px;padding:.65rem .9rem;min-width:150px;text-align:right;flex-shrink:0;}
+.focus-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:3px;}
+.focus-text{font-size:.82rem;font-weight:500;color:var(--brown-deep);}
+.nutrient-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem;}
+.npill{padding:2px 9px;border-radius:50px;font-size:.68rem;font-weight:500;border:1px solid;}
+.npill-green{background:var(--sage-pale);color:var(--sage);border-color:rgba(122,158,126,.3);}
+.npill-terr{background:rgba(232,168,130,.2);color:var(--terracotta);border-color:rgba(196,112,74,.25);}
+.npill-gold{background:var(--gold-pale);color:var(--gold);border-color:rgba(201,149,74,.25);}
 
-  /* --- DAY HERO --- */
-  .day-hero {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 2rem 2rem 1.5rem;
-    margin-bottom: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 0.3s ease;
-  }
-  @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
-  .day-hero::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(196,112,74,0.1) 0%, transparent 70%);
-  }
-  .hero-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .hero-date-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-  .hero-day-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    color: var(--brown-deep);
-    line-height: 1;
-  }
-  .hero-day-name em { font-style: italic; color: var(--terracotta); }
-  .hero-focus {
-    background: var(--gold-pale);
-    border: 1px solid rgba(201,149,74,0.25);
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    min-width: 160px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .focus-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 4px; }
-  .focus-text { font-size: 0.88rem; font-weight: 500; color: var(--brown-deep); }
+/* MEAL CARDS */
+.meals-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
+@media(max-width:560px){.meals-grid{grid-template-columns:1fr;}}
+.meal-card{border-radius:16px;padding:1.1rem;position:relative;overflow:hidden;animation:fadeIn .4s ease;}
+.meal-card.breakfast{background:linear-gradient(135deg,#FBF0DE 0%,#FDF8F2 100%);border:1px solid rgba(201,149,74,.2);}
+.meal-card.lunch{background:linear-gradient(135deg,#EDF5EE 0%,#FDF8F2 100%);border:1px solid rgba(122,158,126,.2);}
+.meal-card.snack{background:linear-gradient(135deg,rgba(232,168,130,.15) 0%,#FDF8F2 100%);border:1px solid rgba(196,112,74,.2);}
+.meal-card.dinner{background:linear-gradient(135deg,rgba(61,43,31,.05) 0%,#FDF8F2 100%);border:1px solid rgba(61,43,31,.12);}
+.meal-type-tag{display:inline-block;font-size:.63rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:50px;margin-bottom:.5rem;}
+.tag-b{background:var(--gold);color:white;}.tag-l{background:var(--sage);color:white;}.tag-s{background:var(--terracotta);color:white;}.tag-d{background:var(--brown-deep);color:var(--cream);}
+.meal-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--brown-deep);margin-bottom:.5rem;line-height:1.2;}
+.meal-items{list-style:none;}
+.meal-items li{font-size:.8rem;color:var(--text-mid);padding:2px 0;display:flex;align-items:flex-start;gap:5px;line-height:1.4;font-weight:300;}
+.meal-items li::before{content:'—';color:var(--text-muted);flex-shrink:0;font-weight:300;}
 
-  /* Nutrient pills row */
-  .nutrient-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 1.25rem;
-  }
-  .npill {
-    padding: 3px 10px;
-    border-radius: 50px;
-    font-size: 0.72rem;
-    font-weight: 500;
-    border: 1px solid;
-  }
-  .npill-green { background: var(--sage-pale); color: var(--sage); border-color: rgba(122,158,126,0.3); }
-  .npill-terr { background: rgba(232,168,130,0.2); color: var(--terracotta); border-color: rgba(196,112,74,0.25); }
-  .npill-gold { background: var(--gold-pale); color: var(--gold); border-color: rgba(201,149,74,0.25); }
+/* PREP TOGGLE */
+.prep-toggle{margin-top:.75rem;width:100%;background:transparent;border:1px dashed rgba(166,124,91,.35);border-radius:8px;padding:.45rem .75rem;font-size:.75rem;color:var(--text-muted);cursor:pointer;font-family:'DM Sans',sans-serif;text-align:left;transition:all .15s;}
+.prep-toggle:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.prep-body{display:none;margin-top:.6rem;background:rgba(255,255,255,.6);border-radius:8px;padding:.7rem .8rem;}
+.prep-body.open{display:block;animation:fadeIn .2s ease;}
+.prep-step{font-size:.78rem;color:var(--text-mid);padding:3px 0;display:flex;gap:8px;line-height:1.45;font-weight:300;}
+.prep-num{font-weight:600;color:var(--terracotta);flex-shrink:0;font-size:.75rem;}
+.prep-time{font-size:.68rem;color:var(--text-muted);margin-top:.4rem;font-style:italic;}
 
-  /* --- MEAL CARDS --- */
-  .meals-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-  @media (max-width: 560px) { .meals-grid { grid-template-columns: 1fr; } }
+/* TIP BOX */
+.tip-box{background:var(--sage-pale);border-left:3px solid var(--sage);border-radius:0 12px 12px 0;padding:.9rem 1.1rem;margin-bottom:1.1rem;animation:fadeIn .5s ease;}
+.tip-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--sage);margin-bottom:3px;font-weight:500;}
+.tip-text{font-size:.85rem;color:var(--text-mid);line-height:1.6;font-weight:300;}
 
-  .meal-card {
-    border-radius: 18px;
-    padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
-    animation: fadeIn 0.4s ease;
-  }
-  .meal-card.breakfast { background: linear-gradient(135deg, #FBF0DE 0%, #FDF8F2 100%); border: 1px solid rgba(201,149,74,0.2); }
-  .meal-card.lunch     { background: linear-gradient(135deg, #EDF5EE 0%, #FDF8F2 100%); border: 1px solid rgba(122,158,126,0.2); }
-  .meal-card.snack     { background: linear-gradient(135deg, rgba(232,168,130,0.15) 0%, #FDF8F2 100%); border: 1px solid rgba(196,112,74,0.2); }
-  .meal-card.dinner    { background: linear-gradient(135deg, rgba(61,43,31,0.05) 0%, #FDF8F2 100%); border: 1px solid rgba(61,43,31,0.12); }
+/* HABIT ROW */
+.habit-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
+@media(max-width:480px){.habit-row{grid-template-columns:1fr;}}
+.habit-card{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;padding:.9rem;}
+.habit-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:.55rem;font-weight:500;}
+.cups-row{display:flex;gap:4px;flex-wrap:wrap;}
+.cup-btn{width:28px;height:33px;border-radius:0 0 7px 7px;border:1.5px solid rgba(122,158,126,.4);background:transparent;cursor:pointer;font-size:.65rem;transition:all .15s;display:flex;align-items:center;justify-content:center;color:var(--sage);}
+.cup-btn.filled{background:var(--sage);color:white;border-color:var(--sage);}
+.coffee-cups{display:flex;gap:5px;margin-top:6px;}
+.coffee-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(196,112,74,.3);background:transparent;cursor:pointer;font-size:.9rem;transition:all .15s;}
+.coffee-btn.filled{background:var(--terracotta);border-color:var(--terracotta);}
+.coffee-note{font-size:.68rem;color:var(--text-muted);margin-top:4px;}
 
-  .meal-type-tag {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 2px 8px;
-    border-radius: 50px;
-    margin-bottom: 0.6rem;
-  }
-  .tag-b { background: var(--gold); color: white; }
-  .tag-l { background: var(--sage); color: white; }
-  .tag-s { background: var(--terracotta); color: white; }
-  .tag-d { background: var(--brown-deep); color: var(--cream); }
+/* ===== EXERCISE SECTION ===== */
+.exercise-section{animation:fadeIn .3s ease;}
+.exercise-header{background:var(--warm-white);border:1px solid var(--border);border-radius:22px;padding:1.5rem 1.75rem;margin-bottom:1.25rem;}
+.ex-day-type{display:inline-block;padding:.3rem .9rem;border-radius:50px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem;}
+.ex-full{background:#EDF5EE;color:var(--sage);}
+.ex-upper{background:rgba(232,168,130,.2);color:var(--terracotta);}
+.ex-lower{background:var(--violet-pale);color:var(--violet);}
+.ex-rest{background:var(--gold-pale);color:var(--gold);}
+.ex-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--brown-deep);margin-bottom:.3rem;}
+.ex-subtitle{font-size:.82rem;color:var(--text-muted);font-weight:300;}
+.ex-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:.85rem;}
+.ex-stat{background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:.4rem .8rem;font-size:.75rem;color:var(--text-mid);font-weight:500;}
 
-  .meal-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.05rem;
-    color: var(--brown-deep);
-    margin-bottom: 0.6rem;
-    line-height: 1.25;
-  }
-  .meal-items { list-style: none; }
-  .meal-items li {
-    font-size: 0.82rem;
-    color: var(--text-mid);
-    padding: 3px 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    line-height: 1.4;
-    font-weight: 300;
-  }
-  .meal-items li::before { content: '—'; color: var(--text-muted); flex-shrink: 0; font-weight: 300; }
+.ex-circuit{background:var(--warm-white);border:1px solid var(--border);border-radius:18px;padding:1.25rem;margin-bottom:1rem;}
+.ex-circuit-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);font-weight:500;margin-bottom:.8rem;}
+.ex-circuit-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--brown-deep);margin-bottom:.9rem;}
+.exercise-item{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:start;padding:.7rem 0;border-bottom:1px solid var(--border);}
+.exercise-item:last-child{border-bottom:none;}
+.ex-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ex-icon-full{background:#EDF5EE;}
+.ex-icon-upper{background:rgba(232,168,130,.2);}
+.ex-icon-lower{background:var(--violet-pale);}
+.ex-icon-core{background:var(--gold-pale);}
+.ex-name{font-size:.88rem;font-weight:500;color:var(--brown-deep);margin-bottom:2px;}
+.ex-desc{font-size:.75rem;color:var(--text-muted);font-weight:300;line-height:1.4;}
+.ex-reps{font-size:.78rem;font-weight:600;color:var(--terracotta);white-space:nowrap;text-align:right;}
 
-  /* --- TIP BOX --- */
-  .tip-box {
-    background: var(--sage-pale);
-    border-left: 3px solid var(--sage);
-    border-radius: 0 14px 14px 0;
-    padding: 1rem 1.25rem;
-    margin-bottom: 1.25rem;
-    animation: fadeIn 0.5s ease;
-  }
-  .tip-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sage); margin-bottom: 4px; font-weight: 500; }
-  .tip-text { font-size: 0.88rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
+.warmup-box{background:var(--gold-pale);border:1px solid rgba(201,149,74,.2);border-radius:14px;padding:.9rem 1.1rem;margin-bottom:1rem;}
+.warmup-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:500;margin-bottom:.5rem;}
+.warmup-items{display:flex;flex-wrap:wrap;gap:6px;}
+.warmup-item{background:white;border:1px solid rgba(201,149,74,.2);border-radius:8px;padding:.3rem .7rem;font-size:.75rem;color:var(--text-mid);}
 
-  /* --- WATER & COFFEE TRACKER --- */
-  .habit-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-  @media (max-width: 480px) { .habit-row { grid-template-columns: 1fr; } }
-  .habit-card {
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1rem;
-  }
-  .habit-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    margin-bottom: 0.6rem;
-    font-weight: 500;
-  }
-  .cups-row { display: flex; gap: 5px; flex-wrap: wrap; }
-  .cup-btn {
-    width: 30px; height: 36px;
-    border-radius: 0 0 8px 8px;
-    border: 1.5px solid rgba(122,158,126,0.4);
-    background: transparent;
-    cursor: pointer;
-    font-size: 0.7rem;
-    transition: all 0.15s;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--sage);
-  }
-  .cup-btn.filled { background: var(--sage); color: white; border-color: var(--sage); }
-  .cup-btn:hover { border-color: var(--sage); }
-  .coffee-limit {
-    font-size: 0.88rem;
-    color: var(--text-mid);
-    font-weight: 300;
-    margin-top: 4px;
-  }
-  .coffee-cups { display: flex; gap: 6px; margin-top: 8px; }
-  .coffee-btn {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(196,112,74,0.3);
-    background: transparent;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.15s;
-  }
-  .coffee-btn.filled { background: var(--terracotta); border-color: var(--terracotta); }
-  .coffee-note { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+.rest-box{background:var(--gold-pale);border:1px solid rgba(201,149,74,.2);border-radius:18px;padding:1.75rem;text-align:center;margin-bottom:1rem;}
+.rest-emoji{font-size:2.5rem;margin-bottom:.75rem;}
+.rest-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--brown-deep);margin-bottom:.5rem;}
+.rest-desc{font-size:.85rem;color:var(--text-mid);line-height:1.6;font-weight:300;}
+.rest-activities{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:1rem;}
+.rest-activity{background:white;border:1px solid rgba(201,149,74,.2);border-radius:50px;padding:.35rem .9rem;font-size:.78rem;color:var(--text-mid);}
 
-  /* --- NAV ARROWS --- */
-  .day-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-  .nav-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 0.82rem;
-    color: var(--text-mid);
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-  .nav-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
-  .nav-btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
-  .day-counter {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    font-style: italic;
-  }
+/* NAV */
+.day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.nav-btn{display:flex;align-items:center;gap:5px;background:var(--warm-white);border:1px solid var(--border);padding:.45rem .9rem;border-radius:50px;cursor:pointer;font-size:.8rem;color:var(--text-mid);font-family:'DM Sans',sans-serif;transition:all .2s;}
+.nav-btn:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.nav-btn:disabled{opacity:.3;cursor:default;pointer-events:none;}
+.day-counter{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text-muted);font-style:italic;}
 
-  /* --- FOOTER --- */
-  .site-footer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    font-weight: 300;
-  }
-  .site-footer strong { color: var(--terracotta); }
-
-  /* --- SCROLLBAR --- */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--cream); }
-  ::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 3px; }
+/* FOOTER */
+.site-footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--text-muted);font-weight:300;}
+.site-footer strong{color:var(--terracotta);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--cream);}
+::-webkit-scrollbar-thumb{background:var(--blush);border-radius:3px;}
 </style>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="greeting">Your personal nourishment journal</div>
-  <h1 class="site-title">Good food,<br><em>Jhuls.</em></h1>
+  <div class="greeting">Your personal nourishment & movement journal</div>
+  <h1 class="site-title">Good food, strong body,<br><em>Jhuls.</em></h1>
   <p class="site-sub">Strength · Eye health · Circulation · Calm gut · Clear mind</p>
   <div class="today-banner" onclick="goToday()">
     <div class="today-dot"></div>
@@ -445,537 +192,891 @@
   </div>
 </header>
 
+<div id="monthSelectorBar"></div>
 <div class="month-nav" id="weekNav"></div>
-
-<div class="day-grid-wrap">
-  <div id="dayGridContainer"></div>
-</div>
+<div class="day-grid-wrap"><div id="dayGridContainer"></div></div>
 
 <div class="content-area">
   <div class="day-nav">
-    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← Previous day</button>
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← Prev</button>
     <span class="day-counter" id="dayCounter"></span>
-    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next day →</button>
+    <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+  </div>
+  <div class="section-tabs">
+    <button class="sec-tab active" id="tabDiet" onclick="switchTab('diet')">🥗 Diet Plan</button>
+    <button class="sec-tab" id="tabExercise" onclick="switchTab('exercise')">💪 Exercise</button>
   </div>
   <div id="mainContent"></div>
 </div>
 
 <footer class="site-footer">
-  Made with care 🌿 &nbsp;|&nbsp; <strong>Remember:</strong> drink water first, coffee second. &nbsp;|&nbsp; Consult a doctor for your eye & calf concerns.
+  Made with care 🌿 &nbsp;|&nbsp; <strong>Remember:</strong> water first, coffee second. &nbsp;|&nbsp; Please see a doctor for your eye & calf concerns.
 </footer>
 
 <script>
-// ========== DATA ==========
-const weekDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const weekDaysFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-
-// Rotating meal templates — 30 unique days
-// Each day: { focus, tip, nutrients, meals: [breakfast, lunch, snack, dinner] }
-// meals: { title, items[] }
-
+// ============================
+// DATA — MEALS (30 days)
+// Each meal has: type, title, items[], prep[]
+// ============================
 const mealTemplates = [
-  // WEEK 1
-  {
-    focus: "Eye + Circulation kickstart",
-    tip: "Start today by drinking a glass of water BEFORE your coffee. This one habit alone will reduce your bloating and calf cramping within a week.",
-    nutrients: ["Beta-carotene","Omega-3","Iron","B12","Potassium"],
-    meals: [
-      { type:"breakfast", title:"Egg rice bowl + warm milk", items:["1 cup white rice with butter or olive oil","2 boiled eggs — B12 for eye nerve health","1 medium tomato sliced alongside","1 tall glass of warm fresh milk"] },
-      { type:"lunch", title:"Grilled chicken + carrot soup + rice", items:["1.5 cups rice","Grilled chicken thigh — iron and muscle protein","Bowl of carrot & spinach soup — rich in beta-carotene for eyes","Squeeze of lemon over the chicken"] },
-      { type:"snack", title:"Banana + plain yogurt", items:["1 banana — potassium helps calf cramp pain","Small cup of plain yogurt — probiotic for gut calm","Drink 2 full glasses of water here"] },
-      { type:"dinner", title:"Grilled tuna + kangkong rice", items:["1 cup rice","Grilled tuna fillet — highest omega-3 for eye & circulation","Sautéed kangkong with garlic — lutein for eye whites","Half lemon squeezed on the fish"] }
+  // DAY 1
+  { focus:"Eye + Circulation kickstart", tip:"Start today by drinking a glass of water BEFORE your coffee. This one habit alone will reduce bloating and calf cramping within a week.", nutrients:["Beta-carotene","Omega-3","Iron","B12","Potassium"],
+    meals:[
+      { type:"breakfast", title:"Egg rice bowl + warm milk", items:["1 cup white rice with butter or olive oil","2 boiled eggs — B12 for eye nerve health","1 medium tomato sliced alongside","1 tall glass warm fresh milk"],
+        prep:["Boil 2 eggs for 8–10 mins in salted water. Cool under running water, peel.","Cook 1 cup rice in rice cooker or pot with 1.5 cups water.","Slice tomato. Drizzle olive oil or add butter knob to warm rice.","Heat milk in a small pot until just steaming — do not boil."], prepTime:"15 mins" },
+      { type:"lunch", title:"Grilled chicken + carrot soup + rice", items:["1.5 cups rice","Grilled chicken thigh — iron and muscle protein","Bowl of carrot & spinach soup — beta-carotene rich","Squeeze of lemon over the chicken"],
+        prep:["Season chicken thigh with salt, pepper, garlic powder. Grill on pan 6–7 mins each side over medium heat.","Boil 2 cups water, add diced carrots and cook 10 mins. Add spinach last 2 mins. Salt to taste.","Squeeze lemon over grilled chicken before serving."], prepTime:"25 mins" },
+      { type:"snack", title:"Banana + plain yogurt", items:["1 banana — potassium for calf cramp pain","Small cup plain yogurt — probiotic for gut","2 full glasses of water"],
+        prep:["No cooking needed — peel and eat. If you want it fancier: slice banana into yogurt, drizzle a little honey."], prepTime:"2 mins" },
+      { type:"dinner", title:"Grilled tuna + kangkong rice", items:["1 cup rice","Grilled tuna fillet — omega-3 for eyes & circulation","Sautéed kangkong with garlic — lutein for eye whites","Half lemon squeezed on fish"],
+        prep:["Pat tuna dry. Season with salt and pepper. Heat pan on high, cook tuna 2–3 mins per side (don't overcook).","Sauté 3 garlic cloves in oil until golden, add kangkong, toss 2 mins, season with salt.","Squeeze lemon over tuna. Serve hot."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Iron & Red blood cells",
-    tip: "Red meat twice a week is your fastest way to raise iron levels naturally. Pair it with Vitamin C (lemon, tomato) and your body absorbs up to 3x more.",
-    nutrients: ["Iron","Zinc","Vitamin C","Folate","Protein"],
-    meals: [
-      { type:"breakfast", title:"Oats in milk + boiled egg + dates", items:["1 cup oats cooked in fresh milk — fiber and calcium","1 boiled egg on the side","3–4 dates — natural iron and energy","Eat first, then have your 1 coffee"] },
-      { type:"lunch", title:"Beef rice + tomato salad", items:["1.5 cups rice","Stir-fried or stewed beef — highest natural iron source","Tomato and cucumber salad — Vitamin C boosts iron absorption","Fresh lemon dressing on the salad"] },
-      { type:"snack", title:"Almonds + water", items:["Small handful of almonds — Vitamin E for eye lens health","Walnuts if available — omega-3 for circulation","Two glasses of water — make it a habit here at snack time"] },
-      { type:"dinner", title:"Lentil soup + egg + rice", items:["1 cup rice","Bowl of red lentil soup — folate, fiber, and plant iron","1 fried egg on top","Warm glass of milk before bed for calcium and sleep"] }
+  // DAY 2
+  { focus:"Iron & Red blood cells", tip:"Pair red meat with Vitamin C — lemon or tomato — and your body absorbs up to 3x more iron. Never skip the lemon.", nutrients:["Iron","Zinc","Vitamin C","Folate","Protein"],
+    meals:[
+      { type:"breakfast", title:"Oats in milk + boiled egg + dates", items:["1 cup oats cooked in fresh milk — fiber and calcium","1 boiled egg on the side","3–4 dates — natural iron and energy","Eat first, then have your 1 coffee"],
+        prep:["Bring 1 cup milk to simmer, stir in oats, cook 3–4 mins stirring constantly until thick.","Boil egg separately. Add a pinch of salt and cinnamon to oats if you like."], prepTime:"10 mins" },
+      { type:"lunch", title:"Beef rice + tomato salad", items:["1.5 cups rice","Stir-fried beef — highest natural iron source","Tomato and cucumber salad — Vitamin C boosts iron","Lemon dressing on salad"],
+        prep:["Slice beef thin. Heat oil in pan on high, cook beef with garlic and soy sauce 4–5 mins.","Dice tomato and cucumber, dress with lemon juice, pinch of salt, and olive oil.","Serve beef over rice with salad alongside."], prepTime:"20 mins" },
+      { type:"snack", title:"Almonds + water", items:["Small handful almonds — Vitamin E for eye lens","Walnuts if available — omega-3","Two glasses water"],
+        prep:["No prep — just portion out nuts. Drink water with it."], prepTime:"1 min" },
+      { type:"dinner", title:"Lentil soup + egg + rice", items:["1 cup rice","Bowl of red lentil soup — folate, fiber, plant iron","1 fried egg on top","Warm glass milk before bed"],
+        prep:["Rinse ½ cup red lentils. Sauté onion and garlic in pot, add lentils + 2 cups water or broth. Simmer 20 mins until soft. Add cumin, salt, lemon juice.","Fry egg sunny side up. Place on top of soup bowl."], prepTime:"25 mins" }
     ]
   },
-  {
-    focus: "Gut calm + Digestion reset",
-    tip: "Ginger tea tonight — boil 4 slices of fresh ginger in 2 cups of water for 10 minutes. Add a little honey. It will settle the bloating coffee often causes.",
-    nutrients: ["Fiber","Probiotics","Ginger","Calcium","Vitamin A"],
-    meals: [
-      { type:"breakfast", title:"Lugaw (rice porridge) + soft egg", items:["Soft-cooked rice porridge with ginger slices — gentle on stomach","2 soft-boiled eggs on top","1 glass warm milk","Ginger in the porridge will calm the bloating"] },
-      { type:"lunch", title:"Chicken adobo + rice + papaya", items:["1.5 cups rice","Chicken adobo — vinegar aids digestion naturally","Half ripe papaya on the side — enzymes that help the stomach","Papaya is also very high in beta-carotene for your eyes"] },
-      { type:"snack", title:"Boiled camote (sweet potato)", items:["1 medium boiled sweet potato — Vitamin A, potassium, fiber","Coconut water if available — natural electrolytes for cramps","Skip the milk biscuits today"] },
-      { type:"dinner", title:"Bangus + spinach + rice", items:["1 cup rice","Grilled or baked bangus (milkfish) — omega-3 and calcium","Steamed spinach with garlic — lutein and iron","Ginger tea after dinner instead of coffee"] }
+  // DAY 3
+  { focus:"Gut calm + Digestion reset", tip:"Ginger tea tonight: boil 4 slices fresh ginger in 2 cups water for 10 minutes. Add honey. It will settle coffee bloating naturally.", nutrients:["Fiber","Probiotics","Ginger","Calcium","Vitamin A"],
+    meals:[
+      { type:"breakfast", title:"Lugaw (rice porridge) + soft egg", items:["Soft-cooked rice porridge with ginger — gentle on stomach","2 soft-boiled eggs","1 glass warm milk","Ginger in porridge calms bloating"],
+        prep:["Boil ½ cup rice in 3 cups water with 3 slices fresh ginger and a pinch of salt. Cook 20 mins stirring until porridge consistency. Add fish sauce or salt to taste.","Soft-boil eggs 6 mins, peel and place on top."], prepTime:"25 mins" },
+      { type:"lunch", title:"Chicken adobo + rice + papaya", items:["1.5 cups rice","Chicken adobo — vinegar aids digestion","Sliced ripe papaya — enzymes help stomach","Papaya high in beta-carotene for eyes"],
+        prep:["Brown chicken pieces in oil. Add equal parts soy sauce and vinegar (3 tbsp each), garlic, bay leaf, pepper. Simmer covered 25–30 mins until tender.","Slice cold papaya and serve on the side."], prepTime:"35 mins" },
+      { type:"snack", title:"Boiled camote (sweet potato)", items:["1 medium boiled sweet potato — Vitamin A, potassium","Coconut water if available","Skip biscuits today"],
+        prep:["Scrub sweet potato, boil whole in salted water 20–25 mins until fork-tender. Peel and eat warm."], prepTime:"25 mins" },
+      { type:"dinner", title:"Bangus + spinach + rice", items:["1 cup rice","Grilled or baked bangus — omega-3 and calcium","Sautéed spinach with garlic","Ginger tea after dinner"],
+        prep:["Score bangus sides with a knife. Rub with salt, pepper, garlic. Pan-fry in oil 4–5 mins per side until golden and cooked through.","Sauté garlic in oil until fragrant, add spinach, toss 2 mins, season."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Vitamin A for eyes",
-    tip: "The orange and yellow foods today — carrot, sweet potato, mango — all contain beta-carotene which your body converts into Vitamin A. This directly feeds your eye health.",
-    nutrients: ["Vitamin A","Lutein","Vitamin C","Magnesium","Protein"],
-    meals: [
-      { type:"breakfast", title:"Scrambled eggs + toast + orange juice", items:["2 scrambled eggs with a little butter","2 slices brown bread","Half an orange or a small glass of fresh OJ — Vitamin C","1 glass milk alongside"] },
-      { type:"lunch", title:"Chopsuey rice (all the colored veggies)", items:["1.5 cups rice","Stir-fry: carrots, cabbage, green beans, corn, bell pepper","Add chicken or shrimp for protein","Oyster sauce with garlic — small amount for flavor"] },
-      { type:"snack", title:"Fresh mango", items:["1 cup fresh ripe mango — among the best eye health fruits","Rich in Vitamin A and C together","Drink water alongside — mango is sweet but not hydrating enough alone"] },
-      { type:"dinner", title:"Beef with carrots + rice", items:["1 cup rice","Beef stew or stir-fry with carrots and onion","Tomato soup or broth on the side","Warm milk before bed"] }
+  // DAY 4
+  { focus:"Vitamin A for eyes", tip:"Orange and yellow foods — carrot, sweet potato, mango — contain beta-carotene that your body converts directly to Vitamin A for eye health.", nutrients:["Vitamin A","Lutein","Vitamin C","Magnesium","Protein"],
+    meals:[
+      { type:"breakfast", title:"Scrambled eggs + toast + fresh orange", items:["2 scrambled eggs with butter","2 slices brown bread","Half orange or small OJ — Vitamin C","1 glass milk"],
+        prep:["Beat 2 eggs with pinch of salt. Melt butter in pan on low heat, add eggs, stir gently with spatula until just set — remove from heat while slightly wet (they finish cooking from heat).","Toast bread, squeeze orange juice."], prepTime:"10 mins" },
+      { type:"lunch", title:"Chopsuey rice (colored vegetables)", items:["1.5 cups rice","Stir-fry: carrots, cabbage, green beans, bell pepper","Add chicken or shrimp for protein","Light oyster sauce + garlic"],
+        prep:["Heat oil in wok on high. Stir-fry garlic 30 seconds, add protein first (3 mins), then hard vegetables (carrots, beans), then soft ones (cabbage, bell pepper). Add oyster sauce + splash of water. Toss 2 mins."], prepTime:"20 mins" },
+      { type:"snack", title:"Fresh mango", items:["1 cup fresh ripe mango — best eye health fruit","Rich in Vitamin A and C together","Drink water alongside"],
+        prep:["Slice mango along the seed, score flesh in grid, push skin up to fan out. Eat fresh."], prepTime:"3 mins" },
+      { type:"dinner", title:"Beef with carrots + rice", items:["1 cup rice","Beef stew with carrots and onion","Tomato soup or broth on side","Warm milk before bed"],
+        prep:["Cut beef into cubes. Brown in oil. Add diced onion, garlic, tomato paste, water to cover. Add chunked carrots. Simmer 35–40 mins on low until tender. Season with salt and pepper."], prepTime:"45 mins" }
     ]
   },
-  {
-    focus: "Omega-3 boost",
-    tip: "Omega-3 from fish directly improves blood flow — which means better circulation to your calves AND your eyes. Try to have fish 4–5 times a week.",
-    nutrients: ["Omega-3","Vitamin D","Potassium","Fiber","Calcium"],
-    meals: [
-      { type:"breakfast", title:"Banana oat milk bowl", items:["1 mashed banana + half cup oats + 1 cup milk — stir and eat","Rich in potassium (cramps) and fiber (gut health)","No need for coffee when this keeps energy steady","Add a pinch of cinnamon if you have it"] },
-      { type:"lunch", title:"Sinigang na isda (fish tamarind soup)", items:["1.5 cups rice","Fish or shrimp sinigang — Vitamin C from tamarind and tomatoes","Kangkong or spinach inside the soup","Radish and tomato sides — circulation support"] },
-      { type:"snack", title:"Hard-boiled egg + water", items:["1 hard-boiled egg — quick protein and B12","Large glass of water — set a reminder if you need to","Avoid the milk biscuits — they spike and crash your energy"] },
-      { type:"dinner", title:"Egg fried rice + green salad", items:["Egg fried rice with garlic, peas, and diced carrots","Simple green salad with lemon dressing","Small cup of yogurt after — probiotic reset"] }
+  // DAY 5
+  { focus:"Omega-3 boost for eyes + brain", tip:"Omega-3 from fish improves blood flow to your eyes AND your brain. Try to eat fish 4–5 times this week. Your calves will also benefit.", nutrients:["Omega-3","Vitamin D","Potassium","Fiber","Calcium"],
+    meals:[
+      { type:"breakfast", title:"Banana oat milk bowl", items:["1 mashed banana + ½ cup oats + 1 cup milk","Steady energy — no crash","Add pinch of cinnamon for blood sugar balance","Drink water first"],
+        prep:["Mash ripe banana in bowl. Heat milk and oats together 3–4 mins stirring. Pour over banana, stir together. Add cinnamon. Eat warm."], prepTime:"8 mins" },
+      { type:"lunch", title:"Sinigang na isda (fish tamarind soup)", items:["1.5 cups rice","Fish sinigang — Vitamin C from tamarind","Kangkong or spinach inside the soup","Radish and tomatoes for circulation"],
+        prep:["Boil 3 cups water with tamarind paste (or sinigang mix). Add tomatoes and onion, boil 5 mins. Add fish pieces, cook 8 mins. Add vegetables last 3 mins. Season with fish sauce."], prepTime:"25 mins" },
+      { type:"snack", title:"Hard-boiled egg + water", items:["1 hard-boiled egg — B12 and protein","Large glass of water","Skip the biscuits"],
+        prep:["Boil egg 8–10 mins. Cool, peel, eat with a pinch of salt."], prepTime:"10 mins" },
+      { type:"dinner", title:"Egg fried rice + green salad", items:["Egg fried rice with garlic, peas, carrots","Simple salad with lemon dressing","Small yogurt after for probiotics"],
+        prep:["Use cold leftover rice. Heat oil in wok, fry garlic, add rice breaking up clumps. Push to side, scramble 2 eggs in center, mix together. Add peas, carrots, soy sauce. Toss on high heat 3 mins."], prepTime:"15 mins" }
     ]
   },
-  {
-    focus: "Rest day — light & restorative",
-    tip: "A lighter Friday dinner gives your digestive system real rest before the weekend. Try to sleep before midnight — your liver and eyes recover mostly between 11pm–2am.",
-    nutrients: ["Probiotics","Vitamin C","Iron","Magnesium","Potassium"],
-    meals: [
-      { type:"breakfast", title:"Full egg breakfast + fruit", items:["2 eggs any style","1 glass fresh milk","2 slices bread","Sliced tomato and cucumber on the side","Half mango or banana — whichever is ripe"] },
-      { type:"lunch", title:"Grilled chicken + mixed salad + rice", items:["1.5 cups rice","Grilled chicken breast or thigh — lean protein","Generous mixed salad: lettuce, tomato, cucumber, carrot","Lemon and olive oil dressing"] },
-      { type:"snack", title:"Dates + nuts", items:["3–4 dates — iron and quick energy","Small handful of cashews — magnesium and zinc","Coconut water if available"] },
-      { type:"dinner", title:"Light vegetable soup + rice", items:["1 cup rice","Simple vegetable broth with potato, carrot, and onion","Add an egg poached in the soup","Warm milk or ginger tea after"] }
+  // DAY 6
+  { focus:"Rest day — light and restorative", tip:"A lighter Friday dinner gives your digestive system real rest. Liver and eyes recover mostly between 11pm–2am — sleep early when you can.", nutrients:["Probiotics","Vitamin C","Iron","Magnesium","Potassium"],
+    meals:[
+      { type:"breakfast", title:"Full egg breakfast + fruit", items:["2 eggs any style","1 glass fresh milk","2 slices bread","Sliced tomato and cucumber","Half mango or banana"],
+        prep:["Fry, boil, or scramble eggs your preferred way. Slice fruit and vegetables. Simple and quick."], prepTime:"10 mins" },
+      { type:"lunch", title:"Grilled chicken + salad + rice", items:["1.5 cups rice","Grilled chicken breast or thigh","Mixed salad: lettuce, tomato, cucumber, carrot","Lemon and olive oil dressing"],
+        prep:["Season chicken, grill on pan 6–7 mins per side until cooked through. Rest 3 mins before slicing.","Toss salad vegetables with lemon juice, pinch of salt, drizzle of olive oil."], prepTime:"20 mins" },
+      { type:"snack", title:"Dates + nuts + coconut water", items:["3–4 dates — iron and energy","Handful cashews — magnesium and zinc","Coconut water for electrolytes"],
+        prep:["No prep needed."], prepTime:"1 min" },
+      { type:"dinner", title:"Light vegetable soup + rice", items:["1 cup rice","Veggie broth: potato, carrot, onion","Egg poached in the soup","Warm milk or ginger tea after"],
+        prep:["Sauté onion and garlic. Add diced potato and carrot with 2.5 cups water or broth. Simmer 15 mins. Crack egg directly into simmering soup, cover and cook 3–4 mins until set."], prepTime:"25 mins" }
     ]
   },
-  {
-    focus: "Weekend strength day",
-    tip: "Saturday is your highest-omega-3 day of the week. If budget allows, salmon is the single most powerful food for your eye health, circulation, and brain clarity all at once.",
-    nutrients: ["Omega-3","Vitamin D","Zinc","Lutein","Calcium"],
-    meals: [
-      { type:"breakfast", title:"Leisurely full breakfast", items:["2 eggs any style","Fresh milk or warm milk","Brown bread or pandesal","Sliced tomatoes or cucumber","1 small coffee — only after eating, never before"] },
-      { type:"lunch", title:"Grilled salmon or mackerel + broccoli + rice", items:["1.5 cups rice","Grilled salmon or canned mackerel in tomato sauce","Steamed broccoli — lutein and Vitamin C powerhouse","Half lemon squeezed over everything"] },
-      { type:"snack", title:"Yogurt with mango", items:["Half cup plain yogurt with sliced ripe mango","Probiotic + Vitamin A in one snack","Drink water — aim for 8 cups total today"] },
-      { type:"dinner", title:"Chicken tinola + rice", items:["1 cup rice","Tinolang manok with malunggay leaves if available","Malunggay (moringa) is one of the most iron and Vitamin A rich greens","Warm milk before bed"] }
+  // DAY 7
+  { focus:"Weekend strength day", tip:"Saturday is your best day for salmon — the single most powerful food for eye health, circulation, and brain clarity all at once. Worth the extra spend.", nutrients:["Omega-3","Vitamin D","Zinc","Lutein","Calcium"],
+    meals:[
+      { type:"breakfast", title:"Leisurely full breakfast", items:["2 eggs your favorite style","Fresh or warm milk","Brown bread or pandesal","Sliced tomatoes and cucumber","1 small coffee — after food only"],
+        prep:["Take your time today. Cook eggs as you like. Warm the milk. Set the table properly and sit down to eat without rushing."], prepTime:"15 mins" },
+      { type:"lunch", title:"Grilled salmon + broccoli + rice", items:["1.5 cups rice","Grilled salmon — highest omega-3","Steamed broccoli — lutein and Vitamin C powerhouse","Lemon squeezed over everything"],
+        prep:["Pat salmon dry, season with salt, pepper, garlic. Heat pan on high, skin side down first, cook 4 mins. Flip and cook 3 mins. Should be just opaque.","Steam broccoli florets 5 mins. Dress with lemon and a tiny drizzle of olive oil."], prepTime:"20 mins" },
+      { type:"snack", title:"Yogurt with mango", items:["½ cup plain yogurt with sliced ripe mango","Probiotic + Vitamin A in one snack","Aim for 8 cups water today"],
+        prep:["Slice mango, stir into yogurt. Add honey if you want."], prepTime:"3 mins" },
+      { type:"dinner", title:"Chicken tinola + rice", items:["1 cup rice","Tinolang manok with malunggay leaves","Malunggay = iron + Vitamin A + Vitamin C together","Warm milk before bed"],
+        prep:["Sauté garlic, onion, ginger in pot. Add chicken pieces, brown lightly. Add fish sauce, water to cover, green papaya chunks. Boil then simmer 20 mins. Add malunggay (moringa) leaves last 2 mins before serving."], prepTime:"30 mins" }
     ]
   },
-  // WEEK 2
-  {
-    focus: "Zinc + Vitamin A (eye recovery)",
-    tip: "Zinc + Vitamin A together are the most clinically proven nutrients for eye white clarity. Today's menu hits both hard. Book that blood test this week — seriously, Jhuls.",
-    nutrients: ["Zinc","Vitamin A","B12","Iron","Omega-3"],
-    meals: [
-      { type:"breakfast", title:"Egg rice + warm turmeric milk", items:["1 cup rice with 2 fried eggs","1 glass warm milk with a pinch of turmeric — anti-inflammatory","Sliced tomato on the side","Turmeric milk is better than a second coffee for your gut"] },
-      { type:"lunch", title:"Beef liver rice (if you can eat it)", items:["1.5 cups rice","Beef liver sautéed with onion — highest source of zinc + Vitamin A available","If not available: beef stir-fry with carrots instead","Side of sliced tomato with lemon"] },
-      { type:"snack", title:"Boiled egg + banana", items:["1 boiled egg — B12 and protein","1 banana — potassium for calf cramps","1–2 glasses of water here"] },
-      { type:"dinner", title:"Tuna pasta or tuna rice + spinach", items:["1 cup rice or small serving of pasta","Canned tuna in olive oil — omega-3 for eyes","Sautéed spinach with garlic and lemon","Warm milk before bed"] }
+  // DAY 8
+  { focus:"Zinc + Vitamin A (eye recovery)", tip:"Zinc + Vitamin A together are the most clinically proven nutrients for eye white clarity. Please book that blood test this week. It costs less than AED 150.", nutrients:["Zinc","Vitamin A","B12","Iron","Omega-3"],
+    meals:[
+      { type:"breakfast", title:"Egg rice + warm turmeric milk", items:["1 cup rice with 2 fried eggs","Warm milk with pinch of turmeric — anti-inflammatory","Sliced tomato on the side","Turmeric milk is gentler on your gut than a second coffee"],
+        prep:["Fry eggs in small oil. Warm milk, stir in ¼ tsp turmeric + pinch of black pepper (pepper helps absorb turmeric). Drink warm."], prepTime:"12 mins" },
+      { type:"lunch", title:"Beef stir-fry with carrots + rice", items:["1.5 cups rice","Beef strips with carrots and onion — iron + zinc + Vitamin A","Side of sliced tomato with lemon","Lemon Vitamin C boosts iron absorption"],
+        prep:["Slice beef thin against the grain. Heat wok on high, cook beef in batches 2 mins. Set aside. Stir-fry garlic, onion, carrot in same pan 3 mins. Return beef, add soy sauce + oyster sauce. Toss."], prepTime:"20 mins" },
+      { type:"snack", title:"Boiled egg + banana", items:["1 boiled egg — B12","1 banana — potassium for calf cramps","1–2 glasses water"],
+        prep:["Quick boil egg 8 mins. Peel and eat with banana."], prepTime:"10 mins" },
+      { type:"dinner", title:"Tuna rice + spinach", items:["1 cup rice","Canned tuna in olive oil — omega-3","Sautéed spinach with garlic and lemon","Warm milk before bed"],
+        prep:["Drain tuna. Sauté garlic in olive oil 1 min, add tuna and break up with fork, heat through 2 mins.","Sauté garlic, add spinach, cook 2 mins, squeeze lemon over. Serve together."], prepTime:"15 mins" }
     ]
   },
-  {
-    focus: "Muscle recovery + strength",
-    tip: "Muscle strength needs protein AND magnesium. Nuts, dark leafy greens, and whole grains give you the magnesium that most Filipinos eating white rice tend to be low on.",
-    nutrients: ["Protein","Magnesium","B vitamins","Iron","Potassium"],
-    meals: [
-      { type:"breakfast", title:"Oats + nuts + boiled egg", items:["1 cup oats in milk","Small handful of walnuts or almonds stirred in","1 boiled egg alongside","1 glass fresh milk"] },
-      { type:"lunch", title:"Lamb or beef + rice + lentil side", items:["1.5 cups rice","Grilled or stewed lamb — high zinc and iron","Side bowl of lentils — folate and plant protein","Salad with lemon dressing"] },
-      { type:"snack", title:"Sweet potato + coconut water", items:["1 boiled camote — Vitamin A and potassium","Coconut water — electrolytes for circulation and calf cramps","Skip biscuits and bread here"] },
-      { type:"dinner", title:"Fish stew + rice + steamed veg", items:["1 cup rice","Any firm fish (hammour, sea bass) in tomato-based stew","Steamed mixed vegetables — broccoli, carrots, zucchini","Ginger tea after dinner"] }
+  // DAY 9
+  { focus:"Muscle recovery + strength", tip:"Muscle strength needs protein AND magnesium. Nuts, dark leafy greens, and whole grains give magnesium that most people eating mainly white rice tend to be low on.", nutrients:["Protein","Magnesium","B vitamins","Iron","Potassium"],
+    meals:[
+      { type:"breakfast", title:"Oats + nuts + boiled egg", items:["1 cup oats in milk","Walnuts stirred in — omega-3 and magnesium","1 boiled egg alongside","1 glass fresh milk"],
+        prep:["Cook oats in milk 4 mins. Stir in a tablespoon of roughly crushed walnuts. Boil egg separately."], prepTime:"12 mins" },
+      { type:"lunch", title:"Lamb or beef + rice + lentil side", items:["1.5 cups rice","Grilled or stewed lamb — high zinc and iron","Side bowl of lentils — folate and plant protein","Salad with lemon dressing"],
+        prep:["Season lamb chops with garlic, cumin, salt. Grill 4–5 mins per side.","Cook red lentils in water 20 mins with onion, garlic, and cumin until soft."], prepTime:"30 mins" },
+      { type:"snack", title:"Sweet potato + coconut water", items:["1 boiled camote — Vitamin A and potassium","Coconut water — electrolytes","Skip biscuits and bread here"],
+        prep:["Boil sweet potato 20–25 mins. Drink coconut water alongside."], prepTime:"25 mins" },
+      { type:"dinner", title:"Fish stew + rice + vegetables", items:["1 cup rice","Firm fish (hammour or sea bass) in tomato stew","Steamed mixed vegetables","Ginger tea after dinner"],
+        prep:["Sauté onion, garlic, tomato. Add fish stock or water, tomatoes, season. Add fish pieces and simmer gently 12 mins. Do not stir — fish breaks easily. Add vegetables on top last 5 mins."], prepTime:"25 mins" }
     ]
   },
-  {
-    focus: "Gut healing day",
-    tip: "Your gut and your mind are directly connected — when your gut is calmer, your thinking is clearer. Today focuses on probiotic and fiber foods to heal the lining.",
-    nutrients: ["Probiotics","Fiber","Ginger","Calcium","Vitamin C"],
-    meals: [
-      { type:"breakfast", title:"Yogurt parfait with banana and oats", items:["1 cup plain yogurt layered with sliced banana","Half cup oats stirred in — fiber for gut lining","Drizzle of honey","1 glass warm milk or plain water (skip coffee today if possible)"] },
-      { type:"lunch", title:"Chicken soup with vegetables + rice", items:["1.5 cups rice","Homestyle chicken soup — potato, carrot, celery, onion","Add ginger slices to the soup while boiling","Tomatoes inside the soup for Vitamin C"] },
-      { type:"snack", title:"Fresh papaya", items:["1 cup fresh papaya — contains papain enzyme that helps digestion","Also very high in beta-carotene for eye health","Drink water alongside"] },
-      { type:"dinner", title:"Egg and vegetable stir-fry + rice", items:["1 cup rice","2 eggs scrambled with mixed vegetables","Broccoli, carrot, peas, corn — all in the wok","Warm milk and ginger tea before bed"] }
+  // DAY 10
+  { focus:"Gut healing day", tip:"Your gut and your mind are directly connected. When your gut is calmer, your thinking is clearer. Today's menu focuses on fiber and probiotics.", nutrients:["Probiotics","Fiber","Ginger","Calcium","Vitamin C"],
+    meals:[
+      { type:"breakfast", title:"Yogurt parfait with banana and oats", items:["1 cup plain yogurt layered with sliced banana","½ cup oats stirred in — fiber for gut lining","Drizzle of honey","Skip coffee today if possible"],
+        prep:["Layer yogurt in bowl, stir in oats, top with banana slices and honey. Simple and filling."], prepTime:"5 mins" },
+      { type:"lunch", title:"Chicken soup with vegetables + rice", items:["1.5 cups rice","Homestyle chicken soup — potato, carrot, celery","Add ginger slices while boiling","Tomatoes inside for Vitamin C"],
+        prep:["Boil chicken pieces in water with 3 slices ginger, onion, celery. Skim foam. Add chunked potato and carrot. Simmer 25 mins. Season with salt. Add tomatoes last 5 mins."], prepTime:"35 mins" },
+      { type:"snack", title:"Fresh papaya", items:["1 cup fresh papaya — papain enzyme aids digestion","Also high in beta-carotene for eyes","Drink water alongside"],
+        prep:["Peel, deseed, and slice papaya. Eat fresh."], prepTime:"3 mins" },
+      { type:"dinner", title:"Egg and vegetable stir-fry + rice", items:["1 cup rice","2 eggs scrambled with mixed vegetables","Broccoli, carrot, peas, corn","Warm milk and ginger tea before bed"],
+        prep:["Heat oil on high. Stir-fry carrots 2 mins, add broccoli florets 2 mins, add peas and corn 1 min. Push vegetables aside, scramble eggs in the pan. Mix everything, add soy sauce to taste."], prepTime:"15 mins" }
     ]
   },
-  {
-    focus: "Brain clarity + focus",
-    tip: "Omega-3, B vitamins, and iron are the three nutrients most linked to mental clarity and reduced brain fog. When you feel like you can't think — check if you ate these today.",
-    nutrients: ["Omega-3","B vitamins","Iron","Choline","Vitamin D"],
-    meals: [
-      { type:"breakfast", title:"Salmon or mackerel on toast + egg", items:["2 slices brown bread","Canned mackerel in tomato sauce on top — omega-3 for brain","1 fried egg alongside — choline supports memory","1 glass milk"] },
-      { type:"lunch", title:"Rice + chicken liver (or beef) + salad", items:["1.5 cups rice","Chicken liver sautéed — very high in B vitamins and iron","Mixed salad with tomato and lemon","If you can't find chicken liver: beef stir-fry works too"] },
-      { type:"snack", title:"Mixed nuts + water", items:["Walnuts especially — linked to brain health directly","Almonds for Vitamin E","Drink water — dehydration causes brain fog immediately"] },
-      { type:"dinner", title:"Tinola or arroz caldo style dinner", items:["1 cup soft-cooked rice","Ginger chicken broth with kangkong or malunggay","Malunggay leaves = iron + Vitamin A + folate together","Warm milk before sleep"] }
+  // DAY 11
+  { focus:"Brain clarity + focus", tip:"Omega-3, B vitamins, and iron are the three nutrients most linked to mental clarity. When you feel like you can't think — check if you ate these today.", nutrients:["Omega-3","B vitamins","Iron","Choline","Vitamin D"],
+    meals:[
+      { type:"breakfast", title:"Mackerel on toast + egg", items:["2 slices brown bread","Canned mackerel in tomato sauce — omega-3 for brain","1 fried egg alongside — choline supports memory","1 glass milk"],
+        prep:["Toast bread. Open canned mackerel, heat in small pan 2 mins with a little garlic. Serve on toast. Fry egg alongside."], prepTime:"10 mins" },
+      { type:"lunch", title:"Chicken liver + rice + salad", items:["1.5 cups rice","Chicken liver sautéed — very high in B vitamins and iron","Mixed salad with tomato and lemon","If no liver available: beef stir-fry"],
+        prep:["Soak chicken livers in milk 15 mins (removes bitterness). Pat dry. Fry with garlic and onion in oil, 3–4 mins per side until just cooked through (no pink inside). Add soy sauce, deglaze with a splash of vinegar."], prepTime:"25 mins" },
+      { type:"snack", title:"Mixed nuts + water", items:["Walnuts — brain health","Almonds for Vitamin E","Water — dehydration causes brain fog immediately"],
+        prep:["No prep needed. Drink water with nuts."], prepTime:"1 min" },
+      { type:"dinner", title:"Arroz caldo style dinner", items:["Soft ginger chicken rice","Kangkong or malunggay in the broth","Malunggay = iron + Vitamin A + folate","Warm milk before sleep"],
+        prep:["Cook chicken and rice together in ginger broth (like lugaw but with more chicken). Sauté garlic and onion, add chicken pieces, rice, water (4:1 ratio), ginger, fish sauce. Simmer 30 mins stirring until thick. Top with malunggay leaves."], prepTime:"35 mins" }
     ]
   },
-  {
-    focus: "Vitamin C + immunity",
-    tip: "Vitamin C helps your body absorb iron AND protects the blood vessels in your eyes. The more colorful your plate, the better your immune system and eye health.",
-    nutrients: ["Vitamin C","Beta-carotene","Zinc","Iron","Antioxidants"],
-    meals: [
-      { type:"breakfast", title:"Egg + fresh orange + milk", items:["2 eggs any style","Fresh orange or a glass of fresh OJ — highest Vitamin C hit","2 slices bread","1 glass milk"] },
-      { type:"lunch", title:"Beef stir-fry with bell pepper + rice", items:["1.5 cups rice","Beef strips with colorful bell peppers — bell peppers are the highest Vitamin C vegetable","Garlic and onion base — antibacterial and circulation-boosting","Tomato on the side"] },
-      { type:"snack", title:"Mango + yogurt", items:["1 cup fresh mango — Vitamin A and C together","Half cup plain yogurt — probiotics","This snack genuinely helps your eye whites over time"] },
-      { type:"dinner", title:"Fish with tomato sauce + rice + broccoli", items:["1 cup rice","Any fish fillet baked or pan-fried with tomato sauce","Steamed broccoli — lutein and Vitamin C","Warm milk before bed"] }
+  // DAY 12
+  { focus:"Vitamin C + immunity", tip:"Vitamin C protects blood vessels in your eyes AND helps absorb iron. The more colorful your plate, the better your immune system.", nutrients:["Vitamin C","Beta-carotene","Zinc","Iron","Antioxidants"],
+    meals:[
+      { type:"breakfast", title:"Egg + fresh orange + milk", items:["2 eggs any style","Fresh orange or glass of OJ — highest Vitamin C","2 slices bread","1 glass milk"],
+        prep:["Cook eggs your preferred way. Squeeze fresh orange juice or peel and eat the orange whole."], prepTime:"10 mins" },
+      { type:"lunch", title:"Beef stir-fry with bell pepper + rice", items:["1.5 cups rice","Beef strips with colorful bell peppers — highest Vitamin C vegetable","Garlic and onion base","Tomato on the side"],
+        prep:["Slice beef thin. Heat wok on high, cook beef 2 mins set aside. Stir-fry garlic, onion, sliced bell peppers (red + green) 2 mins. Return beef, add soy sauce and oyster sauce, toss on high heat 1 min."], prepTime:"20 mins" },
+      { type:"snack", title:"Mango + yogurt", items:["1 cup fresh mango — Vitamin A and C together","½ cup plain yogurt","This snack genuinely helps eye whites over time"],
+        prep:["Dice mango into yogurt. Add honey if desired."], prepTime:"3 mins" },
+      { type:"dinner", title:"Fish with tomato sauce + broccoli + rice", items:["1 cup rice","Fish fillet baked with tomato sauce","Steamed broccoli — lutein and Vitamin C","Warm milk before bed"],
+        prep:["Place fish fillet in baking dish. Pour tomato sauce (canned is fine) over it, add garlic and herbs. Bake at 200°C for 15–18 mins until fish flakes.","Steam broccoli 5 mins."], prepTime:"25 mins" }
     ]
   },
-  {
-    focus: "Calcium + bone strength",
-    tip: "Milk is your friend, Jhuls — it's one of the best foods you already love! Pair it with Vitamin D (from fish and eggs) so the calcium actually gets absorbed.",
-    nutrients: ["Calcium","Vitamin D","Protein","Phosphorus","Magnesium"],
-    meals: [
-      { type:"breakfast", title:"Oat milk porridge + egg + dates", items:["1 cup oats cooked in full-cream milk — calcium-rich","1 boiled egg","3–4 dates for iron and natural sweetness","1 extra glass cold fresh milk"] },
-      { type:"lunch", title:"Grilled fish + rice + milk-based soup", items:["1.5 cups rice","Grilled fish fillet — Vitamin D for calcium absorption","Simple cream of vegetable soup (with a little milk base)","Spinach in the soup — magnesium"] },
-      { type:"snack", title:"Yogurt + banana", items:["1 cup plain yogurt — calcium + probiotics","1 banana — magnesium and potassium","Drink water here, not just milk"] },
-      { type:"dinner", title:"Sardines or tinned fish + rice + greens", items:["1 cup rice","Canned sardines in tomato sauce — very high in calcium (eat the bones!)","Sautéed spinach or kangkong","Warm milk before bed as usual"] }
+  // DAY 13
+  { focus:"Calcium + bone strength", tip:"Milk is your friend — it's one of the best foods you already love! Pair it with Vitamin D (from fish and eggs) so calcium actually absorbs.", nutrients:["Calcium","Vitamin D","Protein","Phosphorus","Magnesium"],
+    meals:[
+      { type:"breakfast", title:"Oat milk porridge + egg + dates", items:["1 cup oats cooked in full-cream milk — calcium rich","1 boiled egg","3–4 dates for iron","Extra glass cold fresh milk"],
+        prep:["Bring milk to simmer, add oats, stir 4 mins until creamy. Boil egg separately. Eat dates alongside."], prepTime:"12 mins" },
+      { type:"lunch", title:"Grilled fish + cream veggie soup + rice", items:["1.5 cups rice","Grilled fish fillet — Vitamin D","Creamy vegetable soup with a little milk base","Spinach in the soup — magnesium"],
+        prep:["Season and grill fish 4 mins each side.","Sauté onion, add diced potato and carrot, cover with water. Boil 15 mins. Add a splash of milk and spinach. Blend half if you want it creamy. Season."], prepTime:"30 mins" },
+      { type:"snack", title:"Yogurt + banana", items:["1 cup plain yogurt — calcium and probiotics","1 banana — magnesium and potassium","Drink water here"],
+        prep:["Slice banana into yogurt. Simple."], prepTime:"2 mins" },
+      { type:"dinner", title:"Sardines + rice + kangkong", items:["1 cup rice","Canned sardines in tomato sauce — eat the bones for highest calcium","Sautéed kangkong","Warm milk before bed"],
+        prep:["Heat sardines in pan with a little garlic 2 mins. Don't throw the sauce — it's full of nutrients.","Sauté garlic and kangkong 2 mins."], prepTime:"10 mins" }
     ]
   },
-  {
-    focus: "Potassium — calf cramp target",
-    tip: "Potassium deficiency is one of the most common reasons for calf pain when inactive. Today loads you up on banana, sweet potato, tomato, and fish — all potassium-rich.",
-    nutrients: ["Potassium","Magnesium","Omega-3","Fiber","B6"],
-    meals: [
-      { type:"breakfast", title:"Banana pancake (easy version) + milk", items:["Mash 1 banana into 2 eggs and cook like small pancakes — only 2 ingredients","1 glass milk","1 extra banana on the side if hungry","Drizzle honey if you want sweetness"] },
-      { type:"lunch", title:"Tuna rice with tomatoes + avocado if available", items:["1.5 cups rice","Canned tuna with diced tomatoes — potassium + omega-3","Avocado if budget allows — highest potassium fruit after banana","Lemon and olive oil dressing"] },
-      { type:"snack", title:"Boiled sweet potato + coconut water", items:["1 large boiled camote — potassium and Vitamin A","Coconut water — natural electrolyte for muscle cramps","This snack combination directly targets your calf pain"] },
-      { type:"dinner", title:"Chicken with tomato stew + rice", items:["1 cup rice","Chicken braised in tomatoes, onion, and garlic (afritada style)","Potatoes and carrots inside the stew — more potassium","Warm milk before bed"] }
+  // DAY 14
+  { focus:"Potassium — calf cramp target", tip:"Potassium deficiency is one of the most common reasons for calf pain when sitting still. Today loads you up on banana, sweet potato, tomato, and fish.", nutrients:["Potassium","Magnesium","Omega-3","Fiber","B6"],
+    meals:[
+      { type:"breakfast", title:"2-ingredient banana pancakes + milk", items:["1 mashed banana + 2 eggs — that's it","Pan-fry like small pancakes","1 glass milk","Extra banana on the side"],
+        prep:["Mash 1 ripe banana thoroughly with a fork. Beat in 2 eggs until combined. Heat non-stick pan on medium with tiny bit of oil. Drop spoonfuls of batter, cook 2 mins per side. Makes 4–5 small pancakes."], prepTime:"10 mins" },
+      { type:"lunch", title:"Tuna rice with tomatoes + avocado", items:["1.5 cups rice","Canned tuna with diced tomatoes — potassium + omega-3","Avocado if available — highest potassium fruit after banana","Lemon and olive oil"],
+        prep:["Mix drained tuna with diced tomato, lemon juice, olive oil, salt, and pepper. If using avocado: slice and fan alongside. Serve over rice."], prepTime:"8 mins" },
+      { type:"snack", title:"Sweet potato + coconut water", items:["1 large boiled camote — potassium and Vitamin A","Coconut water — best natural electrolyte for cramps","This combination directly targets calf pain"],
+        prep:["Boil camote 20–25 mins. Drink coconut water alongside — this pairing is your calf cramp remedy."], prepTime:"25 mins" },
+      { type:"dinner", title:"Chicken afritada + rice", items:["1 cup rice","Chicken braised with tomatoes, potato, carrot — potassium-heavy","Potatoes and carrots in the sauce","Warm milk before bed"],
+        prep:["Brown chicken in oil. Remove. Sauté onion, garlic, bell pepper. Add tomato sauce + water, bring to boil. Add chicken back, potatoes, and carrots. Simmer covered 25 mins until tender."], prepTime:"40 mins" }
     ]
   },
-  // WEEK 3
-  {
-    focus: "Mid-month energy reset",
-    tip: "You are halfway through! Halfway through a diet is where most people give up. Keep it simple today — don't eat perfectly, just eat intentionally.",
-    nutrients: ["Iron","B12","Protein","Vitamin C","Potassium"],
-    meals: [
-      { type:"breakfast", title:"Rice + 2 eggs + tomato + milk", items:["The simple classics — 1 cup rice, 2 eggs, sliced tomato","1 tall glass cold fresh milk","This is enough. Simple is sustainable.","Drink a glass of water first before anything else"] },
-      { type:"lunch", title:"Whatever is available — with greens", items:["Any protein you have: chicken, beef, fish, or even just egg","Add at least 1 green or orange vegetable — spinach, carrot, kangkong","1.5 cups rice","Lemon squeeze on the protein"] },
-      { type:"snack", title:"Banana + water (non-negotiable)", items:["1 banana — potassium for your calves","2 full glasses of water — this is your most important habit","If you forget water all day, drink it now at snack time"] },
-      { type:"dinner", title:"Fish soup + rice (light and healing)", items:["1 cup rice","Simple fish soup with ginger, tomato, onion","Add any greens you have","Warm milk before bed"] }
+  // DAY 15
+  { focus:"Mid-month energy reset", tip:"Halfway through! This is where most people give up. Keep it simple today — don't eat perfectly, just eat intentionally.", nutrients:["Iron","B12","Protein","Vitamin C","Potassium"],
+    meals:[
+      { type:"breakfast", title:"Rice + 2 eggs + tomato + milk", items:["The simple classics — rice, eggs, tomato","1 tall glass cold fresh milk","Drink water first before anything else","Simple is sustainable"],
+        prep:["Fry 2 eggs. Slice tomato. Warm rice. Done. Sometimes the best meal is the simplest one."], prepTime:"8 mins" },
+      { type:"lunch", title:"Whatever is available + greens", items:["Any protein: chicken, beef, fish, or egg","Add 1 green or orange vegetable — spinach, carrot, kangkong","1.5 cups rice","Lemon squeeze on protein"],
+        prep:["Cook your available protein simply. Add any vegetable. The rule: always add one green or orange vegetable — non-negotiable."], prepTime:"Variable" },
+      { type:"snack", title:"Banana + 2 glasses water", items:["1 banana — potassium for calves","2 full glasses water — your most important habit","If you forgot water all day, drink it now"],
+        prep:["No prep — just eat the banana and drink the water. Set a phone alarm for this if you need to."], prepTime:"1 min" },
+      { type:"dinner", title:"Fish soup + rice (light and healing)", items:["1 cup rice","Simple fish soup with ginger, tomato, onion","Any greens you have","Warm milk before bed"],
+        prep:["Boil water with sliced ginger, onion, and tomato. Add fish, cook 10 mins. Add greens last 2 mins. Season with fish sauce and lemon."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Anti-inflammatory day",
-    tip: "Turmeric, ginger, and omega-3 all reduce inflammation — which affects eye comfort, calf pain, and gut bloating. Try to include one of these in every meal today.",
-    nutrients: ["Omega-3","Turmeric","Ginger","Vitamin C","Antioxidants"],
-    meals: [
-      { type:"breakfast", title:"Golden milk + eggs + bread", items:["Warm milk with half tsp turmeric + pinch of black pepper — bioavailability trick","2 boiled eggs","2 slices bread or pandesal","Skip coffee today if you can manage it"] },
-      { type:"lunch", title:"Ginger fish with rice + greens", items:["1.5 cups rice","Fish fillet cooked with ginger, garlic, and soy — arroz caldo flavors","Steamed spinach or kangkong on the side","Squeeze of lemon over the fish"] },
-      { type:"snack", title:"Fresh ginger tea + nuts", items:["Brew fresh ginger tea — boil 4 slices for 8 minutes","Small handful of walnuts — omega-3","This is better for your body than an afternoon coffee"] },
-      { type:"dinner", title:"Beef and vegetable soup + rice", items:["1 cup rice","Beef broth with carrots, potato, and celery","Add ginger to the broth while simmering","Turmeric milk before bed instead of plain milk"] }
+  // DAY 16
+  { focus:"Anti-inflammatory day", tip:"Turmeric, ginger, and omega-3 reduce inflammation which affects eye comfort, calf pain, and gut bloating all at once.", nutrients:["Omega-3","Turmeric","Ginger","Vitamin C","Antioxidants"],
+    meals:[
+      { type:"breakfast", title:"Golden milk + eggs + bread", items:["Warm milk with ½ tsp turmeric + pinch black pepper — anti-inflammatory","2 boiled eggs","2 slices bread","Skip coffee today if possible"],
+        prep:["Warm milk, whisk in turmeric and black pepper (pepper increases turmeric absorption by 2000%). Boil eggs 8 mins."], prepTime:"12 mins" },
+      { type:"lunch", title:"Ginger fish + rice + greens", items:["1.5 cups rice","Fish fillet cooked with ginger, garlic, soy","Steamed spinach or kangkong","Squeeze of lemon over fish"],
+        prep:["Pan-fry fish in oil. Push to side, fry garlic and thin-sliced ginger 1 min. Add fish back, splash of soy and water, cook covered 5 mins. Add lemon before serving."], prepTime:"20 mins" },
+      { type:"snack", title:"Fresh ginger tea + walnuts", items:["Brew fresh ginger tea — boil 4 slices for 8 mins","Handful walnuts — omega-3","Better for your body than afternoon coffee"],
+        prep:["Slice 4 pieces fresh ginger. Boil in 1.5 cups water 8–10 mins. Strain, add honey. Drink warm."], prepTime:"10 mins" },
+      { type:"dinner", title:"Beef and vegetable soup + rice", items:["1 cup rice","Beef broth with carrots, potato, celery","Add ginger to broth while simmering","Turmeric milk before bed"],
+        prep:["Brown beef cubes. Add water, sliced ginger, onion. Simmer 30 mins. Add potato, carrot, and celery. Cook 15 more mins. Season with salt. Before bed: warm turmeric milk."], prepTime:"50 mins" }
     ]
   },
-  {
-    focus: "Protein recovery day",
-    tip: "Protein is what rebuilds you — muscle, skin, hair, eye tissue. Women who feel tired and weak often just aren't getting enough protein. Aim for protein at every single meal.",
-    nutrients: ["Protein","Iron","B12","Zinc","Amino acids"],
-    meals: [
-      { type:"breakfast", title:"3-egg omelette + milk + bread", items:["3-egg omelette with onion, tomato, and a little cheese if available","2 slices bread","1 glass milk — complete protein combo","This breakfast alone hits your morning protein goal"] },
-      { type:"lunch", title:"Double protein rice bowl", items:["1.5 cups rice","Chicken AND boiled egg together — double protein hit","Salad with lemon dressing","This is the kind of lunch that removes afternoon brain fog"] },
-      { type:"snack", title:"Greek yogurt or plain yogurt + nuts", items:["Cup of yogurt — high protein, high probiotic","Walnuts or almonds on top","Drink water here — 2 glasses"] },
-      { type:"dinner", title:"Beef or lamb rice bowl", items:["1 cup rice","Grilled beef or lamb — the highest protein density","Steamed vegetables — broccoli, carrots","Warm milk before bed"] }
+  // DAY 17
+  { focus:"Protein recovery day", tip:"Women who feel tired and weak often just aren't getting enough protein. Aim for protein at every single meal today.", nutrients:["Protein","Iron","B12","Zinc","Amino acids"],
+    meals:[
+      { type:"breakfast", title:"3-egg omelette + milk + bread", items:["3-egg omelette with onion, tomato, cheese if available","2 slices bread","1 glass milk","This breakfast alone hits your morning protein goal"],
+        prep:["Beat 3 eggs with salt. Pour into buttered pan on medium. Add fillings on one side, fold over. Cook 2 mins until set but still moist inside. Do not overcook."], prepTime:"10 mins" },
+      { type:"lunch", title:"Double protein rice bowl", items:["1.5 cups rice","Grilled chicken AND boiled egg together","Salad with lemon dressing","This lunch removes afternoon brain fog"],
+        prep:["Grill chicken 6–7 mins per side. Boil egg 8 mins. Slice chicken over rice, halve egg on top. Dress salad with lemon and olive oil."], prepTime:"20 mins" },
+      { type:"snack", title:"Yogurt + nuts", items:["Cup yogurt — high protein, high probiotic","Walnuts or almonds on top","Drink 2 glasses water here"],
+        prep:["Spoon yogurt into bowl, top with nuts. Eat slowly."], prepTime:"2 mins" },
+      { type:"dinner", title:"Beef or lamb rice bowl", items:["1 cup rice","Grilled beef or lamb — highest protein density","Steamed broccoli and carrots","Warm milk before bed"],
+        prep:["Season meat with salt, pepper, garlic. Grill on hot pan 3–4 mins per side for medium. Rest meat 3 mins before cutting — keeps the juices inside."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Folate + B vitamins for nerves",
-    tip: "Folate and B vitamins feed your nervous system — they reduce tingling, cramping, and fatigue. Lentils, eggs, leafy greens, and fish are your best sources.",
-    nutrients: ["Folate","B12","B6","Iron","Magnesium"],
-    meals: [
-      { type:"breakfast", title:"Lentil soup (leftover) + egg + bread", items:["Bowl of lentil soup — highest folate vegetarian food","1 egg on the side — B12","2 slices brown bread","1 glass milk"] },
-      { type:"lunch", title:"Rice + spinach egg stir-fry + fish", items:["1.5 cups rice","Spinach sautéed with egg and garlic — folate + B12 together","Canned sardines or tuna on the side","Lemon over everything"] },
-      { type:"snack", title:"Banana + yogurt", items:["Banana — B6 and potassium for nerve and muscle health","Plain yogurt — probiotics","Drink water — dehydration blocks B vitamin absorption"] },
-      { type:"dinner", title:"Chicken adobo + kangkong + rice", items:["1 cup rice","Chicken adobo — folate-friendly when cooked with vinegar","Sautéed kangkong — high in folate and iron","Warm milk before bed"] }
+  // DAY 18
+  { focus:"Folate + B vitamins for nerves", tip:"Folate and B vitamins feed your nervous system — they reduce tingling, cramping, and fatigue. Lentils, eggs, leafy greens, and fish are your best sources.", nutrients:["Folate","B12","B6","Iron","Magnesium"],
+    meals:[
+      { type:"breakfast", title:"Lentil soup + egg + bread", items:["Bowl of lentil soup — highest folate vegetarian food","1 egg on the side — B12","2 slices brown bread","1 glass milk"],
+        prep:["If making fresh: rinse lentils, boil with garlic, onion, cumin 20 mins until soft. Add lemon juice.","Or use leftover from Day 2 — lentil soup reheats perfectly."], prepTime:"25 mins (5 if reheating)" },
+      { type:"lunch", title:"Spinach egg stir-fry + fish + rice", items:["1.5 cups rice","Spinach sautéed with egg and garlic — folate + B12","Canned sardines on the side","Lemon over everything"],
+        prep:["Sauté garlic, add spinach and toss 2 mins. Push to side, crack 2 eggs in, scramble, then mix with spinach. Season with soy sauce.","Heat sardines in their sauce alongside."], prepTime:"15 mins" },
+      { type:"snack", title:"Banana + yogurt", items:["Banana — B6 and potassium for nerve and muscle","Plain yogurt — probiotics","Drink water — dehydration blocks B vitamin absorption"],
+        prep:["Slice banana into yogurt."], prepTime:"2 mins" },
+      { type:"dinner", title:"Chicken adobo + kangkong + rice", items:["1 cup rice","Chicken adobo — folate-friendly with vinegar","Sautéed kangkong — high in folate and iron","Warm milk before bed"],
+        prep:["Make adobo: brown chicken, add soy sauce, vinegar, garlic, bay leaves, pepper. Simmer 25–30 mins. Sauce should reduce and glaze the chicken.","Sauté garlic, add kangkong, toss 2 mins."], prepTime:"35 mins" }
     ]
   },
-  {
-    focus: "Lutein + Zeaxanthin (eye whites)",
-    tip: "Lutein and zeaxanthin are the specific antioxidants that protect your eye's macula. You find them in egg yolks, dark leafy greens, and orange vegetables. Today hits all three.",
-    nutrients: ["Lutein","Zeaxanthin","Vitamin A","Omega-3","Zinc"],
-    meals: [
-      { type:"breakfast", title:"Egg yolk rice bowl + spinach", items:["1 cup rice topped with 2 fried eggs — yolk is where the lutein lives","Small sauté of spinach on the side","1 glass milk","Don't break the yolk if possible — lutein is fat-soluble, the yolk fat helps absorb it"] },
-      { type:"lunch", title:"Grilled fish + corn + rice", items:["1.5 cups rice","Grilled fish — omega-3 for eye membrane health","Corn on the side — zeaxanthin (the yellow comes from it!)","Steamed carrots or sweet potato"] },
-      { type:"snack", title:"Mango + handful of pistachios", items:["Fresh mango — beta-carotene for Vitamin A","Pistachios if available — lutein and zeaxanthin source","Otherwise walnuts or almonds work fine"] },
-      { type:"dinner", title:"Salmon or mackerel + dark greens + rice", items:["1 cup rice","Grilled salmon or canned mackerel — omega-3 for eyes","Steamed broccoli and spinach mixed — lutein concentration","Warm milk before bed"] }
+  // DAY 19
+  { focus:"Lutein + Zeaxanthin for eye whites", tip:"Lutein and zeaxanthin are the specific antioxidants that protect your eye's macula. Egg yolks, dark leafy greens, and corn are your sources.", nutrients:["Lutein","Zeaxanthin","Vitamin A","Omega-3","Zinc"],
+    meals:[
+      { type:"breakfast", title:"Egg yolk rice bowl + spinach", items:["1 cup rice with 2 fried eggs — keep the yolk, that's where lutein is","Small sauté of spinach on the side","1 glass milk","Fat in yolk helps absorb lutein — don't skip it"],
+        prep:["Fry eggs sunny-side up, yolk runny. Sauté spinach with garlic 2 mins. Serve eggs over rice with spinach alongside."], prepTime:"10 mins" },
+      { type:"lunch", title:"Grilled fish + corn + rice", items:["1.5 cups rice","Grilled fish — omega-3 for eye membrane","Corn on the side — zeaxanthin (the yellow pigment)","Steamed carrots or sweet potato"],
+        prep:["Grill fish. Boil or microwave corn. Steam carrots 8 mins. Simple and nutritious."], prepTime:"20 mins" },
+      { type:"snack", title:"Mango + pistachios or walnuts", items:["Fresh mango — beta-carotene for Vitamin A","Pistachios if available — lutein and zeaxanthin source","Otherwise almonds or walnuts"],
+        prep:["Slice mango. Eat with nuts."], prepTime:"3 mins" },
+      { type:"dinner", title:"Salmon + dark greens + rice", items:["1 cup rice","Grilled salmon — omega-3 for eyes","Steamed broccoli and spinach — lutein concentration","Warm milk before bed"],
+        prep:["Pan-fry or grill salmon 4 mins each side. Steam broccoli 5 mins. Sauté spinach 2 mins with garlic. Serve everything together with lemon."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Hydration day — water is the meal",
-    tip: "Today challenge yourself: drink a glass of water every 2 hours. Put 8 cups on your desk in the morning and don't go home until they're done. Your calves will thank you tonight.",
-    nutrients: ["Potassium","Vitamin C","Electrolytes","Fiber","Probiotics"],
-    meals: [
-      { type:"breakfast", title:"Fruit bowl + yogurt + milk", items:["Mixed fruit: banana, papaya, mango — all potassium and Vitamin C","Half cup yogurt on top","1 glass milk","Drink a large glass of water FIRST before this"] },
-      { type:"lunch", title:"Sinigang + rice (most hydrating Filipino dish)", items:["1.5 cups rice","Fish or shrimp sinigang — tamarind broth is naturally hydrating","Pack it with vegetables: kangkong, radish, tomato, eggplant","Drink the broth — it counts toward your water intake"] },
-      { type:"snack", title:"Watermelon or cucumber", items:["If available: watermelon — 92% water and also has Vitamin C","Otherwise: cucumber slices with a pinch of salt","Coconut water is ideal here"] },
-      { type:"dinner", title:"Chicken soup — all broth", items:["1 cup rice","Rich chicken broth with vegetables — potato, carrot, celery","Make it soupy so you drink more broth","Warm milk before bed"] }
+  // DAY 20
+  { focus:"Hydration day — water is the meal", tip:"Challenge today: drink a glass of water every 2 hours. Put 8 cups on your desk in the morning. Your calves will thank you tonight.", nutrients:["Potassium","Vitamin C","Electrolytes","Fiber","Probiotics"],
+    meals:[
+      { type:"breakfast", title:"Fruit bowl + yogurt + milk", items:["Mixed fruit: banana, papaya, mango — potassium and Vitamin C","½ cup yogurt on top","1 glass milk","Drink large glass water FIRST"],
+        prep:["Cut and mix fruits into bowl. Top with yogurt. Drizzle honey. Eat slowly and mindfully."], prepTime:"8 mins" },
+      { type:"lunch", title:"Sinigang + rice (most hydrating Filipino dish)", items:["1.5 cups rice","Fish or shrimp sinigang — tamarind broth is naturally hydrating","Pack with vegetables: kangkong, radish, tomato, eggplant","Drink the broth — counts toward water intake"],
+        prep:["Boil 3 cups water with tamarind or sinigang mix. Add tomato, onion. Boil 5 mins. Add protein, cook 8 mins. Add vegetables in order of hardness (radish first, kangkong last 2 mins)."], prepTime:"25 mins" },
+      { type:"snack", title:"Watermelon or cucumber slices", items:["Watermelon — 92% water + Vitamin C","Or: cucumber slices with pinch salt","Coconut water ideal here for electrolytes"],
+        prep:["Slice and eat. The most straightforward prep in the plan."], prepTime:"3 mins" },
+      { type:"dinner", title:"Chicken soup — extra broth", items:["1 cup rice","Chicken broth with vegetables — extra soupy today","Potato, carrot, celery inside","Warm milk before bed"],
+        prep:["Make soupy version of chicken soup — use more water, less salt. The goal is to eat the broth."], prepTime:"30 mins" }
     ]
   },
-  {
-    focus: "Weekend treat — but still nourishing",
-    tip: "You deserve to enjoy food, Jhuls. This isn't a punishment plan — it's a care plan. Enjoy your Sunday meal. One indulgent dish won't undo three weeks of effort.",
-    nutrients: ["Protein","Iron","Calcium","Vitamin C","Omega-3"],
-    meals: [
-      { type:"breakfast", title:"Full relaxed breakfast", items:["2 eggs cooked your favorite way","Fresh milk","Bread with a little butter — it's Saturday, enjoy it","Fresh tomato and cucumber","1 small coffee — after the food"] },
-      { type:"lunch", title:"Your favorite Filipino dish — today's special", items:["Whatever your heart wants — lechon kawali, kare-kare, tinola, crispy pork","Pair it with rice and at least one vegetable side","Add a fresh tomato and onion salad with lemon","Eat slowly and enjoy it fully"] },
-      { type:"snack", title:"Fresh fruit — whatever is ripe", items:["Mango, banana, papaya — choose what's available","Or: a few dates and nuts","Drink coconut water for the calf cramps"] },
-      { type:"dinner", title:"Light recovery dinner after the big lunch", items:["Small cup of rice","Egg and vegetable stir-fry — light but nutritious","Bowl of vegetable or chicken broth","Warm milk with turmeric before bed"] }
+  // DAY 21
+  { focus:"Weekend — nourishing treat", tip:"You deserve to enjoy food, Jhuls. This isn't a punishment plan — it's a care plan. Enjoy today's meal. One joyful dish won't undo 3 weeks of effort.", nutrients:["Protein","Iron","Calcium","Vitamin C","Omega-3"],
+    meals:[
+      { type:"breakfast", title:"Full relaxed weekend breakfast", items:["2 eggs cooked your favorite way","Fresh milk","Bread with a little butter — enjoy it","Fresh tomato and cucumber","1 small coffee — after the food"],
+        prep:["Take your time. Sit down. No phone while eating if you can. Your breakfast deserves your full attention today."], prepTime:"15 mins" },
+      { type:"lunch", title:"Your favorite Filipino dish today", items:["Whatever your heart wants — lechon kawali, kare-kare, crispy pata","Pair with rice and one vegetable side","Fresh tomato and onion salad with lemon","Eat slowly and enjoy fully"],
+        prep:["Cook or order what makes you happy. The only rule: add a tomato salad with lemon on the side."], prepTime:"Variable" },
+      { type:"snack", title:"Fresh fruit — whatever is ripe", items:["Mango, banana, papaya — choose what's available","Or dates and nuts","Coconut water for the calves"],
+        prep:["No prep. Just eat the fruit."], prepTime:"2 mins" },
+      { type:"dinner", title:"Light recovery dinner after big lunch", items:["Small cup rice","Egg and vegetable stir-fry","Bowl of broth or soup","Warm milk with turmeric before bed"],
+        prep:["Keep dinner light after a big celebratory lunch. Simple egg stir-fry or a bowl of soup is perfect."], prepTime:"15 mins" }
     ]
   },
-  // WEEK 4
-  {
-    focus: "Final week — consolidate the habits",
-    tip: "You've made it to week 4. By now your gut should feel calmer, your energy more stable, and your calves slightly less painful. Keep the water habit. That's the one to protect.",
-    nutrients: ["Iron","B12","Omega-3","Vitamin A","Probiotics"],
-    meals: [
-      { type:"breakfast", title:"Egg rice + turmeric milk", items:["1 cup rice with 2 fried eggs","1 glass warm milk with turmeric — your new morning ritual","Sliced tomato on the side","Water first, then this, then coffee (small, after food)"] },
-      { type:"lunch", title:"Beef and vegetable rice bowl", items:["1.5 cups rice","Beef strips with carrots, onion, and garlic","Steamed kangkong on the side","Squeeze of lemon over the beef"] },
-      { type:"snack", title:"Yogurt + banana + water", items:["The classic snack trio — probiotic, potassium, hydration","This has been your best snack all month","Keep doing this after the 30 days too"] },
-      { type:"dinner", title:"Grilled fish + spinach + rice", items:["1 cup rice","Grilled bangus, tuna, or any fresh fish","Steamed or sautéed spinach with garlic","Warm milk before bed"] }
+  // DAY 22
+  { focus:"Final week — protect the habits", tip:"You've made it to week 4. By now your gut should feel calmer and your calves slightly less painful. Keep the water habit — that's the one to protect forever.", nutrients:["Iron","B12","Omega-3","Vitamin A","Probiotics"],
+    meals:[
+      { type:"breakfast", title:"Egg rice + turmeric milk", items:["1 cup rice with 2 fried eggs","Warm milk with turmeric — your new morning ritual","Sliced tomato on the side","Water first, then food, then coffee (small, after)"],
+        prep:["Fry eggs. Warm milk with turmeric. Slice tomato. Your morning routine is set now."], prepTime:"12 mins" },
+      { type:"lunch", title:"Beef and vegetable rice bowl", items:["1.5 cups rice","Beef strips with carrots, onion, garlic","Steamed kangkong on the side","Lemon over the beef"],
+        prep:["Stir-fry beef with garlic and onion on high heat 4 mins. Add diced carrot 2 mins. Season with soy sauce. Serve over rice with kangkong alongside."], prepTime:"20 mins" },
+      { type:"snack", title:"Yogurt + banana + water", items:["The classic snack trio — probiotic, potassium, hydration","This has been your best snack all month","Keep doing this after 30 days too"],
+        prep:["Slice banana into yogurt. Drink a glass of water alongside."], prepTime:"2 mins" },
+      { type:"dinner", title:"Grilled fish + spinach + rice", items:["1 cup rice","Grilled bangus, tuna, or fresh fish","Steamed or sautéed spinach with garlic","Warm milk before bed"],
+        prep:["Grill fish simply — salt, pepper, garlic. Cook 4–5 mins per side. Sauté spinach with garlic 2 mins."], prepTime:"15 mins" }
     ]
   },
-  {
-    focus: "Eye clarity check-in",
-    tip: "By this point you should notice your eyes feel less strained in the evening. The omega-3 and lutein work over weeks, not days. Keep the fish meals at least 4x this week.",
-    nutrients: ["Lutein","Omega-3","Zinc","Vitamin A","B12"],
-    meals: [
-      { type:"breakfast", title:"Mackerel on toast + egg + milk", items:["2 slices brown bread topped with canned mackerel — omega-3","1 boiled egg alongside — B12 and lutein","1 glass milk","Tomato on the side"] },
-      { type:"lunch", title:"Chicken with broccoli + rice", items:["1.5 cups rice","Grilled chicken with steamed broccoli — lutein and protein","Carrot on the side — beta-carotene for Vitamin A","Lemon squeeze over the chicken"] },
-      { type:"snack", title:"Egg + nuts + water", items:["1 hard-boiled egg","Walnuts or almonds","2 glasses of water — keep the streak going"] },
-      { type:"dinner", title:"Salmon or tuna + dark greens + rice", items:["1 cup rice","Grilled or pan-fried salmon — your best eye food","Mixed greens: spinach and kangkong sautéed together","Warm milk before bed"] }
+  // DAY 23
+  { focus:"Eye clarity check-in", tip:"By this point you should notice your eyes feel less strained in the evening. The omega-3 and lutein work over weeks. Keep fish at least 4x this week.", nutrients:["Lutein","Omega-3","Zinc","Vitamin A","B12"],
+    meals:[
+      { type:"breakfast", title:"Mackerel on toast + egg + milk", items:["2 slices brown bread with canned mackerel — omega-3","1 boiled egg — B12 and lutein","1 glass milk","Tomato on the side"],
+        prep:["Toast bread. Heat mackerel 2 mins. Boil egg 8 mins. Quick, protein-rich, brain-boosting breakfast."], prepTime:"12 mins" },
+      { type:"lunch", title:"Chicken with broccoli + rice", items:["1.5 cups rice","Grilled chicken with steamed broccoli","Carrot on the side — beta-carotene for Vitamin A","Lemon over chicken"],
+        prep:["Season and grill chicken. Steam broccoli and carrot 5–7 mins. The lemon over chicken is non-negotiable for Vitamin C."], prepTime:"20 mins" },
+      { type:"snack", title:"Boiled egg + nuts + water", items:["1 hard-boiled egg","Walnuts or almonds","2 glasses water — keep the streak"],
+        prep:["Boil egg 8 mins. Portion nuts. Drink water."], prepTime:"10 mins" },
+      { type:"dinner", title:"Salmon + dark greens + rice", items:["1 cup rice","Grilled salmon — your best eye food","Mixed greens: spinach and kangkong sautéed together","Warm milk before bed"],
+        prep:["Pan-fry salmon skin-side down first 4 mins, flip 3 mins. Sauté garlic, add spinach and kangkong together, toss 2 mins. Season with lemon."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Circulation + calf cramps — final push",
-    tip: "If your calf cramps have reduced, it's likely the potassium and hydration working. If they haven't changed at all, please prioritize that blood test — it could be circulatory.",
-    nutrients: ["Potassium","Magnesium","Omega-3","Iron","Vitamin B6"],
-    meals: [
-      { type:"breakfast", title:"Banana egg pancake + milk", items:["1 banana mashed into 2 eggs — cook into small pancakes","1 glass milk","Extra banana on the side","Drink water first — non-negotiable at this point"] },
-      { type:"lunch", title:"Fish stew with potatoes + rice", items:["1.5 cups rice","Fish stew with potato, tomato, and garlic — potassium-heavy","Add bell pepper if available — Vitamin C boosts iron","Ginger in the stew for gut and circulation"] },
-      { type:"snack", title:"Sweet potato + coconut water", items:["Boiled camote — potassium and Vitamin A","Coconut water — the best natural electrolyte for cramps","This specific pairing is your calf cramp remedy"] },
-      { type:"dinner", title:"Beef and tomato stew + rice", items:["1 cup rice","Beef braised in tomatoes, garlic, and onion","Carrots and potato inside — more potassium","Warm milk before bed"] }
+  // DAY 24
+  { focus:"Circulation + calf cramps final push", tip:"If calf cramps have reduced, it's the potassium and hydration working. If no change, please prioritize that blood test — could be circulatory.", nutrients:["Potassium","Magnesium","Omega-3","Iron","B6"],
+    meals:[
+      { type:"breakfast", title:"Banana egg pancakes + milk", items:["1 banana mashed into 2 eggs — the 2-ingredient pancake","1 glass milk","Extra banana on the side","Drink water first"],
+        prep:["Mash banana + beat eggs. Cook tablespoon portions on non-stick pan medium heat, 2 mins per side. Golden and slightly crisp edges are perfect."], prepTime:"10 mins" },
+      { type:"lunch", title:"Fish stew with potatoes + rice", items:["1.5 cups rice","Fish stew with potato, tomato, garlic — potassium-heavy","Bell pepper for Vitamin C","Ginger in the stew for circulation"],
+        prep:["Sauté onion, garlic, ginger. Add diced potato and tomato, water, fish sauce. Simmer 15 mins. Add fish pieces gently, cook 10 mins. Add bell pepper last 3 mins."], prepTime:"30 mins" },
+      { type:"snack", title:"Sweet potato + coconut water", items:["Boiled camote — potassium and Vitamin A","Coconut water — best electrolyte for cramps","Your calf cramp remedy pairing"],
+        prep:["Boil camote 20 mins. Drink coconut water."], prepTime:"22 mins" },
+      { type:"dinner", title:"Beef and tomato stew + rice", items:["1 cup rice","Beef braised in tomatoes, garlic, onion","Carrots and potato — potassium","Warm milk before bed"],
+        prep:["Brown beef. Add onion, garlic, tomato sauce or fresh tomatoes + water. Add chunked potato and carrot. Simmer covered 35 mins on low."], prepTime:"45 mins" }
     ]
   },
-  {
-    focus: "Gut health milestone",
-    tip: "30 days of yogurt, ginger, lemon, and less coffee should have made a visible difference in your bloating. If the nausea with coffee is still happening — it really might be time to switch to tea.",
-    nutrients: ["Probiotics","Fiber","Ginger","Calcium","Vitamin C"],
-    meals: [
-      { type:"breakfast", title:"Yogurt bowl + oats + fruit", items:["1 cup plain yogurt","Half cup oats stirred in","Sliced banana and papaya on top","1 glass milk alongside — your calcium is well covered today"] },
-      { type:"lunch", title:"Chicken adobo + rice + tomato salad", items:["1.5 cups rice","Chicken adobo — your gut does well with vinegar-based cooking","Tomato and cucumber salad with lemon","Drink water with this meal"] },
-      { type:"snack", title:"Ginger tea + dates", items:["Fresh ginger tea — your gut's best friend","3–4 dates for iron and sweetness","This is better than any biscuit for your system"] },
-      { type:"dinner", title:"Lentil soup + egg + rice", items:["1 cup rice","Lentil soup — fiber, folate, and plant iron","1 egg poached on top","Warm turmeric milk before bed"] }
+  // DAY 25
+  { focus:"Gut health milestone", tip:"25 days of yogurt, ginger, lemon, and less coffee. If bloating is still happening — it really might be time to switch your second coffee to ginger tea permanently.", nutrients:["Probiotics","Fiber","Ginger","Calcium","Vitamin C"],
+    meals:[
+      { type:"breakfast", title:"Yogurt bowl + oats + fruit", items:["1 cup plain yogurt","½ cup oats stirred in","Sliced banana and papaya on top","1 glass milk alongside — calcium covered"],
+        prep:["Stir oats into yogurt, top with fruit. If you want warm oats: cook oats in milk separately and top with yogurt cold."], prepTime:"8 mins" },
+      { type:"lunch", title:"Chicken adobo + rice + tomato salad", items:["1.5 cups rice","Chicken adobo — vinegar helps gut","Tomato and cucumber salad with lemon","Drink water with this meal"],
+        prep:["If making fresh: brown chicken, add soy sauce, vinegar (equal parts), garlic, bay leaf, pepper. Simmer 30 mins.","If reheating: adobo is better the next day — the flavors deepen overnight."], prepTime:"35 mins (or 5 if reheating)" },
+      { type:"snack", title:"Ginger tea + dates", items:["Fresh ginger tea — gut's best friend","3–4 dates for iron and sweetness","Better than biscuits for your system"],
+        prep:["Boil fresh ginger slices 8–10 mins. Strain, add honey. Eat dates alongside."], prepTime:"10 mins" },
+      { type:"dinner", title:"Lentil soup + egg + rice", items:["1 cup rice","Lentil soup — fiber, folate, plant iron","1 egg poached on top","Warm turmeric milk before bed"],
+        prep:["Make lentil soup (see Day 2 method). Poach egg: bring water to gentle simmer, crack egg into cup then slide into water, cook 3–4 mins until whites set."], prepTime:"25 mins" }
     ]
   },
-  {
-    focus: "Mental clarity + calm",
-    tip: "Frustration and feeling like you can't think are often nutritional — low iron, low B12, dehydration, and blood sugar crashes. Today is designed to be steady energy all day long.",
-    nutrients: ["B12","Iron","Omega-3","Magnesium","Complex carbs"],
-    meals: [
-      { type:"breakfast", title:"Full egg and oat breakfast", items:["1 cup oats in milk — slow-release energy, no crash","2 boiled eggs","Dates for iron","Large glass of water — brain needs water more than caffeine"] },
-      { type:"lunch", title:"Rice + beef + spinach + sweet potato", items:["1.5 cups rice","Beef strips — iron for mental energy","Sautéed spinach — folate and magnesium","Sweet potato on the side — steady blood sugar"] },
-      { type:"snack", title:"Walnuts + banana + water", items:["Walnuts — the brain nut, literally shaped like a brain for a reason","Banana — B6 and magnesium for nerve function","2 glasses of water — this is your focus snack"] },
-      { type:"dinner", title:"Fish + greens + rice (calm dinner)", items:["1 cup rice","Grilled or baked fish with herbs","Steamed broccoli and spinach","Warm milk with turmeric before bed"] }
+  // DAY 26
+  { focus:"Mental clarity + calm", tip:"Frustration and feeling stuck are often nutritional — low iron, low B12, dehydration, blood sugar crashes. Today is designed for steady energy all day.", nutrients:["B12","Iron","Omega-3","Magnesium","Complex carbs"],
+    meals:[
+      { type:"breakfast", title:"Full egg and oat breakfast", items:["1 cup oats in milk — slow release energy","2 boiled eggs","Dates for iron","Large glass water — brain needs water more than caffeine"],
+        prep:["Cook oats in milk 4 mins. Boil eggs 8 mins. Eat dates with it. Drink the water before the coffee."], prepTime:"12 mins" },
+      { type:"lunch", title:"Rice + beef + spinach + sweet potato", items:["1.5 cups rice","Beef strips — iron for mental energy","Sautéed spinach — folate and magnesium","Sweet potato on side — steady blood sugar"],
+        prep:["Stir-fry beef with garlic 4 mins. Sauté spinach 2 mins. Boil sweet potato 20 mins (start first since it takes longest)."], prepTime:"25 mins" },
+      { type:"snack", title:"Walnuts + banana + water", items:["Walnuts — the brain nut","Banana — B6 and magnesium for nerve function","2 glasses water — this is your focus snack"],
+        prep:["Eat walnuts and banana together. Drink water. Simple."], prepTime:"1 min" },
+      { type:"dinner", title:"Fish + greens + rice (calm dinner)", items:["1 cup rice","Grilled or baked fish with herbs","Steamed broccoli and spinach","Warm turmeric milk before bed"],
+        prep:["Season fish with salt, pepper, dried herbs (thyme or rosemary if available). Bake at 200°C 15 mins or pan-fry 4 mins each side. Steam vegetables."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Strength milestone — day 28",
-    tip: "28 days. Whatever you managed — whether it was 60% or 100% — you nourished yourself more intentionally this month than before. That matters. Don't stop now.",
-    nutrients: ["Protein","Iron","Zinc","Vitamin D","Calcium"],
-    meals: [
-      { type:"breakfast", title:"3-egg omelette + milk + fruit", items:["3-egg omelette with tomato and onion inside","1 glass fresh milk","Fresh mango or banana","This is a strong breakfast for a strong day"] },
-      { type:"lunch", title:"Grilled lamb or beef + rice + salad", items:["1.5 cups rice","Grilled lamb or beef — highest iron and zinc hit","Mixed salad with lemon — Vitamin C for absorption","Generous portion — you've earned it"] },
-      { type:"snack", title:"Yogurt + nuts + water", items:["Cup of plain yogurt","Mixed nuts: almonds, walnuts, cashews","The classic month-end snack — keep this one forever"] },
-      { type:"dinner", title:"Salmon or mackerel + broccoli + rice", items:["1 cup rice","Grilled salmon — your best omega-3 source","Steamed broccoli — lutein and Vitamin C","Warm turmeric milk before bed"] }
+  // DAY 27
+  { focus:"Strength milestone — day 27", tip:"27 days. Whatever you managed — 60% or 100% — you nourished yourself more intentionally this month. That matters. Don't stop now.", nutrients:["Protein","Iron","Zinc","Vitamin D","Calcium"],
+    meals:[
+      { type:"breakfast", title:"3-egg omelette + milk + mango", items:["3-egg omelette with tomato and onion","1 glass fresh milk","Fresh mango — celebrate with Vitamin A and C","Strong breakfast for a strong day"],
+        prep:["Beat 3 eggs with salt and pepper. Fill with diced tomato and onion, fold. Cook on medium until just set."], prepTime:"10 mins" },
+      { type:"lunch", title:"Grilled lamb or beef + rice + salad", items:["1.5 cups rice","Grilled lamb or beef — highest iron and zinc","Mixed salad with lemon — Vitamin C for absorption","Generous portion today"],
+        prep:["Season generously with salt, garlic, pepper. Grill on hot pan. Rest meat 3 mins before cutting. You've earned a real meal today."], prepTime:"20 mins" },
+      { type:"snack", title:"Yogurt + mixed nuts", items:["Cup yogurt","Almonds, walnuts, cashews mixed","Your best month-end snack"],
+        prep:["Mix nuts into yogurt. Or eat separately."], prepTime:"2 mins" },
+      { type:"dinner", title:"Salmon + broccoli + rice", items:["1 cup rice","Grilled salmon — omega-3 powerhouse","Steamed broccoli — lutein and Vitamin C","Warm turmeric milk before bed"],
+        prep:["Grill salmon 4 mins each side. Steam broccoli 5 mins. Squeeze lemon over both. Keep it clean and simple this close to the end."], prepTime:"20 mins" }
     ]
   },
-  {
-    focus: "Day 29 — almost there",
-    tip: "Tomorrow is day 30. Think about what felt different this month. Write it in your journal tonight — even just one line. That reflection is what makes the change stick.",
-    nutrients: ["All key nutrients — full variety day","Protein","Omega-3","Vitamin A","Probiotics"],
-    meals: [
-      { type:"breakfast", title:"Full nourishing breakfast — your choice", items:["Eggs your favorite way","Fresh milk","Bread or rice — whatever you prefer","At least one fruit — mango, banana, or papaya","Water first as always now"] },
-      { type:"lunch", title:"Your best Filipino lunch", items:["Rice + your favorite meat or fish","One green vegetable side — kangkong, spinach, or broccoli","Tomato or lemon on the side","Eat slowly and enjoy it"] },
-      { type:"snack", title:"Banana + yogurt — the classic", items:["This snack has served you all month","Banana + plain yogurt + water","Keep this one as your permanent snack"] },
-      { type:"dinner", title:"Light and restorative dinner", items:["1 cup rice","Chicken soup or fish soup with ginger","Whatever green vegetable you have","Warm turmeric milk before bed"] }
+  // DAY 28
+  { focus:"Day 28 — the habits are yours now", tip:"The habits you've built this month — water first, fish regularly, banana snack, ginger tea — keep these. They cost almost nothing and give a lot.", nutrients:["All key nutrients","Omega-3","Vitamin A","Probiotics","Iron"],
+    meals:[
+      { type:"breakfast", title:"Full nourishing breakfast", items:["Eggs your favorite way","Fresh milk","Bread or rice — your choice","At least one fruit — mango, banana, or papaya","Water first as always"],
+        prep:["You know how to make this now. No instructions needed anymore — that's the point."], prepTime:"10–15 mins" },
+      { type:"lunch", title:"Your best Filipino lunch", items:["Rice + favorite meat or fish","One green vegetable side — kangkong, spinach, or broccoli","Tomato or lemon on the side","Eat slowly and enjoy"],
+        prep:["Cook whatever you love most with what's available. You know the rules: protein + rice + one colored vegetable + lemon."], prepTime:"Variable" },
+      { type:"snack", title:"Banana + yogurt — the classic", items:["This snack has served you all month","Banana + plain yogurt + water","Keep this as your permanent snack forever"],
+        prep:["Slice banana into yogurt. Drink a glass of water. You've done this 27 times already."], prepTime:"2 mins" },
+      { type:"dinner", title:"Light and restorative dinner", items:["1 cup rice","Chicken soup or fish soup with ginger","Whatever green vegetable you have","Warm turmeric milk before bed"],
+        prep:["Simple soup with ginger. You know how to make this. Keep it light tonight."], prepTime:"25 mins" }
     ]
   },
-  {
-    focus: "Day 30 — You did it. 🌿",
-    tip: "30 days! You built a foundation. The goal now is not to be perfect but to never go back to zero — keep the water habit, keep fish 4x a week, keep the banana snack, and please book that medical checkup. You've taken care of your body this month. Now let a doctor help too.",
-    nutrients: ["Celebration nutrients 🎉","Iron","Omega-3","Calcium","All of the above"],
-    meals: [
-      { type:"breakfast", title:"Golden breakfast — your strongest start", items:["2 eggs fried in a little butter — celebrate the eggs that served you all month","1 glass warm turmeric milk — your gut's new ritual","Fresh sliced mango — your eye health fruit","Pandesal or brown bread","Drink water first. You know the drill."] },
-      { type:"lunch", title:"Your absolute favorite meal today", items:["Whatever you love most — you've earned a full joyful lunch","Make sure there's rice, protein, and at least one vegetable","Share it with someone if you can — food is better with people","Lemon on the side — always lemon"] },
-      { type:"snack", title:"Celebration fruit plate", items:["Cut up mango, banana, papaya — whatever is ripe","Plain yogurt on the side","Coconut water for your calves","You've had this snack 30 times now. Make it 31."] },
-      { type:"dinner", title:"Month-closing meal — fish, greens, rice, milk", items:["1 cup rice","Your best fish — grilled with lemon and garlic","Steamed kangkong or spinach — the greens that fed your eyes","Warm turmeric milk before sleep","Rest well. You nourished yourself this month, Jhuls."] }
+  // DAY 29
+  { focus:"Day 29 — almost there", tip:"Tomorrow is day 30. Think about what felt different this month. Write it in your journal tonight — even just one line. That reflection is what makes change stick.", nutrients:["All key nutrients — full variety day","Protein","Omega-3","Vitamin A","Probiotics"],
+    meals:[
+      { type:"breakfast", title:"Full nourishing breakfast — your choice", items:["Eggs your favorite way","Fresh milk","Bread or rice — your preference","At least one fruit","Water first as always now"],
+        prep:["Your morning routine is yours now. Make it with intention."], prepTime:"15 mins" },
+      { type:"lunch", title:"Your best Filipino lunch of the week", items:["Rice + your favorite meat or fish","One green vegetable side","Tomato or lemon on the side","Eat slowly and enjoy it"],
+        prep:["Cook what you love. Add the lemon. Always add the lemon."], prepTime:"Variable" },
+      { type:"snack", title:"Banana + yogurt — the classic", items:["Your permanent snack","Banana + plain yogurt + water","29 days in a row almost"],
+        prep:["One more time."], prepTime:"2 mins" },
+      { type:"dinner", title:"Light restorative dinner", items:["1 cup rice","Chicken or fish soup with ginger","Whatever greens you have","Warm turmeric milk before bed — write your journal entry after"],
+        prep:["Simple soup. Light dinner. Then journal. Then sleep early."], prepTime:"25 mins" }
+    ]
+  },
+  // DAY 30
+  { focus:"Day 30 — You did it. 🎉", tip:"30 days! You built a foundation. The goal now is not to be perfect but to never go back to zero — keep water first, fish 4x a week, banana snack, and PLEASE book that medical checkup. You've taken care of your body this month. Now let a doctor help too.", nutrients:["Celebration 🎉","Iron","Omega-3","Calcium","All of the above"],
+    meals:[
+      { type:"breakfast", title:"Golden celebration breakfast", items:["2 eggs fried in a little butter — celebrate these eggs","Warm turmeric milk — your gut's new ritual","Fresh sliced mango — your eye health fruit","Pandesal or brown bread","Drink water first. You know the drill."],
+        prep:["Make this breakfast with gratitude. You've made it 30 days."], prepTime:"15 mins" },
+      { type:"lunch", title:"Your absolute favorite meal today", items:["Whatever you love most — you've earned it","Rice, protein, and at least one vegetable","Share it with someone if you can","Lemon on the side — always lemon"],
+        prep:["Cook or order your favorite. Sit down and enjoy every bite. You've been nourishing yourself for 30 days — you deserve this meal."], prepTime:"Variable" },
+      { type:"snack", title:"Celebration fruit plate", items:["Mango, banana, papaya — whatever is ripe","Plain yogurt on the side","Coconut water for your calves","31st time for this snack. Make it a habit forever."],
+        prep:["Cut fruit. Spoon yogurt. Drink coconut water. Celebrate."], prepTime:"5 mins" },
+      { type:"dinner", title:"Month-closing meal — fish, greens, rice, milk", items:["1 cup rice","Your best fish — grilled with lemon and garlic","Steamed kangkong or spinach","Warm turmeric milk before sleep. Rest well, Jhuls."],
+        prep:["Simple grilled fish with lemon. Sautéed greens. The meal that started this journey is the meal that closes it. Rest well."], prepTime:"15 mins" }
     ]
   }
 ];
 
-// ========== STATE ==========
+// ============================
+// EXERCISE DATA — 30 days cycling
+// Types: 'full', 'upper', 'lower', 'rest'
+// ============================
+const exercisePlans = [
+  // DAY 1 — Full Body
+  { type:'full', title:'Full Body Activation', subtitle:'Wake up every muscle group. No equipment needed.', duration:'30–35 mins', level:'Beginner friendly',
+    warmup:['March in place 2 mins','Arm circles 30 secs each direction','Hip circles 30 secs','Shoulder rolls 30 secs','Ankle rolls 30 secs each'],
+    circuits:[
+      { label:'Circuit 1 — Lower Body', title:'Legs & Glutes', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Bodyweight Squats', desc:'Stand feet shoulder-width. Lower until thighs parallel. Drive through heels to stand.', reps:'3 × 15 reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Reverse Lunges', desc:'Step one foot back, lower back knee toward floor. Keep front shin vertical. Alternate legs.', reps:'3 × 10 each leg' },
+        { icon:'🍑', iconClass:'ex-icon-lower', name:'Glute Bridges', desc:'Lie on back, knees bent. Drive hips up squeezing glutes, hold 2 seconds at top.', reps:'3 × 20 reps' },
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Calf Raises (wall support)', desc:'Stand facing wall, hands light on wall. Rise onto toes, hold 1 sec, lower slowly. Directly targets your calf pain.', reps:'3 × 20 reps' }
+      ]},
+      { label:'Circuit 2 — Upper Body', title:'Arms & Shoulders', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Wall Push-ups', desc:'Stand 1 arm length from wall. Hands flat on wall at shoulder height. Bend elbows, lean in, push back out.', reps:'3 × 15 reps' },
+        { icon:'🤜', iconClass:'ex-icon-upper', name:'Arm Circles', desc:'Extend arms to sides. Make small circles 20 reps, then large circles 20 reps. Forward and back.', reps:'3 × 20 each direction' },
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Overhead Arm Raises', desc:'Hold a water bottle in each hand. Arms straight, raise overhead and lower slowly. Builds shoulder strength.', reps:'3 × 15 reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Modified Plank Hold', desc:'On hands and knees, extend arms straight. Hold body in a line from head to knees. Breathe steadily.', reps:'3 × 20 sec hold' }
+      ]}
+    ],
+    cooldown:'Walk slowly in place 2 mins. Stretch each leg quad (hold 30 secs). Stretch each calf against wall — hold 30 secs each (important for your calf pain).'
+  },
+  // DAY 2 — Upper Body
+  { type:'upper', title:'Arms & Upper Body Focus', subtitle:'Strengthen arms, shoulders, chest, and upper back.', duration:'25–30 mins', level:'No equipment needed',
+    warmup:['Neck rolls gently 30 secs','Shoulder rolls forward and back 1 min','Arm swings across body 30 secs','Wrist circles 30 secs','Torso twists 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Push muscles', title:'Chest & Triceps', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Wall Push-ups (incline)', desc:'Hands higher on wall = easier. As you get stronger, move hands lower toward the floor.', reps:'4 × 15 reps' },
+        { icon:'🤲', iconClass:'ex-icon-upper', name:'Tricep Dips (chair)', desc:'Sit on edge of sturdy chair, hands on edge. Slide hips off, lower body by bending elbows to 90°, push back up.', reps:'3 × 12 reps' },
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Overhead Press (water bottles)', desc:'Hold 1.5L water bottles at shoulder height. Press straight up overhead. Lower slowly. Controls shoulder strength.', reps:'3 × 15 reps' }
+      ]},
+      { label:'Circuit 2 — Pull muscles', title:'Back & Biceps', exercises:[
+        { icon:'↔️', iconClass:'ex-icon-upper', name:'Bent-over Row (bottles)', desc:'Hinge at hips, back flat, hold bottles. Pull them toward hips squeezing shoulder blades. Lower slowly.', reps:'3 × 15 reps' },
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Bicep Curls (water bottles)', desc:'Stand tall, curl bottles from hips to shoulders. Elbows stay at your sides. Do not swing.', reps:'3 × 15 reps each arm' },
+        { icon:'🔄', iconClass:'ex-icon-upper', name:'Superman Hold', desc:'Lie face down, extend arms forward. Lift arms and chest off floor simultaneously. Hold 3 seconds. Great for upper back.', reps:'3 × 12 reps' }
+      ]}
+    ],
+    cooldown:'Cross-body shoulder stretch (30 secs each). Reach one arm overhead and bend to side (30 secs each). Wrist flexor stretch: arm straight, pull fingers back gently.'
+  },
+  // DAY 3 — Lower Body
+  { type:'lower', title:'Legs & Calf Recovery', subtitle:'Strengthen legs, improve circulation, target calf pain.', duration:'30 mins', level:'Low impact — gentle on joints',
+    warmup:['Ankle circles 1 min each foot','Calf pumps in place 2 mins (rise and lower on toes)','Knee lifts marching 2 mins','Hip swings forward and back 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Leg Strength', title:'Thighs & Glutes', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat to Chair', desc:'Stand in front of chair. Slowly lower until your bottom just touches the seat — immediately stand back up. Controlled.', reps:'4 × 15 reps' },
+        { icon:'↔️', iconClass:'ex-icon-lower', name:'Side Leg Raises', desc:'Stand sideways at wall, hand for support. Lift outer leg to side keeping toes pointing forward. Lower slowly.', reps:'3 × 20 each leg' },
+        { icon:'🔙', iconClass:'ex-icon-lower', name:'Donkey Kicks', desc:'On hands and knees. Kick one heel toward ceiling keeping knee bent 90°. Squeeze glute at top.', reps:'3 × 20 each leg' }
+      ]},
+      { label:'Circuit 2 — Calf & Circulation', title:'Calves & Ankles (your focus area)', exercises:[
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Wall Calf Raises (slow)', desc:'Face wall, hands light touch. Rise onto toes — 2 seconds up, hold 2, lower 4 seconds. The slow lowering builds calf muscle fastest.', reps:'4 × 20 reps SLOW' },
+        { icon:'🔄', iconClass:'ex-icon-lower', name:'Seated Ankle Pumps', desc:'Sit in chair. Pump ankles up and down rapidly 1 minute each foot. This is the #1 exercise for calf circulation.', reps:'3 × 1 min per foot' },
+        { icon:'🎯', iconClass:'ex-icon-lower', name:'Single-leg Balance', desc:'Stand on one foot, hold 30 seconds. Improve balance and strengthen small stabilizer muscles in calves and ankles.', reps:'3 × 30 sec each leg' }
+      ]}
+    ],
+    cooldown:'Calf stretch: stand facing wall, back leg straight, press heel to floor (hold 45 secs each side). Seated hamstring stretch (30 secs). Lie on back and circle ankles 1 min.'
+  },
+  // DAY 4 — Rest
+  { type:'rest', title:'Active Rest Day', subtitle:'Let your muscles recover. Movement without strain.', duration:'20–25 mins', level:'Light and restorative',
+    warmup:[], circuits:[],
+    restActivities:['10-minute slow walk around your building or terrace','Gentle neck and shoulder stretches at your desk','Deep breathing — 5 mins: inhale 4 counts, hold 4, exhale 6','Light ankle circles and calf stretches (still important for circulation)','Drink all 8 cups of water today'],
+    cooldown:''
+  },
+  // DAY 5 — Full Body
+  { type:'full', title:'Full Body Strength Round 2', subtitle:'Building on Week 1. Add intensity where you can.', duration:'35 mins', level:'Slightly harder than Day 1',
+    warmup:['Jump jacks 1 min (or stepping jacks if low impact)','Hip circles 30 secs each direction','Arm swings 1 min','Leg swings holding wall 30 secs each leg','Neck rolls 30 secs'],
+    circuits:[
+      { label:'Circuit 1 — Legs + Glutes', title:'Lower Body Strength', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat + Hold', desc:'Lower into squat, hold 3 seconds at bottom, then stand. The pause builds more strength than fast reps.', reps:'4 × 12 reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Walking Lunges', desc:'Lunge forward on right foot, bring left foot to meet it, lunge forward on left foot. Walk the length of your room.', reps:'3 × 10 each leg' },
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Calf Raises + Ankle Circles', desc:'20 calf raises, then 10 ankle circles each foot. Your calf routine — do this every session.', reps:'4 × 20 raises + circles' }
+      ]},
+      { label:'Circuit 2 — Arms + Core', title:'Upper Body & Core', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Knee Push-ups', desc:'On hands and knees, lower chest toward floor. Build chest and arm strength. Progress to full push-up over weeks.', reps:'4 × 12 reps' },
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Lateral Raises (bottles)', desc:'Arms at sides holding bottles. Raise arms to shoulder height (T position), lower slowly. Builds shoulder definition.', reps:'3 × 15 reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Dead Bug Core Hold', desc:'Lie on back, arms up, knees at 90°. Extend opposite arm and leg simultaneously, lower, switch. Core stability.', reps:'3 × 10 each side' }
+      ]}
+    ],
+    cooldown:'Child\'s pose 1 min. Hip flexor stretch kneeling 30 secs each. Calf wall stretch 45 secs each. Roll ankles 1 min.'
+  },
+  // DAY 6 — Upper Body
+  { type:'upper', title:'Arms Sculpt Day', subtitle:'Focused arm and shoulder day. Builds definition.', duration:'25 mins', level:'Add more water bottle weight if easy',
+    warmup:['Shoulder circles forward 1 min','Arm swings big circles 1 min','Wrist rotations 30 secs','Neck stretches 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Biceps & Triceps', title:'Both sides of the arm', exercises:[
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Bicep Curls (alternating)', desc:'Hold bottles, curl one arm at a time. Focus: squeeze at top, lower 3 seconds. Do not rush.', reps:'4 × 12 each arm' },
+        { icon:'🤲', iconClass:'ex-icon-upper', name:'Tricep Kickbacks', desc:'Hinge forward, elbows at ribs. Extend forearm straight back, squeeze tricep. Lower slowly.', reps:'4 × 12 each arm' },
+        { icon:'↔️', iconClass:'ex-icon-upper', name:'Hammer Curls', desc:'Same as bicep curl but thumbs face up (like a hammer). Works different part of the bicep.', reps:'3 × 12 each arm' }
+      ]},
+      { label:'Circuit 2 — Shoulders', title:'Shoulder strength & definition', exercises:[
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Overhead Press', desc:'Bottles at shoulder height. Press straight overhead until arms nearly straight. Lower controlled. Builds shoulder strength.', reps:'4 × 15 reps' },
+        { icon:'🔄', iconClass:'ex-icon-upper', name:'Front Raises', desc:'Arms at sides, raise one arm straight in front to shoulder height. Alternate. Targets front of shoulder.', reps:'3 × 12 each arm' },
+        { icon:'✈️', iconClass:'ex-icon-upper', name:'Rear Delt Flyes', desc:'Hinge forward at hips. Arms hanging, raise both to sides like wings. Corrects rounded shoulders from desk work.', reps:'3 × 15 reps' }
+      ]}
+    ],
+    cooldown:'Cross body shoulder stretch 45 secs each. Overhead tricep stretch 30 secs each arm. Shake hands and wrists to release tension.'
+  },
+  // DAY 7 — Rest
+  { type:'rest', title:'Full Rest — Recovery Day', subtitle:'You exercised 5 days this week. Rest is where muscles grow.', duration:'Gentle only', level:'Rest and nourish',
+    warmup:[], circuits:[],
+    restActivities:['Gentle 15-min walk — outside if possible, breathe fresh air','5 mins of deep stretching: full body','Drink all your water today','Journal how your body felt this week','Sleep 30 minutes earlier than usual tonight'],
+    cooldown:''
+  },
+  // WEEK 2 — DAY 8 — Full Body
+  { type:'full', title:'Week 2 — Full Body Power', subtitle:'Increase reps and hold times from last week.', duration:'35–40 mins', level:'Level up from Week 1',
+    warmup:['High knees 1 min','Arm circles 1 min','Hip openers 1 min each leg','Jumping jacks 1 min (stepping jacks if preferred)'],
+    circuits:[
+      { label:'Circuit 1 — Legs', title:'Leg Day + Calf Focus', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Sumo Squats', desc:'Feet wide, toes out 45°. Lower deeply keeping chest up. Great for inner thighs and glutes.', reps:'4 × 15 reps' },
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Single-leg Calf Raises', desc:'Hold wall for balance, stand on one foot. Rise and lower slowly on one calf. This specifically builds single calf strength.', reps:'3 × 15 each leg' },
+        { icon:'🛤️', iconClass:'ex-icon-lower', name:'Step-ups (on a step or low chair)', desc:'Step up with right foot, bring left foot up, step down right, step down left. Repeat leading with left.', reps:'3 × 10 each leg' }
+      ]},
+      { label:'Circuit 2 — Arms + Core', title:'Upper Body Push & Pull', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Knee Push-ups (wider grip)', desc:'Hands wider than shoulders targets chest more. Try to increase reps by 2 compared to last week.', reps:'4 × 14 reps' },
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Bicep Curl to Press', desc:'Curl bottles to shoulders, then press overhead. Lower overhead first, then lower arms. Two moves, one exercise.', reps:'3 × 12 reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Plank Hold (knees or full)', desc:'Hold for 5 seconds longer than last week. Focus on breathing — don\'t hold your breath.', reps:'3 × 25–30 sec' }
+      ]}
+    ],
+    cooldown:'Figure-4 stretch lying down 1 min each side. Calf wall stretch 45 secs each. Child\'s pose 1 min. Roll wrists and ankles.'
+  },
+  // DAY 9 — Lower
+  { type:'lower', title:'Lower Body + Balance', subtitle:'Leg strength, calf health, and balance training.', duration:'30 mins', level:'Focus on control, not speed',
+    warmup:['Ankle pumps seated 2 mins','Calf raises standing 20 reps to warm up','Leg swings side to side 1 min each leg','Knee circles 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Quads & Hamstrings', title:'Front and back of legs', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Wall Sit', desc:'Back flat against wall, lower until thighs parallel to floor. Hold. This is harder than it looks. Build to 1 min.', reps:'3 × 30–45 sec hold' },
+        { icon:'↔️', iconClass:'ex-icon-lower', name:'Standing Leg Curls', desc:'Hold wall, bend one knee bringing heel toward glute. Lower slowly. Works back of the thigh.', reps:'3 × 15 each leg' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Curtsy Lunges', desc:'Stand feet hip-width. Step one foot behind and across like a curtsy. Works inner thighs and outer glutes.', reps:'3 × 12 each leg' }
+      ]},
+      { label:'Circuit 2 — Calf Circulation Protocol', title:'For your calf pain specifically', exercises:[
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Slow Calf Raises', desc:'2 seconds up, 2 hold at top, 4 seconds down. The slow descent is most important. Do these every day.', reps:'4 × 20 reps SLOW' },
+        { icon:'🔄', iconClass:'ex-icon-lower', name:'Ankle Alphabet', desc:'Sit down. Lift one foot. Use your foot to write the alphabet in the air. Improves ankle mobility and circulation.', reps:'2 × full alphabet each foot' },
+        { icon:'🎯', iconClass:'ex-icon-lower', name:'Heel-to-toe Walk', desc:'Walk a straight line placing heel directly in front of toes each step. Improves calf and ankle coordination.', reps:'3 × 20 steps forward + back' }
+      ]}
+    ],
+    cooldown:'Seated calf stretch: sit on floor, loop a towel around foot and gently pull toes toward you. Hold 45 secs each. Standing quad stretch 30 secs each.'
+  },
+  // DAY 10 — Upper
+  { type:'upper', title:'Back + Arms Day', subtitle:'Focus on posture muscles — desk workers need this most.', duration:'30 mins', level:'Great for office posture correction',
+    warmup:['Cat-cow stretches 1 min','Chest opener stretch arms wide 1 min','Shoulder blade squeezes 20 reps','Neck rolls 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Upper Back + Posture', title:'Fix the desk slouch', exercises:[
+        { icon:'🔄', iconClass:'ex-icon-upper', name:'Superman with Hold', desc:'Lie face down. Extend arms forward. Lift arms, chest, and legs off floor simultaneously. Hold 3 secs. Strengthens entire back.', reps:'4 × 12 reps' },
+        { icon:'✈️', iconClass:'ex-icon-upper', name:'Y-T-W Raises', desc:'Lie face down. Lift arms: first in Y shape, then T shape, then W (bent elbows). 5 reps each position. Builds shoulder stability.', reps:'3 × 5 each position' },
+        { icon:'🤲', iconClass:'ex-icon-upper', name:'Scapular Squeeze', desc:'Stand or sit tall. Squeeze shoulder blades together and hold 5 seconds. Release. Fixes rounded shoulders.', reps:'4 × 15 holds' }
+      ]},
+      { label:'Circuit 2 — Arms', title:'Balanced arm training', exercises:[
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Concentration Curls', desc:'Sit on chair, elbow on inner knee. Curl bottle slowly. Full range of motion. Best bicep isolation you can do without a gym.', reps:'3 × 15 each arm' },
+        { icon:'🤲', iconClass:'ex-icon-upper', name:'Overhead Tricep Extension', desc:'Hold one bottle overhead with both hands. Lower behind head bending elbows, raise back up. Tricep isolation.', reps:'3 × 15 reps' },
+        { icon:'↔️', iconClass:'ex-icon-upper', name:'Side Lateral Raises (slow)', desc:'3 seconds up, hold 1, 3 seconds down. The slower the lateral raise, the more shoulder work you get.', reps:'3 × 12 reps slow' }
+      ]}
+    ],
+    cooldown:'Doorway chest stretch — stand in doorway, arms on frame, lean forward gently. Hold 45 secs. Child\'s pose 1 min. Neck side stretch 30 secs each.'
+  },
+  // DAY 11 — Rest
+  { type:'rest', title:'Active Recovery', subtitle:'Keep moving gently — no strain today.', duration:'20 mins', level:'Restorative',
+    warmup:[], circuits:[],
+    restActivities:['15-min walk — go outside if you can','5 mins gentle stretching — focus on legs and calves','Seated ankle pumps while working — do these at your desk all day','Deep breathing 5 mins','Drink all 8 cups of water today'],
+    cooldown:''
+  },
+  // DAY 12 — Full Body
+  { type:'full', title:'Full Body Endurance', subtitle:'Higher reps, shorter rest. Build stamina alongside strength.', duration:'40 mins', level:'Building endurance this week',
+    warmup:['Jumping jacks 2 mins','High knees 1 min','Arm circles big and small 1 min','Hip circles 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Lower Body Endurance', title:'Legs — higher reps', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat + Calf Raise', desc:'Squat down, stand up, immediately rise onto toes at the top. Two moves in one. Leg + calf in every rep.', reps:'4 × 20 reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Lateral Lunges', desc:'Step wide to one side, bend that knee while other leg stays straight. Push back to center. Alternate sides.', reps:'3 × 12 each side' },
+        { icon:'🎯', iconClass:'ex-icon-lower', name:'Hip Thrusts on floor', desc:'Lie on back, knees bent. Drive hips high squeezing glutes, hold 2 secs. For extra challenge: single leg.', reps:'4 × 25 reps' }
+      ]},
+      { label:'Circuit 2 — Upper Body Endurance', title:'Arms — higher reps', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Push-up Negatives', desc:'Lower yourself SLOWLY (5 seconds) from plank or knees. Drop to floor, reset, repeat. Builds strength faster than regular push-ups.', reps:'4 × 8 reps (slow!)' },
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'21s Bicep Curls', desc:'7 reps bottom half, 7 reps top half, 7 reps full range. Classic arm builder. Use your water bottles.', reps:'3 × 21 reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Bird Dog', desc:'On hands and knees. Extend opposite arm and leg simultaneously, hold 3 secs, switch. Core and back stability.', reps:'3 × 12 each side' }
+      ]}
+    ],
+    cooldown:'Downward dog 1 min. Pigeon pose (modified: lying figure-4) 1 min each side. Calf stretch 45 secs each. Shake out arms and legs.'
+  },
+  // DAY 13 — Lower
+  { type:'lower', title:'Legs & Glutes Power', subtitle:'Building lower body strength week by week.', duration:'30 mins', level:'Try to increase reps from week 1',
+    warmup:['Butt kicks 1 min','Leg swings 1 min each leg','Ankle circles 1 min each','Squat to stand stretch 10 reps'],
+    circuits:[
+      { label:'Circuit 1 — Glute Power', title:'Build the glutes', exercises:[
+        { icon:'🍑', iconClass:'ex-icon-lower', name:'Pulse Squats', desc:'Hold at bottom of squat, pulse up and down 2 inches. 20 pulses then stand. Burns!', reps:'4 × 20 pulses + stand' },
+        { icon:'↔️', iconClass:'ex-icon-lower', name:'Side-lying Clamshells', desc:'Lie on side, knees bent. Keep feet together, open top knee like a clamshell. Targets glute medius — important for hip stability.', reps:'3 × 20 each side' },
+        { icon:'🏋️', iconClass:'ex-icon-lower', name:'Single-leg Glute Bridge', desc:'Glute bridge but one leg extended straight. Much harder. Great for glute strength and balance.', reps:'3 × 12 each leg' }
+      ]},
+      { label:'Circuit 2 — Calf Health Protocol', title:'Daily calf work', exercises:[
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Double Calf Raises (weighted)', desc:'Hold water bottles for added weight. Rise and lower slowly. Adding weight speeds up calf strengthening significantly.', reps:'4 × 25 reps' },
+        { icon:'🔄', iconClass:'ex-icon-lower', name:'Seated Calf Raises', desc:'Sit on chair. Rise onto toes with weight of hands pressing lightly on thighs. Targets soleus (deeper calf muscle).', reps:'4 × 25 reps' },
+        { icon:'🎯', iconClass:'ex-icon-lower', name:'Balance Board Simulation', desc:'Stand on one foot, slight bend in knee. Eyes closed (hard!). Hold 30 secs. Builds all the tiny calf stabilizers.', reps:'3 × 30 secs each leg' }
+      ]}
+    ],
+    cooldown:'Standing calf stretch + seated calf stretch (both types). Hip flexor lunge stretch 45 secs each. Full body roll from toes to crown — slow roll down and up 3 times.'
+  },
+  // DAY 14 — Rest
+  { type:'rest', title:'Rest & Recharge', subtitle:'Two weeks done. Your body has been working hard.', duration:'Light only', level:'Active rest',
+    warmup:[], circuits:[],
+    restActivities:['Slow 20-min walk — best recovery tool','Full body stretch session 10 mins','Gratitude journaling — write down one physical improvement you notice','Extra water and fruits today','Sleep before midnight'],
+    cooldown:''
+  },
+  // WEEK 3 — Repeat with progressions
+  { type:'full', title:'Week 3 — Full Body Challenge', subtitle:'Week 3 is where the real change happens. Push a little harder.', duration:'40 mins', level:'Increase all reps by 3–5',
+    warmup:['Jumping jacks 2 mins','High knees 1 min','Torso twists 1 min','Leg swings 1 min each','Arm circles 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Legs', title:'Leg strength progression', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Jump Squats (or squat + calf raise)', desc:'Explosive squat — jump at the top if your joints allow. Low impact version: squat + rise onto toes. Builds power.', reps:'4 × 15 reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Reverse Lunge + Knee Drive', desc:'Step back into lunge, then drive back knee up toward chest as you stand. Balance + strength.', reps:'3 × 12 each leg' },
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Calf Raises (single leg, slow)', desc:'One foot, super slow: 3 up, 3 hold, 5 down. If this is too easy, hold a water bottle.', reps:'4 × 15 each leg' }
+      ]},
+      { label:'Circuit 2 — Full Upper', title:'Arms + shoulders + core', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Push-ups (incline to standard)', desc:'From knees, aim for full push-up. Even if only 2 full push-ups — that\'s progress. Add one per week.', reps:'4 × max reps' },
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Bicep Curl + Shoulder Press', desc:'Curl, then press overhead. Lower overhead, then lower arms. Compound arm + shoulder move.', reps:'3 × 15 reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Plank to Downward Dog', desc:'Hold plank 5 secs, push back to downward dog, hold 5 secs, return to plank. Flows core + shoulder.', reps:'3 × 10 cycles' }
+      ]}
+    ],
+    cooldown:'Full body stretch — 5 minutes minimum. Hold each stretch longer (45–60 secs). Calf stretch both positions (wall + seated). Celebrate: 3 weeks.'
+  },
+  { type:'upper', title:'Arms + Posture Day', subtitle:'Focus on posture and arm definition. Sitting all day affects both.', duration:'30 mins', level:'Week 3 intensity',
+    warmup:['Neck rolls 1 min','Shoulder circles 1 min','Chest expansions 10 reps','Wrist flexions and extensions 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Chest & Triceps', title:'Push strength', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Standard Push-ups (or knees)', desc:'Go for full push-up in Week 3. Even 3–5 reps counts. Rest, repeat. Chest + tricep strength.', reps:'4 × max clean reps' },
+        { icon:'🤲', iconClass:'ex-icon-upper', name:'Diamond Push-ups (knees)', desc:'Hands close together forming a diamond. Hardest push-up variation. Isolates tricep. Go slow.', reps:'3 × 8 reps' },
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Arnold Press', desc:'Hold bottles at chin height, palms facing you. Press overhead while rotating palms out. Full shoulder.', reps:'3 × 15 reps' }
+      ]},
+      { label:'Circuit 2 — Biceps + Back', title:'Pull strength', exercises:[
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Zottman Curls', desc:'Curl palms up, at top rotate palms down, lower slowly palms down. Best bicep + forearm combination.', reps:'3 × 12 reps' },
+        { icon:'🔄', iconClass:'ex-icon-upper', name:'Bent-over Rows (heavier bottles)', desc:'Use the heaviest bottles you can manage. Focus on pulling elbows back, not lifting with hands.', reps:'4 × 15 reps' },
+        { icon:'✈️', iconClass:'ex-icon-upper', name:'Face Pulls (towel)', desc:'Hold towel around door handle, lean back. Pull handles toward face keeping elbows high. Rear shoulder and upper back.', reps:'3 × 20 reps' }
+      ]}
+    ],
+    cooldown:'Doorway chest stretch 45 secs. Overhead tricep stretch 30 secs each arm. Neck side and rotation stretches 30 secs each direction.'
+  },
+  { type:'lower', title:'Legs Endurance + Balance', subtitle:'Higher endurance for legs. Balance for calf coordination.', duration:'35 mins', level:'Build on week 2',
+    warmup:['Calf raises 20 warm-up reps','Ankle alphabet one foot','Leg swings front/back','Butt kicks 1 min'],
+    circuits:[
+      { label:'Circuit 1 — Endurance Legs', title:'High rep leg work', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat to Calf Raise (high rep)', desc:'Squat + calf raise every rep. 25 reps non-stop. Short rest. This is your primary leg finisher.', reps:'4 × 25 reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Clock Lunges', desc:'Lunge forward (12 o\'clock), side (3 o\'clock), reverse (6 o\'clock). Each position = 1 rep. Full hip coverage.', reps:'3 × 4 positions each leg' },
+        { icon:'↔️', iconClass:'ex-icon-lower', name:'Sumo Squat Pulse', desc:'Hold deep sumo squat, pulse for 20 small reps before standing. Targets inner thighs intensely.', reps:'3 × 20 pulses + stand' }
+      ]},
+      { label:'Circuit 2 — Calf Specialty', title:'Calf health every session', exercises:[
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'3-Way Calf Raises', desc:'Toes forward 10 reps, toes out 10 reps, toes in 10 reps. Different angle targets different calf heads.', reps:'4 × 30 total reps' },
+        { icon:'🔄', iconClass:'ex-icon-lower', name:'Step Edge Calf Raises', desc:'Stand on edge of step (or book). Lower heel below step, rise onto toes. Full range of motion calf stretch and raise.', reps:'3 × 15 each leg' },
+        { icon:'🎯', iconClass:'ex-icon-lower', name:'Tandem Balance Walk', desc:'Walk heel-to-toe in a straight line like a sobriety test. 20 steps forward, 20 back. Great calf stabilizer.', reps:'3 × 20 steps each direction' }
+      ]}
+    ],
+    cooldown:'Foam roll (or water bottle roll) calves — roll slowly on tight spots 1 min each. Seated forward fold 1 min. Ankle circles 1 min each foot.'
+  },
+  { type:'rest', title:'Rest Day — Week 3', subtitle:'Rest is not weakness. It is when your body actually gets stronger.', duration:'Light only', level:'Recovery',
+    warmup:[], circuits:[],
+    restActivities:['Gentle yoga or stretching 15 mins on YouTube','Short walk in the evening — terrace counts','Journal: write what\'s improving physically','Hydrate well — especially your calves need water on rest days','Sleep by 11pm if possible — that\'s when muscle repair peaks'],
+    cooldown:''
+  },
+  { type:'full', title:'Full Body — Week 3 Finisher', subtitle:'End of week 3 full body blast. You are stronger than day 1.', duration:'40 mins', level:'Push yourself this session',
+    warmup:['High knees 2 mins','Jumping jacks 1 min','Full body circles 1 min','Deep squat stretch 30 secs hold'],
+    circuits:[
+      { label:'Super Circuit — Legs + Arms combined', title:'Full body no rest between exercises', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat + Curl + Press', desc:'Squat. Stand. Curl. Press overhead. Lower. That is 1 rep. Full body compound move. Your best exercise.', reps:'4 × 12 reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Lunge + Lateral Raise', desc:'Step into lunge, simultaneously raise arms to sides. Stand, lower arms. Leg + shoulder in one.', reps:'3 × 10 each leg' },
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Calf Raise + Overhead Press', desc:'Rise onto toes, simultaneously press bottles overhead. Lower both together. Calf + shoulder compound.', reps:'4 × 20 reps' }
+      ]},
+      { label:'Finisher — Core + Arms', title:'End strong', exercises:[
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Plank Hold — beat your record', desc:'Whatever you held in Week 1 — add 15 seconds. Track this number. It should increase every week.', reps:'3 × personal best + 15 sec' },
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Push-up Max Set', desc:'Go until you cannot do one more clean rep. Count them. Write the number down. Retest week 4.', reps:'1 max set (write number)' },
+        { icon:'🔄', iconClass:'ex-icon-upper', name:'21s Curls — finisher', desc:'The classic burn-out: 7 bottom half, 7 top half, 7 full. Arms should be tired after this.', reps:'3 sets of 21' }
+      ]}
+    ],
+    cooldown:'Full stretch — 8 minutes. Every muscle. Hold each 45 secs. You have one week left. Make it count.'
+  },
+  { type:'upper', title:'Arms Strength Test', subtitle:'Test what you\'ve built. Max reps in each exercise.', duration:'30 mins', level:'Your personal test day',
+    warmup:['Full arm warm-up — all movements 2 mins total','Shoulder rolls 1 min','Wrist prep 1 min'],
+    circuits:[
+      { label:'ARM TEST — Record your numbers', title:'Write down every result', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Push-up Max Test', desc:'Do as many as you can — knees or full. Write the number. Compare to Day 1 number. This is your proof.', reps:'Max reps — WRITE IT DOWN' },
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Bicep Curl Endurance Test', desc:'Use your water bottles. Curl until you cannot continue. Count the reps. Write it down.', reps:'Max reps — WRITE IT DOWN' },
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Overhead Press Endurance', desc:'Press until form breaks down. Count the reps. Write it down.', reps:'Max reps — WRITE IT DOWN' }
+      ]},
+      { label:'Cool Strength Work', title:'Regular sets after the test', exercises:[
+        { icon:'🔄', iconClass:'ex-icon-upper', name:'Full Range Back Rows', desc:'Bent-over row with maximum range of motion — really squeeze shoulder blades together at top.', reps:'3 × 15 reps' },
+        { icon:'✈️', iconClass:'ex-icon-upper', name:'Rear Delt Work', desc:'Bent-over lateral raise. Focus: feel it in the rear shoulder, not the upper trap.', reps:'3 × 15 reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Plank Max Test', desc:'Hold as long as possible. Write it down. Compare to Week 1.', reps:'Max hold — WRITE IT DOWN' }
+      ]}
+    ],
+    cooldown:'Full upper body stretch. Celebrate your numbers — they have improved from day 1 even if it doesn\'t feel like it.'
+  },
+  // WEEK 4 — Final week
+  { type:'rest', title:'Rest Before Final Week', subtitle:'Rest before the final push of Week 4.', duration:'Rest day', level:'Full rest',
+    warmup:[], circuits:[],
+    restActivities:['This is a full rest day','Gentle walk if you feel good','Extra stretching — especially calves','Drink all your water','Prepare mentally for the final week'],
+    cooldown:''
+  },
+  { type:'full', title:'Week 4 — Full Body Final', subtitle:'Last full body week. Give it everything you have.', duration:'40 mins', level:'Your strongest session yet',
+    warmup:['Full warm-up 5 mins: jacks, high knees, circles, swings','Take this seriously — warm muscles prevent injury'],
+    circuits:[
+      { label:'Final Circuit — Legs', title:'Last leg push', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat + Hold + Pulse + Stand', desc:'Squat, hold 3 secs, pulse 5 times, stand. Full leg fatigue protocol. Best quad and glute builder.', reps:'4 × 10 full cycles' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Bulgarian Split Squat', desc:'Back foot on chair, front foot forward. Lower rear knee toward floor. This is the king of single-leg exercises.', reps:'3 × 10 each leg' },
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Calf Raise — 30 day finale', desc:'You\'ve been doing these every week. Do your best set: single-leg, slow, full range, weighted if possible.', reps:'4 × 20 each leg (slow)' }
+      ]},
+      { label:'Final Circuit — Upper', title:'Last arm and shoulder push', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Push-up Progression (best form)', desc:'Full push-up if you can. Best form only. How many can you do now vs Day 1?', reps:'4 × max clean reps' },
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Heavy Bicep Curl (most water you have)', desc:'Use the heaviest bottles you own. Slow and controlled. 30 days of curls show here.', reps:'3 × 12 heavy reps' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Plank — hold your record', desc:'Match or beat your best plank time. The number after 30 days tells the whole story.', reps:'3 × personal best' }
+      ]}
+    ],
+    cooldown:'Best cool-down of the month. 10 minutes of full stretching. Every muscle you worked. You earned this.'
+  },
+  { type:'lower', title:'Final Leg Day', subtitle:'Last dedicated leg session of the month.', duration:'35 mins', level:'Best effort of the month',
+    warmup:['Calf pumps 2 mins','Leg swings 1 min each','Squat pulses 20 warm-up'],
+    circuits:[
+      { label:'Final Leg Circuit', title:'Best leg session of 30 days', exercises:[
+        { icon:'🦵', iconClass:'ex-icon-lower', name:'Squat Variation Best Set', desc:'Pick your hardest squat variation you can do: jump squat, single-leg squat, Bulgarian. Best effort.', reps:'4 × max good reps' },
+        { icon:'🚶', iconClass:'ex-icon-lower', name:'Lunge Complex — all variations', desc:'Forward, reverse, lateral, curtsy — 5 reps each variation per leg. Full hip and quad challenge.', reps:'3 × full complex each leg' },
+        { icon:'🍑', iconClass:'ex-icon-lower', name:'Single-leg Hip Thrust — final', desc:'Hip thrust on one leg. Hold 3 secs at top. This is harder than any gym machine for glutes.', reps:'3 × 15 each leg' }
+      ]},
+      { label:'Calf Farewell Protocol', title:'Your calves deserve appreciation', exercises:[
+        { icon:'🦶', iconClass:'ex-icon-lower', name:'Calf Raise Endurance Final', desc:'How many can you do now vs Day 1? Do your maximum. Write it down. Your calves are stronger.', reps:'Max reps — 3 sets' },
+        { icon:'🔄', iconClass:'ex-icon-lower', name:'Ankle Mobility Final Test', desc:'Full alphabet, then big circles, then heel walks, then toe walks. 3 minutes total. Your calf circulation is better.', reps:'3 mins of ankle mobility' }
+      ]}
+    ],
+    cooldown:'Final calf stretch — both standing and seated versions. 45 secs each. Appreciate what your legs did this month. They carried you.'
+  },
+  { type:'upper', title:'Final Arms Day', subtitle:'Last upper body session. Compare to your Week 1 numbers.', duration:'30 mins', level:'Finish strong',
+    warmup:['Full upper body warm-up 3 mins','All shoulder and arm movements'],
+    circuits:[
+      { label:'Final Arms Circuit', title:'30 days of arm work', exercises:[
+        { icon:'🦾', iconClass:'ex-icon-upper', name:'Bicep Curl — best set', desc:'Best form, full range, controlled. Your arms are stronger than Day 1 even if it\'s subtle.', reps:'4 × 15 reps (heavy)' },
+        { icon:'🤲', iconClass:'ex-icon-upper', name:'Tricep Work — all variations', desc:'Chair dips, kickbacks, overhead extension. 10 reps each. Full tricep coverage.', reps:'3 × 10 each exercise' },
+        { icon:'⬆️', iconClass:'ex-icon-upper', name:'Shoulder Press + Lateral Raise superset', desc:'Press 12 reps, immediately lateral raise 12 reps without rest. Shoulder superset burns.', reps:'4 supersets' }
+      ]},
+      { label:'30 Day Celebration Set', title:'You made it', exercises:[
+        { icon:'💪', iconClass:'ex-icon-upper', name:'Push-up Final Count', desc:'Go to absolute failure. Best form. Count every rep. This is your 30-day push-up record.', reps:'Max ever — record it' },
+        { icon:'🫳', iconClass:'ex-icon-core', name:'Plank Final Hold', desc:'Last plank of the 30 days. Hold as long as you can. No rush. Breathe.', reps:'Max hold — record it' }
+      ]}
+    ],
+    cooldown:'Final upper body stretch. Full chest, shoulder, bicep, tricep. 8 minutes minimum. You worked these muscles for 30 days. Give them a proper goodbye.'
+  },
+  { type:'rest', title:'Day 30 — Celebrate & Rest 🎉', subtitle:'30 days done. Rest is your reward today.', duration:'Rest', level:'You earned it',
+    warmup:[], circuits:[],
+    restActivities:['No exercise today — pure rest','A gentle walk if you feel like it','Stretch anything that\'s still sore','Write down your measurements or fitness observations','Plan next month — what to add, what to keep','Go to sleep early and sleep well'],
+    cooldown:''
+  }
+];
+
+// ============================
+// STATE
+// ============================
 let today = new Date();
 let selectedDay = 0;
 let currentMonthKey = '';
 let waterFilled = {};
 let coffeeFilled = {};
+let activeTab = 'diet'; // 'diet' or 'exercise'
 
-// ========== STORAGE HELPERS ==========
-function getStorageKey(type) {
-  return `jhuls_diet_${currentMonthKey}_${type}`;
+// ============================
+// STORAGE
+// ============================
+function getStorageKey(type){ return `jhuls_plan_${currentMonthKey}_${type}`; }
+function saveToStorage(){
+  try{ localStorage.setItem(getStorageKey('water'), JSON.stringify(waterFilled)); localStorage.setItem(getStorageKey('coffee'), JSON.stringify(coffeeFilled)); }catch(e){}
 }
-function saveToStorage() {
-  try {
-    localStorage.setItem(getStorageKey('water'), JSON.stringify(waterFilled));
-    localStorage.setItem(getStorageKey('coffee'), JSON.stringify(coffeeFilled));
-  } catch(e) {}
-}
-function loadFromStorage() {
-  try {
+function loadFromStorage(){
+  try{
     const w = localStorage.getItem(getStorageKey('water'));
     const c = localStorage.getItem(getStorageKey('coffee'));
     waterFilled = w ? JSON.parse(w) : {};
     coffeeFilled = c ? JSON.parse(c) : {};
-  } catch(e) {
-    waterFilled = {}; coffeeFilled = {};
-  }
+  }catch(e){ waterFilled={}; coffeeFilled={}; }
 }
 
-// ========== MONTH SELECTOR ==========
+// ============================
+// MONTH SELECTOR
+// ============================
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function buildMonthKey(y,m){ return `${y}_${String(m+1).padStart(2,'0')}`; }
 
-function buildMonthKey(year, month) {
-  return `${year}_${String(month+1).padStart(2,'0')}`;
-}
-
-function renderMonthSelector() {
-  const existing = document.getElementById('monthSelectorBar');
-  if (existing) existing.remove();
-
-  const bar = document.createElement('div');
-  bar.id = 'monthSelectorBar';
-  bar.style.cssText = `
-    text-align:center; padding: 0.75rem 1rem 0;
-    display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
-  `;
-
-  const label = document.createElement('span');
-  label.style.cssText = 'font-size:0.78rem; color:var(--text-muted); font-weight:500; text-transform:uppercase; letter-spacing:0.1em;';
-  label.textContent = 'Running this plan for:';
-
-  const sel = document.createElement('select');
-  sel.id = 'monthSelect';
-  sel.style.cssText = `
-    font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:500;
-    color:var(--brown-deep); background:var(--warm-white);
-    border:1px solid var(--border); border-radius:50px;
-    padding:5px 14px; cursor:pointer; outline:none;
-    appearance:none; -webkit-appearance:none;
-  `;
-
-  // Generate options: current month ± 6 months
+function renderMonthSelector(){
+  const bar = document.getElementById('monthSelectorBar');
+  bar.innerHTML = '';
+  const label = document.createElement('span'); label.textContent = 'Plan for month:'; bar.appendChild(label);
+  const sel = document.createElement('select'); sel.id = 'monthSelect';
   const now = new Date();
-  for (let offset = -2; offset <= 6; offset++) {
-    const d = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  for(let offset=-2; offset<=6; offset++){
+    const d = new Date(now.getFullYear(), now.getMonth()+offset, 1);
     const key = buildMonthKey(d.getFullYear(), d.getMonth());
-    const opt = document.createElement('option');
-    opt.value = key;
+    const opt = document.createElement('option'); opt.value = key;
     opt.textContent = `${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
-    if (key === currentMonthKey) opt.selected = true;
+    if(key===currentMonthKey) opt.selected = true;
     sel.appendChild(opt);
   }
-
-  sel.addEventListener('change', () => {
-    saveToStorage(); // save current before switching
+  sel.addEventListener('change', ()=>{
+    saveToStorage();
     currentMonthKey = sel.value;
-    loadFromStorage();
-    // fix today highlight
     const parts = currentMonthKey.split('_');
-    const selYear = parseInt(parts[0]);
-    const selMonth = parseInt(parts[1]) - 1;
-    const realNow = new Date();
-    if (realNow.getFullYear() === selYear && realNow.getMonth() === selMonth) {
-      today = realNow;
-    } else {
-      today = new Date(selYear, selMonth, 0); // no day matches → no today highlight
-    }
+    const sY=parseInt(parts[0]), sM=parseInt(parts[1])-1;
+    const rn = new Date();
+    today = (rn.getFullYear()===sY && rn.getMonth()===sM) ? rn : new Date(sY, sM, 0);
+    loadFromStorage();
+    const d = new Date(sY, sM, 1);
+    selectedDay = 0;
     renderAll();
   });
-
-  const resetBtn = document.createElement('button');
-  resetBtn.textContent = '↺ Reset month';
-  resetBtn.style.cssText = `
-    font-family:'DM Sans',sans-serif; font-size:0.75rem;
-    color:var(--text-muted); background:transparent;
-    border:1px solid var(--border); border-radius:50px;
-    padding:4px 12px; cursor:pointer;
-  `;
-  resetBtn.addEventListener('click', () => {
-    if (confirm(`Reset all water & coffee tracking for ${sel.options[sel.selectedIndex].text}?\n\nThis cannot be undone.`)) {
-      waterFilled = {}; coffeeFilled = {};
-      saveToStorage();
-      renderContent();
-    }
-  });
-
-  bar.appendChild(label);
   bar.appendChild(sel);
-  bar.appendChild(resetBtn);
-  document.querySelector('.site-header').after(bar);
+  const rst = document.createElement('button'); rst.className='reset-btn'; rst.textContent='↺ Reset month';
+  rst.addEventListener('click',()=>{
+    if(confirm('Reset tracking for this month? Cannot be undone.')){ waterFilled={}; coffeeFilled={}; saveToStorage(); renderContent(); }
+  });
+  bar.appendChild(rst);
 }
 
-// Auto-set to today if within the month
-function initToday() {
+// ============================
+// DATE HELPERS
+// Get real day name from selected month + day index
+// ============================
+function getDayInfo(dayIndex){
+  const parts = currentMonthKey.split('_');
+  const y = parseInt(parts[0]), m = parseInt(parts[1])-1;
+  const date = new Date(y, m, dayIndex+1); // day index 0 = 1st of month
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dayNamesFull = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  return { dayName: dayNames[date.getDay()], dayNameFull: dayNamesFull[date.getDay()], date: date };
+}
+
+function isToday(dayIndex){
+  const { date } = getDayInfo(dayIndex);
   const now = new Date();
-  currentMonthKey = buildMonthKey(now.getFullYear(), now.getMonth());
-  today = now;
-  const d = now.getDate();
-  selectedDay = (d >= 1 && d <= 30) ? d - 1 : 0;
-  loadFromStorage();
+  return date.getDate()===now.getDate() && date.getMonth()===now.getMonth() && date.getFullYear()===now.getFullYear();
 }
 
-// ========== RENDER ==========
-function renderWeekNav() {
+function getEmoji(dayIndex){
+  const emojis=['🥚','🐟','🥗','🥕','🍌','🌿','🍲','🥩','🥑','🥦','🍳','🌾','🐠','🥛','🍠','🫐','🥬','🍋','🧄','🫚','🍅','🌱','🥜','🫗','🍓','🥝','🌾','🐟','🥗','🎉'];
+  return emojis[dayIndex % emojis.length];
+}
+
+// ============================
+// RENDER — GRID
+// ============================
+function renderWeekNav(){
   const nav = document.getElementById('weekNav');
-  const weeks = ['Week 1 (Days 1–7)','Week 2 (Days 8–14)','Week 3 (Days 15–21)','Week 4 (Days 22–30)'];
-  nav.innerHTML = weeks.map((w,i) => {
-    const active = Math.floor(selectedDay/7) === i ? 'active' : '';
+  const weeks=['Week 1 (1–7)','Week 2 (8–14)','Week 3 (15–21)','Week 4 (22–30)'];
+  nav.innerHTML = weeks.map((w,i)=>{
+    const active = Math.floor(selectedDay/7)===i?'active':'';
     return `<div class="week-tab ${active}" onclick="scrollToWeek(${i})">${w}</div>`;
   }).join('');
 }
 
-function scrollToWeek(weekIdx) {
-  const firstDay = weekIdx * 7;
-  selectedDay = firstDay;
-  renderAll();
+function scrollToWeek(weekIdx){
+  selectedDay = weekIdx*7; renderAll();
   document.querySelector('.day-grid-wrap').scrollIntoView({behavior:'smooth'});
 }
 
-function getDayName(dayIndex) {
-  // Day 1 = start from a Monday
-  // We treat day 0 as Monday
-  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  return dayNames[dayIndex % 7];
-}
-
-function getDayNameFull(dayIndex) {
-  const dayNames = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  return dayNames[dayIndex % 7];
-}
-
-function isToday(dayIndex) {
-  return dayIndex === (today.getDate() - 1) && today.getMonth() === new Date().getMonth();
-}
-
-function getEmoji(dayIndex) {
-  const emojis = ['🥚','🐟','🥗','🥕','🍌','🌿','🍲','🥩','🥑','🥦','🍳','🌾','🐠','🥛','🍠','🫐','🥬','🍋','🧄','🫚','🍅','🌱','🥜','🫗','🍓','🥝','🌾','🐟','🥗','🎉'];
-  return emojis[dayIndex % emojis.length];
-}
-
-function renderGrid() {
+function renderGrid(){
   const container = document.getElementById('dayGridContainer');
-  const weeks = [
-    { label: 'Week 1', days: [0,1,2,3,4,5,6] },
-    { label: 'Week 2', days: [7,8,9,10,11,12,13] },
-    { label: 'Week 3', days: [14,15,16,17,18,19,20] },
-    { label: 'Week 4', days: [21,22,23,24,25,26,27,28,29] }
-  ];
-
-  container.innerHTML = weeks.map(week => `
+  const weeks=[{label:'Week 1',days:[0,1,2,3,4,5,6]},{label:'Week 2',days:[7,8,9,10,11,12,13]},{label:'Week 3',days:[14,15,16,17,18,19,20]},{label:'Week 4',days:[21,22,23,24,25,26,27,28,29]}];
+  container.innerHTML = weeks.map(week=>`
     <div class="week-label">${week.label}</div>
     <div class="day-grid">
-      ${week.days.map(i => {
-        const active = i === selectedDay ? 'active' : '';
-        const todayClass = isToday(i) ? 'today-chip' : '';
+      ${week.days.map(i=>{
+        const {dayName} = getDayInfo(i);
+        const active = i===selectedDay?'active':'';
+        const todayClass = isToday(i)?'today-chip':'';
         return `<div class="day-chip ${active} ${todayClass}" onclick="selectDay(${i})">
           <div class="chip-num">${i+1}</div>
-          <div class="chip-name">${getDayName(i)}</div>
+          <div class="chip-name">${dayName}</div>
           <div class="chip-emoji">${getEmoji(i)}</div>
         </div>`;
       }).join('')}
@@ -983,134 +1084,218 @@ function renderGrid() {
   `).join('');
 }
 
-function renderContent() {
+// ============================
+// RENDER — DIET CONTENT
+// ============================
+function renderDietContent(){
   const d = mealTemplates[selectedDay];
-  const dayNum = selectedDay + 1;
-  const dayName = getDayNameFull(selectedDay);
-  const todayLabel = isToday(selectedDay) ? ' — Today' : '';
+  const {dayName, dayNameFull} = getDayInfo(selectedDay);
+  const dayNum = selectedDay+1;
+  const todayLabel = isToday(selectedDay)?' — Today':'';
+  const pillColors=['npill-green','npill-terr','npill-gold'];
 
-  const pillColors = ['npill-green','npill-terr','npill-gold'];
+  let mealsHTML = d.meals.map(m=>{
+    const prepSteps = m.prep.map((step,i)=>`<div class="prep-step"><span class="prep-num">${i+1}.</span><span>${step}</span></div>`).join('');
+    return `<div class="meal-card ${m.type}">
+      <span class="meal-type-tag tag-${m.type[0]}">${m.type.charAt(0).toUpperCase()+m.type.slice(1)}</span>
+      <div class="meal-title">${m.title}</div>
+      <ul class="meal-items">${m.items.map(item=>`<li>${item}</li>`).join('')}</ul>
+      <button class="prep-toggle" onclick="togglePrep(this)">🍳 How to prepare ↓</button>
+      <div class="prep-body">
+        ${prepSteps}
+        <div class="prep-time">⏱ Prep time: ${m.prepTime}</div>
+      </div>
+    </div>`;
+  }).join('');
 
-  const content = document.getElementById('mainContent');
-  content.innerHTML = `
+  return `
     <div class="day-hero">
       <div class="hero-top">
         <div>
-          <div class="hero-date-label">Day ${dayNum} / 30${todayLabel}</div>
-          <h2 class="hero-day-name">${dayNum <= 7 ? dayName : dayName}<br><em>${getEmoji(selectedDay)}</em></h2>
+          <div class="hero-date-label">Day ${dayNum} / 30 — ${dayNameFull}${todayLabel}</div>
+          <h2 class="hero-day-name">${dayNameFull}<br><em>${getEmoji(selectedDay)}</em></h2>
         </div>
-        <div class="hero-focus">
-          <div class="focus-label">Today's focus</div>
-          <div class="focus-text">${d.focus}</div>
-        </div>
+        <div class="hero-focus"><div class="focus-label">Today's focus</div><div class="focus-text">${d.focus}</div></div>
       </div>
-      <div class="nutrient-pills">
-        ${d.nutrients.map((n,i) => `<span class="npill ${pillColors[i%3]}">${n}</span>`).join('')}
-      </div>
+      <div class="nutrient-pills">${d.nutrients.map((n,i)=>`<span class="npill ${pillColors[i%3]}">${n}</span>`).join('')}</div>
     </div>
-
-    <div class="meals-grid">
-      ${d.meals.map(m => `
-        <div class="meal-card ${m.type}">
-          <span class="meal-type-tag tag-${m.type[0]}">${m.type.charAt(0).toUpperCase()+m.type.slice(1)}</span>
-          <div class="meal-title">${m.title}</div>
-          <ul class="meal-items">
-            ${m.items.map(item => `<li>${item}</li>`).join('')}
-          </ul>
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="tip-box">
-      <div class="tip-label">💡 Today's reminder</div>
-      <div class="tip-text">${d.tip}</div>
-    </div>
-
+    <div class="meals-grid">${mealsHTML}</div>
+    <div class="tip-box"><div class="tip-label">💡 Today's reminder</div><div class="tip-text">${d.tip}</div></div>
     <div class="habit-row">
       <div class="habit-card">
         <div class="habit-label">💧 Water today (8 cups goal)</div>
         <div class="cups-row">
-          ${[0,1,2,3,4,5,6,7].map(i => {
-            const filled = (waterFilled[selectedDay] || 0) > i;
-            return `<button class="cup-btn ${filled ? 'filled' : ''}" onclick="toggleWater(${i})" title="Cup ${i+1}">
-              ${filled ? '💧' : '○'}
-            </button>`;
+          ${[0,1,2,3,4,5,6,7].map(i=>{
+            const filled=(waterFilled[selectedDay]||0)>i;
+            return `<button class="cup-btn ${filled?'filled':''}" onclick="toggleWater(${i})">${filled?'💧':'○'}</button>`;
           }).join('')}
         </div>
       </div>
       <div class="habit-card">
-        <div class="habit-label">☕ Coffee today (max 1 cup)</div>
-        <div class="coffee-note" style="margin-bottom:8px;">Only after food. Never on empty stomach.</div>
+        <div class="habit-label">☕ Coffee (max 1 cup)</div>
+        <div class="coffee-note" style="margin-bottom:6px;">Only after food. Never on empty stomach.</div>
         <div class="coffee-cups">
-          ${[0,1,2].map(i => {
-            const filled = (coffeeFilled[selectedDay] || 0) > i;
-            const color = i === 0 ? 'rgba(201,149,74,0.2)' : 'rgba(196,112,74,0.15)';
-            return `<button class="coffee-btn ${filled ? 'filled' : ''}" onclick="toggleCoffee(${i})" 
-              style="${!filled ? `background:${color}` : ''}" title="${i===0 ? '1 cup (OK)' : i===1 ? '2 cups (too much)' : '3 cups (stop!)'}">
-              ${filled ? '☕' : '○'}
-            </button>`;
+          ${[0,1,2].map(i=>{
+            const filled=(coffeeFilled[selectedDay]||0)>i;
+            return `<button class="coffee-btn ${filled?'filled':''}" onclick="toggleCoffee(${i})">${filled?'☕':'○'}</button>`;
           }).join('')}
         </div>
-        <div class="coffee-note" style="margin-top:6px; color:${(coffeeFilled[selectedDay]||0) > 1 ? 'var(--terracotta)' : 'var(--text-muted)'}">
-          ${(coffeeFilled[selectedDay]||0) === 0 ? 'No coffee yet — good morning!' : (coffeeFilled[selectedDay]||0) === 1 ? '1 cup — perfect limit ✓' : (coffeeFilled[selectedDay]||0) === 2 ? '2 cups — try to stop here' : '3 cups — your stomach is not happy'}
+        <div class="coffee-note" style="margin-top:5px;color:${(coffeeFilled[selectedDay]||0)>1?'var(--terracotta)':'var(--text-muted)'}">
+          ${(coffeeFilled[selectedDay]||0)===0?'No coffee yet — good morning!':(coffeeFilled[selectedDay]||0)===1?'1 cup — perfect ✓':(coffeeFilled[selectedDay]||0)===2?'2 cups — stop here':'3 cups — your stomach is unhappy'}
         </div>
       </div>
+    </div>`;
+}
+
+// ============================
+// RENDER — EXERCISE CONTENT
+// ============================
+function renderExerciseContent(){
+  const ex = exercisePlans[selectedDay % exercisePlans.length];
+  const {dayNameFull} = getDayInfo(selectedDay);
+  const dayNum = selectedDay+1;
+  const typeLabels = {full:'Full Body 💪',upper:'Upper Body 🦾',lower:'Lower Body 🦵',rest:'Rest Day 🌿'};
+  const typeClasses = {full:'ex-full',upper:'ex-upper',lower:'ex-lower',rest:'ex-rest'};
+
+  if(ex.type==='rest'){
+    return `<div class="exercise-section">
+      <div class="exercise-header">
+        <span class="ex-day-type ${typeClasses[ex.type]}">${typeLabels[ex.type]}</span>
+        <div class="ex-title">${ex.title}</div>
+        <div class="ex-subtitle">${ex.subtitle}</div>
+      </div>
+      <div class="rest-box">
+        <div class="rest-emoji">😴</div>
+        <div class="rest-title">Rest & Recover</div>
+        <div class="rest-desc">Rest days are when your muscles actually grow and repair. Skipping rest is why people plateau. Today you are training — just differently.</div>
+        <div class="rest-activities">
+          ${ex.restActivities.map(a=>`<div class="rest-activity">✓ ${a}</div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const warmupHTML = ex.warmup && ex.warmup.length ? `
+    <div class="warmup-box">
+      <div class="warmup-label">🔥 Warm-up first (5 mins)</div>
+      <div class="warmup-items">${ex.warmup.map(w=>`<div class="warmup-item">${w}</div>`).join('')}
+      </div>
+    </div>` : '';
+
+  const circuitsHTML = ex.circuits.map(circuit=>`
+    <div class="ex-circuit">
+      <div class="ex-circuit-label">${circuit.label}</div>
+      <div class="ex-circuit-title">${circuit.title}</div>
+      ${circuit.exercises.map(e=>`
+        <div class="exercise-item">
+          <div class="ex-icon ${e.iconClass}">${e.icon}</div>
+          <div>
+            <div class="ex-name">${e.name}</div>
+            <div class="ex-desc">${e.desc}</div>
+          </div>
+          <div class="ex-reps">${e.reps}</div>
+        </div>
+      `).join('')}
     </div>
-  `;
+  `).join('');
 
-  document.getElementById('dayCounter').textContent = `Day ${dayNum} of 30`;
-  document.getElementById('prevBtn').disabled = selectedDay === 0;
-  document.getElementById('nextBtn').disabled = selectedDay === 29;
+  const cooldownHTML = ex.cooldown ? `
+    <div class="tip-box" style="background:var(--violet-pale);border-color:var(--violet);">
+      <div class="tip-label" style="color:var(--violet);">🧘 Cool-down</div>
+      <div class="tip-text">${ex.cooldown}</div>
+    </div>` : '';
+
+  return `<div class="exercise-section">
+    <div class="exercise-header">
+      <span class="ex-day-type ${typeClasses[ex.type]}">${typeLabels[ex.type]}</span>
+      <div class="ex-title">${ex.title}</div>
+      <div class="ex-subtitle">${ex.subtitle}</div>
+      <div class="ex-stats">
+        <span class="ex-stat">⏱ ${ex.duration}</span>
+        <span class="ex-stat">📊 ${ex.level}</span>
+        <span class="ex-stat">📅 Day ${dayNum}</span>
+      </div>
+    </div>
+    ${warmupHTML}
+    ${circuitsHTML}
+    ${cooldownHTML}
+  </div>`;
 }
 
-function renderAll() {
-  renderWeekNav();
-  renderGrid();
+// ============================
+// RENDER — MAIN
+// ============================
+function renderContent(){
+  const content = document.getElementById('mainContent');
+  content.innerHTML = activeTab==='diet' ? renderDietContent() : renderExerciseContent();
+  document.getElementById('dayCounter').textContent = `Day ${selectedDay+1} of 30`;
+  document.getElementById('prevBtn').disabled = selectedDay===0;
+  document.getElementById('nextBtn').disabled = selectedDay===29;
+}
+
+function renderAll(){
+  renderWeekNav(); renderGrid(); renderContent();
+}
+
+// ============================
+// INTERACTIONS
+// ============================
+function selectDay(i){
+  selectedDay=i; renderAll();
+  document.querySelector('.content-area').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function navigate(dir){
+  const n=selectedDay+dir;
+  if(n>=0 && n<=29){ selectedDay=n; renderAll(); document.querySelector('.content-area').scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+function goToday(){
+  const parts = currentMonthKey.split('_');
+  const now = new Date();
+  const sY=parseInt(parts[0]), sM=parseInt(parts[1])-1;
+  if(now.getFullYear()===sY && now.getMonth()===sM){
+    selectedDay = now.getDate()-1;
+    if(selectedDay>29) selectedDay=29;
+    renderAll();
+    document.querySelector('.content-area').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+function switchTab(tab){
+  activeTab=tab;
+  document.getElementById('tabDiet').className='sec-tab'+(tab==='diet'?' active':'');
+  document.getElementById('tabExercise').className='sec-tab'+(tab==='exercise'?' active':'');
   renderContent();
 }
+function togglePrep(btn){
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.textContent = isOpen ? '🍳 How to prepare ↓' : '🍳 Hide preparation ↑';
+}
+function toggleWater(cup){
+  const cur=waterFilled[selectedDay]||0;
+  waterFilled[selectedDay]=(cur===cup+1)?cup:cup+1;
+  saveToStorage(); renderContent();
+}
+function toggleCoffee(cup){
+  const cur=coffeeFilled[selectedDay]||0;
+  coffeeFilled[selectedDay]=(cur===cup+1)?cup:cup+1;
+  saveToStorage(); renderContent();
+}
 
-function selectDay(i) {
-  selectedDay = i;
+// ============================
+// INIT
+// ============================
+function init(){
+  const now = new Date();
+  currentMonthKey = buildMonthKey(now.getFullYear(), now.getMonth());
+  today = now;
+  selectedDay = Math.min(now.getDate()-1, 29);
+  loadFromStorage();
+  renderMonthSelector();
   renderAll();
-  document.querySelector('.content-area').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-function navigate(dir) {
-  const newDay = selectedDay + dir;
-  if (newDay >= 0 && newDay <= 29) {
-    selectedDay = newDay;
-    renderAll();
-    document.querySelector('.content-area').scrollIntoView({behavior:'smooth', block:'start'});
-  }
-}
-
-function goToday() {
-  const d = new Date().getDate();
-  if (d >= 1 && d <= 30) {
-    selectedDay = d - 1;
-    renderAll();
-    document.querySelector('.content-area').scrollIntoView({behavior:'smooth', block:'start'});
-  }
-}
-
-function toggleWater(cup) {
-  const current = waterFilled[selectedDay] || 0;
-  waterFilled[selectedDay] = (current === cup + 1) ? cup : cup + 1;
-  saveToStorage();
-  renderContent();
-}
-
-function toggleCoffee(cup) {
-  const current = coffeeFilled[selectedDay] || 0;
-  coffeeFilled[selectedDay] = (current === cup + 1) ? cup : cup + 1;
-  saveToStorage();
-  renderContent();
-}
-
-// ========== INIT ==========
-initToday();
-renderMonthSelector();
-renderAll();
+init();
 </script>
 </body>
 </html>
