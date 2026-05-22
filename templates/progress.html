@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+{% block title %}Progress — Jhuls{% endblock %}
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+.progress-wrap{max-width:1000px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-style:italic;color:var(--brown-deep);margin-bottom:.25rem;}
+.page-sub{font-size:.85rem;color:var(--text-muted);font-weight:300;margin-bottom:2rem;}
+
+/* STATS GRID */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:2rem;}
+.stat-card{background:var(--warm-white);border:1px solid var(--border);border-radius:16px;padding:1rem;text-align:center;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-style:italic;color:var(--terracotta);line-height:1;}
+.stat-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-top:.25rem;}
+.stat-change{font-size:.75rem;margin-top:.2rem;}
+.stat-change.up{color:var(--sage);}
+.stat-change.dn{color:var(--terracotta);}
+
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:2rem;}
+@media(max-width:640px){.charts-grid{grid-template-columns:1fr;}}
+.chart-card{background:var(--warm-white);border:1px solid var(--border);border-radius:18px;padding:1.25rem;}
+.chart-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--brown-deep);margin-bottom:.75rem;font-style:italic;}
+
+/* LOG FORM */
+.log-form-card{background:var(--warm-white);border:1px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:2rem;}
+.log-form-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--brown-deep);margin-bottom:1.25rem;font-style:italic;}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem;}
+.section-divider{grid-column:1/-1;border-top:1px solid var(--border);padding-top:.75rem;margin-top:.25rem;}
+.section-divider-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);font-weight:500;margin-bottom:.75rem;}
+
+/* ENTRIES TABLE */
+.entries-section{margin-bottom:2rem;}
+.entries-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--brown-deep);font-style:italic;margin-bottom:.75rem;}
+.entry-card{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.6rem;animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.entry-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
+.entry-date{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--brown-deep);font-style:italic;}
+.entry-pills{display:flex;flex-wrap:wrap;gap:5px;}
+.ep{padding:2px 8px;border-radius:50px;font-size:.68rem;font-weight:500;}
+.ep-body{background:rgba(196,112,74,.1);color:var(--terracotta);}
+.ep-fit{background:var(--sage-pale);color:var(--sage);}
+.ep-feel{background:var(--gold-pale);color:var(--gold);}
+.ep-note{font-size:.78rem;color:var(--text-muted);font-weight:300;margin-top:.4rem;font-style:italic;}
+.del-btn{background:transparent;border:1px solid rgba(196,112,74,.2);border-radius:6px;padding:.2rem .5rem;font-size:.7rem;color:var(--terracotta);cursor:pointer;transition:all .15s;}
+.del-btn:hover{background:var(--terracotta);color:white;}
+
+/* SUBJECTIVE RATINGS */
+.rating-lbl{font-size:.7rem;color:var(--text-muted);margin-bottom:.3rem;}
+.pr-row{display:flex;gap:4px;}
+.pr-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.72rem;transition:all .15s;}
+.pr-btn.on{background:var(--gold);border-color:var(--gold);}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="progress-wrap">
+  <h1 class="page-title">Your progress, {{ user.name }}.</h1>
+  <p class="page-sub">Track measurements, fitness milestones, and how your body feels over time.</p>
+
+  <!-- SUMMARY STATS -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="stat-val" id="statEntries">0</div><div class="stat-lbl">Entries logged</div></div>
+    <div class="stat-card"><div class="stat-val" id="statWeight">—</div><div class="stat-lbl">Weight (kg)</div><div class="stat-change" id="statWeightChange"></div></div>
+    <div class="stat-card"><div class="stat-val" id="statCalf">—</div><div class="stat-lbl">Calf pain score</div><div class="stat-change" id="statCalfChange"></div></div>
+    <div class="stat-card"><div class="stat-val" id="statEye">—</div><div class="stat-lbl">Eye comfort /5</div><div class="stat-change" id="statEyeChange"></div></div>
+    <div class="stat-card"><div class="stat-val" id="statPushup">—</div><div class="stat-lbl">Push-up max</div><div class="stat-change" id="statPushupChange"></div></div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts-grid">
+    <div class="chart-card"><div class="chart-title">Weight over time</div><canvas id="chartWeight" height="180"></canvas></div>
+    <div class="chart-card"><div class="chart-title">Eye comfort + Calf pain</div><canvas id="chartHealth" height="180"></canvas></div>
+    <div class="chart-card"><div class="chart-title">Fitness (push-ups & plank)</div><canvas id="chartFitness" height="180"></canvas></div>
+    <div class="chart-card"><div class="chart-title">Measurements (cm)</div><canvas id="chartMeasure" height="180"></canvas></div>
+  </div>
+
+  <!-- LOG FORM -->
+  <div class="log-form-card">
+    <div class="log-form-title">Log a new entry</div>
+    <div class="form-grid">
+      <div class="form-group" style="margin:0">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-input" id="entryDate" style="padding:.45rem .7rem;font-size:.83rem;">
+      </div>
+      <div class="form-group" style="margin:0">
+        <label class="form-label">Weight (kg)</label>
+        <input type="number" class="form-input" id="fWeight" step=".1" placeholder="e.g. 58.5" style="padding:.45rem .7rem;font-size:.83rem;">
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-lbl">📏 Body measurements</div>
+        <div class="form-grid" style="padding:0;">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Arm (cm)</label>
+            <input type="number" class="form-input" id="fArm" step=".5" placeholder="e.g. 26" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Waist (cm)</label>
+            <input type="number" class="form-input" id="fWaist" step=".5" placeholder="e.g. 72" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Hip (cm)</label>
+            <input type="number" class="form-input" id="fHip" step=".5" placeholder="e.g. 90" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Calf (cm)</label>
+            <input type="number" class="form-input" id="fCalf" step=".5" placeholder="e.g. 33" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-lbl">💪 Fitness tests</div>
+        <div class="form-grid" style="padding:0;">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Push-up max reps</label>
+            <input type="number" class="form-input" id="fPushup" placeholder="e.g. 8" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Plank (seconds)</label>
+            <input type="number" class="form-input" id="fPlank" placeholder="e.g. 25" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Calf raise max</label>
+            <input type="number" class="form-input" id="fCalfRaise" placeholder="e.g. 20" style="padding:.45rem .7rem;font-size:.83rem;">
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-lbl">✨ How does your body feel? (1 = bad, 5 = great)</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.9rem;">
+          <div>
+            <div class="rating-lbl">👁️ Eye comfort (how white are your eyes?)</div>
+            <div class="pr-row" id="prEye"></div>
+          </div>
+          <div>
+            <div class="rating-lbl">🦵 Calf pain (5 = no pain at all)</div>
+            <div class="pr-row" id="prCalf"></div>
+          </div>
+          <div>
+            <div class="rating-lbl">⚡ Overall energy</div>
+            <div class="pr-row" id="prEnergy"></div>
+          </div>
+          <div>
+            <div class="rating-lbl">🫶 Gut comfort (5 = no bloating)</div>
+            <div class="pr-row" id="prGut"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Notes / observations</label>
+          <textarea class="form-input" id="fNotes" placeholder="e.g. Eye whites look clearer this week. Calf cramps less frequent at night..." rows="2" style="font-size:.83rem;"></textarea>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:1.25rem;display:flex;gap:8px;align-items:center;">
+      <button class="btn btn-primary" onclick="submitEntry()">💾 Save entry</button>
+      <span id="formMsg" style="font-size:.78rem;color:var(--sage);"></span>
+    </div>
+  </div>
+
+  <!-- ENTRIES LIST -->
+  <div class="entries-section">
+    <div class="entries-title">All entries</div>
+    <div id="entriesList"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// RATINGS STATE
+// ============================================================
+const ratings = { eye:0, calf:0, energy:0, gut:0 };
+
+function buildRating(id, key){
+  const c=document.getElementById(id); c.innerHTML='';
+  for(let i=1;i<=5;i++){
+    const b=document.createElement('button'); b.className='pr-btn'+(ratings[key]>=i?' on':'');
+    b.textContent=ratings[key]>=i?'⭐':'☆';
+    b.onclick=()=>{ ratings[key]=i; buildRating(id,key); };
+    c.appendChild(b);
+  }
+}
+['eye','calf','energy','gut'].forEach(k=>buildRating(`pr${k.charAt(0).toUpperCase()+k.slice(1)}`,k));
+document.getElementById('entryDate').value=new Date().toISOString().split('T')[0];
+
+// ============================================================
+// CHART HELPERS
+// ============================================================
+const chartDefaults = {
+  responsive:true, maintainAspectRatio:true,
+  plugins:{legend:{labels:{font:{family:'DM Sans',size:11},color:'#6B4A35'}}},
+  scales:{x:{ticks:{font:{family:'DM Sans',size:10},color:'#A67C5B'},grid:{color:'rgba(166,124,91,.1)'}},
+          y:{ticks:{font:{family:'DM Sans',size:10},color:'#A67C5B'},grid:{color:'rgba(166,124,91,.1)'}}}
+};
+let charts={};
+function makeChart(id,cfg){
+  if(charts[id]) charts[id].destroy();
+  charts[id]=new Chart(document.getElementById(id),cfg);
+}
+
+// ============================================================
+// LOAD + RENDER
+// ============================================================
+let allEntries=[];
+
+async function loadEntries(){
+  const res=await fetch('/api/progress');
+  allEntries=await res.json();
+  renderStats();
+  renderCharts();
+  renderList();
+}
+
+function renderStats(){
+  document.getElementById('statEntries').textContent=allEntries.length;
+  if(!allEntries.length) return;
+  const last=allEntries[allEntries.length-1];
+  const first=allEntries[0];
+  function showStat(elVal,elChange,val,firstVal,higher='up'){
+    elVal.textContent=val!=null?val:'—';
+    if(val!=null&&firstVal!=null&&firstVal!==val){
+      const diff=(val-firstVal).toFixed(1);
+      const up=diff>0;
+      const good=(higher==='up')?up:!up;
+      elChange.textContent=(up?'↑':'↓')+' '+Math.abs(diff)+' from start';
+      elChange.className='stat-change '+(good?'up':'dn');
+    }
+  }
+  showStat(document.getElementById('statWeight'),document.getElementById('statWeightChange'),last.weight_kg,first.weight_kg,'dn');
+  showStat(document.getElementById('statCalf'),document.getElementById('statCalfChange'),last.calf_pain,first.calf_pain,'up');
+  showStat(document.getElementById('statEye'),document.getElementById('statEyeChange'),last.eye_comfort,first.eye_comfort,'up');
+  showStat(document.getElementById('statPushup'),document.getElementById('statPushupChange'),last.pushup_max,first.pushup_max,'up');
+}
+
+function renderCharts(){
+  if(!allEntries.length) return;
+  const labels=allEntries.map(e=>e.date.slice(5));
+  const terr='rgba(196,112,74,',sage='rgba(122,158,126,',gold='rgba(201,149,74,',violet='rgba(139,123,181,';
+  const lineOpts={tension:.35,fill:false,pointRadius:3,pointHoverRadius:5};
+
+  makeChart('chartWeight',{type:'line',data:{labels,datasets:[{label:'Weight (kg)',data:allEntries.map(e=>e.weight_kg),borderColor:terr+'1)',backgroundColor:terr+'.1)',...lineOpts}]},options:{...chartDefaults}});
+
+  makeChart('chartHealth',{type:'line',data:{labels,datasets:[
+    {label:'Eye comfort',data:allEntries.map(e=>e.eye_comfort),borderColor:gold+'1)',backgroundColor:gold+'.1)',...lineOpts},
+    {label:'Calf pain',data:allEntries.map(e=>e.calf_pain),borderColor:violet+'1)',backgroundColor:violet+'.1)',...lineOpts},
+  ]},options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,min:0,max:5}}}});
+
+  makeChart('chartFitness',{type:'line',data:{labels,datasets:[
+    {label:'Push-ups',data:allEntries.map(e=>e.pushup_max),borderColor:sage+'1)',backgroundColor:sage+'.1)',...lineOpts},
+    {label:'Plank (sec)',data:allEntries.map(e=>e.plank_seconds),borderColor:terr+'1)',backgroundColor:terr+'.1)',...lineOpts},
+  ]},options:{...chartDefaults}});
+
+  makeChart('chartMeasure',{type:'line',data:{labels,datasets:[
+    {label:'Arm',data:allEntries.map(e=>e.arm_cm),borderColor:terr+'1)',backgroundColor:terr+'.1)',...lineOpts},
+    {label:'Waist',data:allEntries.map(e=>e.waist_cm),borderColor:sage+'1)',backgroundColor:sage+'.1)',...lineOpts},
+    {label:'Calf',data:allEntries.map(e=>e.calf_cm),borderColor:violet+'1)',backgroundColor:violet+'.1)',...lineOpts},
+  ]},options:{...chartDefaults}});
+}
+
+function renderList(){
+  const el=document.getElementById('entriesList');
+  if(!allEntries.length){ el.innerHTML='<div style="font-size:.85rem;color:var(--text-muted);font-style:italic;">No entries yet. Add your first measurement above!</div>'; return; }
+  el.innerHTML=[...allEntries].reverse().map(e=>`
+    <div class="entry-card">
+      <div class="entry-top">
+        <div class="entry-date">${formatDate(e.date)}</div>
+        <button class="del-btn" onclick="deleteEntry(${e.id})">✕ Delete</button>
+      </div>
+      <div class="entry-pills">
+        ${e.weight_kg!=null?`<span class="ep ep-body">⚖️ ${e.weight_kg} kg</span>`:''}
+        ${e.arm_cm!=null?`<span class="ep ep-body">💪 Arm ${e.arm_cm} cm</span>`:''}
+        ${e.waist_cm!=null?`<span class="ep ep-body">📏 Waist ${e.waist_cm} cm</span>`:''}
+        ${e.calf_cm!=null?`<span class="ep ep-body">🦵 Calf ${e.calf_cm} cm</span>`:''}
+        ${e.pushup_max!=null?`<span class="ep ep-fit">💪 ${e.pushup_max} push-ups</span>`:''}
+        ${e.plank_seconds!=null?`<span class="ep ep-fit">🧘 Plank ${e.plank_seconds}s</span>`:''}
+        ${e.calf_raise_max!=null?`<span class="ep ep-fit">🦶 ${e.calf_raise_max} calf raises</span>`:''}
+        ${e.eye_comfort!=null?`<span class="ep ep-feel">👁️ Eyes ${e.eye_comfort}/5</span>`:''}
+        ${e.calf_pain!=null?`<span class="ep ep-feel">🦵 Calf pain ${e.calf_pain}/5</span>`:''}
+        ${e.energy_general!=null?`<span class="ep ep-feel">⚡ Energy ${e.energy_general}/5</span>`:''}
+        ${e.gut_comfort!=null?`<span class="ep ep-feel">🫶 Gut ${e.gut_comfort}/5</span>`:''}
+      </div>
+      ${e.notes?`<div class="ep-note">"${e.notes}"</div>`:''}
+    </div>`).join('');
+}
+
+function formatDate(iso){
+  const d=new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+}
+
+// ============================================================
+// SUBMIT + DELETE
+// ============================================================
+async function submitEntry(){
+  const payload={
+    date:document.getElementById('entryDate').value,
+    weight_kg:parseFloat(document.getElementById('fWeight').value)||null,
+    arm_cm:parseFloat(document.getElementById('fArm').value)||null,
+    waist_cm:parseFloat(document.getElementById('fWaist').value)||null,
+    hip_cm:parseFloat(document.getElementById('fHip').value)||null,
+    calf_cm:parseFloat(document.getElementById('fCalf').value)||null,
+    pushup_max:parseInt(document.getElementById('fPushup').value)||null,
+    plank_seconds:parseInt(document.getElementById('fPlank').value)||null,
+    calf_raise_max:parseInt(document.getElementById('fCalfRaise').value)||null,
+    eye_comfort:ratings.eye||null,
+    calf_pain:ratings.calf||null,
+    energy_general:ratings.energy||null,
+    gut_comfort:ratings.gut||null,
+    notes:document.getElementById('fNotes').value,
+  };
+  const res=await fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  if((await res.json()).ok){
+    const msg=document.getElementById('formMsg'); msg.textContent='✓ Entry saved!';
+    setTimeout(()=>msg.textContent='',2500);
+    // reset
+    ['fWeight','fArm','fWaist','fHip','fCalf','fPushup','fPlank','fCalfRaise','fNotes'].forEach(id=>document.getElementById(id).value='');
+    ratings.eye=0; ratings.calf=0; ratings.energy=0; ratings.gut=0;
+    ['eye','calf','energy','gut'].forEach(k=>buildRating(`pr${k.charAt(0).toUpperCase()+k.slice(1)}`,k));
+    document.getElementById('entryDate').value=new Date().toISOString().split('T')[0];
+    loadEntries();
+  }
+}
+
+async function deleteEntry(id){
+  if(!confirm('Delete this entry?')) return;
+  await fetch(`/api/progress/${id}`,{method:'DELETE'});
+  loadEntries();
+}
+
+loadEntries();
+</script>
+{% endblock %}
