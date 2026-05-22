@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Jhuls — Health Tracker{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#FDF8F2; --warm-white:#FEFCF9;
+  --brown-deep:#3D2B1F; --brown-mid:#6B4A35; --brown-light:#A67C5B;
+  --terracotta:#C4704A; --terracotta-light:#E8A882;
+  --sage:#7A9E7E; --sage-pale:#EDF5EE;
+  --gold:#C9954A; --gold-pale:#FBF0DE;
+  --blush:#E8C4B0; --violet:#8B7BB5; --violet-pale:#F0EEF9;
+  --text-dark:#2C1A0E; --text-mid:#6B4A35; --text-muted:#A67C5B;
+  --border:rgba(166,124,91,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text-dark);min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+button,input,select,textarea{font-family:'DM Sans',sans-serif;}
+
+.flash-msg{background:#FBF0DE;border-left:3px solid var(--gold);padding:.6rem 1rem;margin:.5rem 0;font-size:.85rem;color:var(--brown-mid);border-radius:0 8px 8px 0;}
+
+/* NAV */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:var(--warm-white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:var(--terracotta);}
+.nav-links{display:flex;gap:8px;align-items:center;}
+.nav-link{padding:.4rem .9rem;border-radius:50px;font-size:.8rem;color:var(--text-muted);transition:all .2s;border:1px solid transparent;}
+.nav-link:hover,.nav-link.active{background:var(--cream);border-color:var(--border);color:var(--brown-deep);}
+.nav-link.logout{color:var(--terracotta);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:.55rem 1.25rem;border-radius:50px;font-size:.83rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:var(--brown-deep);color:var(--cream);}
+.btn-primary:hover{background:var(--terracotta);}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text-mid);}
+.btn-outline:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.btn-sage{background:var(--sage);color:white;}
+.btn-sage:hover{opacity:.9;}
+.btn-sm{padding:.35rem .8rem;font-size:.75rem;}
+
+/* CARDS */
+.card{background:var(--warm-white);border:1px solid var(--border);border-radius:20px;padding:1.5rem;}
+.card-sm{border-radius:14px;padding:1rem;}
+
+/* FORM */
+.form-group{margin-bottom:1rem;}
+.form-label{display:block;font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:.4rem;}
+.form-input{width:100%;padding:.6rem .9rem;border:1px solid var(--border);border-radius:10px;background:var(--cream);color:var(--text-dark);font-size:.88rem;outline:none;transition:border .2s;}
+.form-input:focus{border-color:var(--terracotta);}
+textarea.form-input{resize:vertical;min-height:80px;}
+
+/* RATING STARS */
+.rating-row{display:flex;gap:4px;}
+.star-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.85rem;transition:all .15s;}
+.star-btn.active{background:var(--gold);border-color:var(--gold);}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--cream);}
+::-webkit-scrollbar-thumb{background:var(--blush);border-radius:3px;}
+</style>
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+{% if current_user.is_authenticated %}
+<nav class="topnav">
+  <a href="/" class="nav-logo">Jhuls 🌿</a>
+  <div class="nav-links">
+    <a href="/" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">📅 Plan</a>
+    <a href="/progress" class="nav-link {% if request.endpoint == 'progress_page' %}active{% endif %}">📈 Progress</a>
+    <a href="/logout" class="nav-link logout">Sign out</a>
+  </div>
+</nav>
+{% endif %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div style="max-width:500px;margin:.5rem auto;padding:0 1rem;">
+      {% for msg in messages %}<div class="flash-msg">{{ msg }}</div>{% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
