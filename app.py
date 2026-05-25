@@ -24,7 +24,7 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 from datetime import timedelta
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
-app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SECURE'] = False  # Must be False on Render free tier
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
@@ -50,6 +50,7 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     logs = db.relationship('DailyLog', backref='user', lazy=True)
     progress = db.relationship('ProgressEntry', backref='user', lazy=True)
+    smokes = db.relationship('CigaretteLog', backref='user', lazy=True)
 
 class DailyLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -76,6 +77,7 @@ class DailyLog(db.Model):
     mood = db.Column(db.Integer, default=0)            # 1-5
     sleep_hours = db.Column(db.Float, default=0)
     daily_note = db.Column(db.Text, default='')
+    cigarettes_today = db.Column(db.Integer, default=0)
 
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -108,9 +110,30 @@ class ProgressEntry(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class CigaretteLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    logged_at = db.Column(db.DateTime, default=datetime.utcnow)
+    log_date = db.Column(db.Date, nullable=False)
+    trigger = db.Column(db.String(100), default='')   # 'thinking','after_meal','stress','habit','other'
+    note = db.Column(db.Text, default='')             # forced reflection note
+    craving_level = db.Column(db.Integer, default=3) # 1-5
+
+class WaterReminder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    push_subscription = db.Column(db.Text, default='')  # JSON push subscription
+    reminders_enabled = db.Column(db.Boolean, default=True)
+    reminder_start_hour = db.Column(db.Integer, default=7)   # 7am
+    reminder_end_hour = db.Column(db.Integer, default=21)    # 9pm
+    interval_hours = db.Column(db.Integer, default=2)
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    try:
+        return User.query.get(int(user_id))
+    except Exception:
+        return None
 
 # =====================
 # AUTH ROUTES
@@ -132,23 +155,51 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # Only allow one registration if no users exist (personal app)
-    if User.query.count() > 0:
+    # Only allow one registration — this is a personal app
+    try:
+        user_count = User.query.count()
+    except Exception:
+        db.session.rollback()
+        user_count = 0
+
+    if user_count > 0:
         flash('Registration is closed — this is a personal app.')
         return redirect(url_for('login'))
+
     if request.method == 'POST':
         email = request.form.get('email', '').strip().lower()
         name = request.form.get('name', 'Jhuls').strip()
         password = request.form.get('password', '')
-        if User.query.filter_by(email=email).first():
-            flash('Email already registered.')
+
+        # Double-check again right before saving (race condition guard)
+        try:
+            existing_count = User.query.count()
+            existing_user = User.query.filter_by(email=email).first()
+        except Exception:
+            db.session.rollback()
+            existing_count = 0
+            existing_user = None
+
+        if existing_count > 0:
+            flash('Registration is closed — this is a personal app.')
+            return redirect(url_for('login'))
+
+        if existing_user:
+            flash('Email already registered. Please sign in instead.')
+            return redirect(url_for('login'))
+
+        try:
+            hashed = bcrypt.generate_password_hash(password).decode('utf-8')
+            user = User(email=email, name=name, password=hashed)
+            db.session.add(user)
+            db.session.commit()
+            login_user(user, remember=True)
+            return redirect(url_for('index'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Something went wrong. Please try again.')
             return redirect(url_for('register'))
-        hashed = bcrypt.generate_password_hash(password).decode('utf-8')
-        user = User(email=email, name=name, password=hashed)
-        db.session.add(user)
-        db.session.commit()
-        login_user(user, remember=True)
-        return redirect(url_for('index'))
+
     return render_template('register.html')
 
 @app.route('/logout')
@@ -221,6 +272,7 @@ def get_log(month_key, day_index):
         'mood': log.mood,
         'sleep_hours': log.sleep_hours,
         'daily_note': log.daily_note,
+        'cigarettes_today': log.cigarettes_today,
     })
 
 @app.route('/api/log/<month_key>/<int:day_index>', methods=['POST'])
@@ -230,7 +282,8 @@ def save_log(month_key, day_index):
     data = request.get_json()
     for field in ['water_cups','coffee_cups','breakfast_done','lunch_done',
                   'snack_done','dinner_done','exercise_done','exercise_notes',
-                  'exercise_felt','energy_level','mood','sleep_hours','daily_note']:
+                  'exercise_felt','energy_level','mood','sleep_hours','daily_note',
+                  'cigarettes_today']:
         if field in data:
             setattr(log, field, data[field])
     log.updated_at = datetime.utcnow()
@@ -306,6 +359,83 @@ def save_progress():
 def delete_progress(entry_id):
     entry = ProgressEntry.query.filter_by(id=entry_id, user_id=current_user.id).first_or_404()
     db.session.delete(entry)
+    db.session.commit()
+    return jsonify({'ok': True})
+
+# =====================
+# CIGARETTE API
+# =====================
+
+@app.route('/api/smoke', methods=['POST'])
+@login_required
+def log_smoke():
+    data = request.get_json()
+    entry = CigaretteLog(
+        user_id=current_user.id,
+        log_date=date.today(),
+        trigger=data.get('trigger', 'other'),
+        note=data.get('note', ''),
+        craving_level=data.get('craving_level', 3),
+    )
+    db.session.add(entry)
+    # Also increment daily count
+    from datetime import date as dt
+    today = dt.today()
+    month_key = f"{today.year}_{str(today.month).zfill(2)}"
+    day_index = today.day - 1
+    log = get_or_create_log(current_user.id, month_key, day_index)
+    log.cigarettes_today = (log.cigarettes_today or 0) + 1
+    db.session.commit()
+    # Return shame message based on count
+    count = log.cigarettes_today
+    messages = {
+        1: "1 cigarette today. You said you'd quit. There's still time to stop here.",
+        2: "2 cigarettes. Remember why you started tracking this.",
+        3: "3 today. This is the pattern you said you wanted to break.",
+        4: "4 cigarettes. Your lungs, your eyes, your calves — they're all connected.",
+        5: "5 today. You quit coffee. You can quit this too. But not if you don't try.",
+    }
+    msg = messages.get(count, f"{count} cigarettes today. Write it down. Feel it. Then decide tomorrow.")
+    return jsonify({'ok': True, 'count': count, 'message': msg})
+
+@app.route('/api/smoke/today', methods=['GET'])
+@login_required
+def get_smoke_today():
+    today = date.today()
+    logs = CigaretteLog.query.filter_by(
+        user_id=current_user.id, log_date=today
+    ).order_by(CigaretteLog.logged_at).all()
+    return jsonify([{
+        'id': e.id,
+        'time': e.logged_at.strftime('%H:%M'),
+        'trigger': e.trigger,
+        'note': e.note,
+        'craving_level': e.craving_level,
+    } for e in logs])
+
+@app.route('/api/smoke/history', methods=['GET'])
+@login_required
+def smoke_history():
+    from sqlalchemy import func
+    results = db.session.query(
+        CigaretteLog.log_date,
+        func.count(CigaretteLog.id).label('count')
+    ).filter_by(user_id=current_user.id)     .group_by(CigaretteLog.log_date)     .order_by(CigaretteLog.log_date)     .all()
+    return jsonify([{'date': str(r.log_date), 'count': r.count} for r in results])
+
+@app.route('/api/smoke/<int:entry_id>', methods=['DELETE'])
+@login_required
+def delete_smoke(entry_id):
+    entry = CigaretteLog.query.filter_by(id=entry_id, user_id=current_user.id).first_or_404()
+    db.session.delete(entry)
+    # Decrement daily count
+    today = date.today()
+    month_key = f"{today.year}_{str(today.month).zfill(2)}"
+    log = DailyLog.query.filter_by(
+        user_id=current_user.id, month_key=month_key, day_index=today.day - 1
+    ).first()
+    if log and log.cigarettes_today > 0:
+        log.cigarettes_today -= 1
     db.session.commit()
     return jsonify({'ok': True})
 
