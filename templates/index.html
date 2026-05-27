@@ -266,6 +266,57 @@
       <textarea class="form-input" id="dailyNote" placeholder="How do you feel today? What did you notice?" rows="3" oninput="setNote(this.value)"></textarea>
     </div>
 
+    <!-- SMOKING TRACKER -->
+    <div class="log-section smoke-section">
+      <div class="log-section-lbl">🚬 Cigarettes today</div>
+      <div class="smoke-count-display">
+        <div>
+          <div class="smoke-count-num" id="smokeCount">0</div>
+          <div class="smoke-count-lbl">today</div>
+        </div>
+        <div class="smoke-streak" id="smokeStreak"></div>
+      </div>
+      <button class="smoke-log-btn" onclick="toggleSmokeForm()">+ Log a cigarette</button>
+      <div class="smoke-form" id="smokeForm">
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.4rem;font-weight:500;">What triggered it?</div>
+        <div class="trigger-row">
+          <button class="trigger-btn" onclick="setTrigger('thinking')">💭 Thinking</button>
+          <button class="trigger-btn" onclick="setTrigger('after_meal')">🍽️ After meal</button>
+          <button class="trigger-btn" onclick="setTrigger('stress')">😤 Stress</button>
+          <button class="trigger-btn" onclick="setTrigger('habit')">🔄 Just habit</button>
+          <button class="trigger-btn" onclick="setTrigger('other')">• Other</button>
+        </div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.3rem;font-weight:500;">Craving level</div>
+        <div class="craving-row">
+          <button class="crav-btn" onclick="setCraving(1)">1<br><span style="font-size:.6rem">mild</span></button>
+          <button class="crav-btn" onclick="setCraving(2)">2</button>
+          <button class="crav-btn" onclick="setCraving(3)">3<br><span style="font-size:.6rem">medium</span></button>
+          <button class="crav-btn" onclick="setCraving(4)">4</button>
+          <button class="crav-btn" onclick="setCraving(5)">5<br><span style="font-size:.6rem">intense</span></button>
+        </div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.3rem;font-weight:500;">Write something honest ✍️</div>
+        <textarea class="form-input" id="smokeNote" placeholder="e.g. I told myself I'd quit but I lit one anyway. I was stressed about work." rows="2" style="font-size:.78rem;"></textarea>
+        <button class="save-btn" style="margin-top:.5rem;background:var(--brown-deep);" onclick="submitSmoke()">Log it — be honest</button>
+        <div class="shame-msg" id="shameMsg"></div>
+      </div>
+      <div id="smokeTodayList" style="margin-top:.5rem;"></div>
+    </div>
+
+    <!-- WATER REMINDER -->
+    <div class="log-section">
+      <div class="log-section-lbl">⏰ Water reminders</div>
+      <div class="water-reminder-box">
+        <div class="reminder-next">Next reminder in</div>
+        <div class="reminder-countdown" id="waterCountdown">--:--</div>
+        <div class="reminder-toggle">
+          <button class="toggle-sw" id="reminderToggle" onclick="toggleReminders()"></button>
+          <span class="toggle-lbl">Remind me every 2 hours (7am–9pm)</span>
+        </div>
+        <button class="notif-btn" id="notifBtn" onclick="requestNotifications()">🔔 Enable browser notifications</button>
+        <div class="notif-status" id="notifStatus"></div>
+      </div>
+    </div>
+
     <button class="save-btn" onclick="saveLog()">💾 Save today's log</button>
     <div class="save-indicator" id="saveIndicator"></div>
   </div>
@@ -627,5 +678,227 @@ async function init(){
   renderAll();
 }
 init();
+
+// ============================================================
+// SMOKING TRACKER
+// ============================================================
+let smokeState = { trigger: 'habit', craving: 3, todayLogs: [] };
+
+function toggleSmokeForm(){
+  const f = document.getElementById('smokeForm');
+  f.classList.toggle('open');
+}
+
+function setTrigger(t){
+  smokeState.trigger = t;
+  document.querySelectorAll('.trigger-btn').forEach(b => {
+    b.classList.toggle('sel', b.textContent.toLowerCase().includes(t.replace('_',' ').toLowerCase()) || b.onclick.toString().includes(t));
+  });
+  // re-render properly
+  document.querySelectorAll('.trigger-btn').forEach(b => b.classList.remove('sel'));
+  event.target.classList.add('sel');
+}
+
+function setCraving(n){
+  smokeState.craving = n;
+  document.querySelectorAll('.crav-btn').forEach((b,i) => b.classList.toggle('sel', i+1 === n));
+}
+
+async function submitSmoke(){
+  const note = document.getElementById('smokeNote').value.trim();
+  if(!note){
+    document.getElementById('smokeNote').placeholder = '✋ Please write something — even one sentence. This is how you make yourself think twice.';
+    document.getElementById('smokeNote').style.borderColor = 'var(--terracotta)';
+    return;
+  }
+  const res = await fetch('/api/smoke', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ trigger: smokeState.trigger, note: note, craving_level: smokeState.craving })
+  });
+  const data = await res.json();
+  if(data.ok){
+    document.getElementById('smokeCount').textContent = data.count;
+    const shame = document.getElementById('shameMsg');
+    shame.textContent = data.message;
+    shame.style.display = 'block';
+    document.getElementById('smokeNote').value = '';
+    document.getElementById('smokeNote').style.borderColor = '';
+    // update logState
+    logState.cigarettes_today = data.count;
+    await loadTodaySmokes();
+    setTimeout(()=>{ shame.style.display='none'; document.getElementById('smokeForm').classList.remove('open'); }, 4000);
+  }
+}
+
+async function loadTodaySmokes(){
+  try{
+    const res = await fetch('/api/smoke/today');
+    smokeState.todayLogs = await res.json();
+    document.getElementById('smokeCount').textContent = smokeState.todayLogs.length;
+    renderSmokeList();
+    updateSmokeStreak();
+  }catch(e){}
+}
+
+function renderSmokeList(){
+  const el = document.getElementById('smokeTodayList');
+  if(!smokeState.todayLogs.length){ el.innerHTML='<div style="font-size:.72rem;color:var(--sage);font-style:italic;">No cigarettes logged today 🌿</div>'; return; }
+  const triggerLabels = { thinking:'💭 Thinking', after_meal:'🍽️ After meal', stress:'😤 Stress', habit:'🔄 Habit', other:'• Other' };
+  el.innerHTML = smokeState.todayLogs.map(s=>`
+    <div class="smoke-history-item">
+      <span>${s.time} — ${triggerLabels[s.trigger]||s.trigger}</span>
+      <span style="font-size:.65rem;color:var(--text-muted);flex:1;margin:0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.note}</span>
+      <button class="smoke-del" onclick="deleteSmoke(${s.id})">✕</button>
+    </div>`).join('');
+}
+
+async function deleteSmoke(id){
+  await fetch('/api/smoke/'+id, {method:'DELETE'});
+  await loadTodaySmokes();
+}
+
+async function updateSmokeStreak(){
+  try{
+    const res = await fetch('/api/smoke/history');
+    const history = await res.json();
+    // Find current streak of days with 0 cigarettes
+    const today = new Date().toISOString().split('T')[0];
+    const smokedDates = new Set(history.map(h=>h.date));
+    let streak = 0;
+    for(let i=0;i<30;i++){
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const ds = d.toISOString().split('T')[0];
+      if(ds === today) continue; // skip today
+      if(smokedDates.has(ds)) break;
+      streak++;
+    }
+    const el = document.getElementById('smokeStreak');
+    if(streak > 0) el.textContent = streak + ' day' + (streak>1?'s':'')+' clean before today 🌿';
+    else if(!smokedDates.has(today)) el.textContent = 'None today yet 🌿';
+    else el.innerHTML = '';
+  }catch(e){}
+}
+
+// ============================================================
+// WATER REMINDERS
+// ============================================================
+let remindersEnabled = localStorage.getItem('jhuls_reminders') !== 'false';
+let notifPermission = Notification.permission;
+let countdownInterval = null;
+
+function getNextReminderTime(){
+  const now = new Date();
+  const startHour = 7, endHour = 21, interval = 2;
+  const h = now.getHours(), m = now.getMinutes();
+  if(h < startHour) return new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, 0, 0);
+  if(h >= endHour) {
+    const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate()+1);
+    return new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), startHour, 0, 0);
+  }
+  // Find next 2-hour slot from 7am: 7,9,11,13,15,17,19,21
+  for(let slot = startHour; slot <= endHour; slot += interval){
+    if(h < slot || (h === slot && m === 0)) return new Date(now.getFullYear(), now.getMonth(), now.getDate(), slot, 0, 0);
+    if(h === slot && m > 0) continue;
+  }
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHour, 0, 0);
+}
+
+function updateCountdown(){
+  const el = document.getElementById('waterCountdown');
+  const toggle = document.getElementById('reminderToggle');
+  toggle.classList.toggle('on', remindersEnabled);
+
+  if(!remindersEnabled){ el.textContent = 'Paused'; return; }
+
+  const now = new Date();
+  const next = getNextReminderTime();
+  const diff = Math.max(0, next - now);
+  const mins = Math.floor(diff / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  const hh = Math.floor(mins/60);
+  const mm = mins % 60;
+  el.textContent = hh > 0 ? `${hh}h ${mm}m` : `${mm}m ${String(secs).padStart(2,'0')}s`;
+
+  // Fire notification when countdown hits 0
+  if(diff < 1000 && remindersEnabled && notifPermission === 'granted'){
+    fireWaterNotification();
+  }
+}
+
+function fireWaterNotification(){
+  const hour = new Date().getHours();
+  const messages = [
+    { title:'💧 Water time, Jhuls!', body:"It's been 2 hours. Drink a full glass — your calves and eyes need it." },
+    { title:'💧 Hydration check!', body:"Your 2-hour water reminder. Don't skip this one." },
+    { title:'💧 Drink water now!', body:"Your body is already slightly dehydrated before you feel thirsty." },
+    { title:'💧 Water o'clock!', body:"One glass now. Then log it in your tracker. 8 cups today!" },
+  ];
+  const msg = messages[Math.floor(Math.random()*messages.length)];
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.ready.then(reg => {
+      reg.showNotification(msg.title, {
+        body: msg.body, icon: '/static/icon.png',
+        tag: 'water-reminder', renotify: true,
+        vibrate: [200, 100, 200],
+      });
+    });
+  } else {
+    new Notification(msg.title, { body: msg.body });
+  }
+}
+
+function toggleReminders(){
+  remindersEnabled = !remindersEnabled;
+  localStorage.setItem('jhuls_reminders', remindersEnabled);
+  updateCountdown();
+}
+
+async function requestNotifications(){
+  const btn = document.getElementById('notifBtn');
+  const status = document.getElementById('notifStatus');
+  if(!('Notification' in window)){ status.textContent = 'Your browser does not support notifications.'; return; }
+  const perm = await Notification.requestPermission();
+  notifPermission = perm;
+  if(perm === 'granted'){
+    // Register service worker
+    if('serviceWorker' in navigator){
+      try{
+        await navigator.serviceWorker.register('/static/sw.js');
+        btn.textContent = '✓ Notifications enabled!';
+        btn.style.background = 'var(--sage)';
+        status.textContent = 'You will get a reminder every 2 hours from 7am to 9pm.';
+        // Test notification
+        setTimeout(()=>{
+          new Notification('💧 Notifications on, Jhuls!', { body:"I will remind you to drink water every 2 hours. Starting now. 🌿" });
+        }, 500);
+      }catch(e){ status.textContent = 'Service worker failed: '+e.message; }
+    }
+  } else if(perm === 'denied'){
+    status.textContent = 'Notifications blocked. Go to browser settings → allow notifications for this site.';
+    btn.style.background = 'var(--terracotta)';
+  }
+}
+
+function initNotifications(){
+  const btn = document.getElementById('notifBtn');
+  const status = document.getElementById('notifStatus');
+  if(Notification.permission === 'granted'){
+    notifPermission = 'granted';
+    btn.textContent = '✓ Notifications enabled';
+    btn.style.background = 'var(--sage)';
+    status.textContent = 'Reminders active every 2 hours, 7am–9pm.';
+    if('serviceWorker' in navigator) navigator.serviceWorker.register('/static/sw.js').catch(()=>{});
+  } else if(Notification.permission === 'denied'){
+    btn.textContent = '🔕 Notifications blocked';
+    btn.style.background = 'var(--terracotta)';
+    status.textContent = 'Allow in browser settings to enable reminders.';
+  }
+  countdownInterval = setInterval(updateCountdown, 1000);
+  updateCountdown();
+}
+
+// Load smokes when page loads
+loadTodaySmokes();
+initNotifications();
 </script>
 {% endblock %}
