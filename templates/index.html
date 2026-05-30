@@ -344,7 +344,7 @@ let logState = {
   water_cups:0, coffee_cups:0,
   breakfast_done:false, lunch_done:false, snack_done:false, dinner_done:false,
   exercise_done:false, exercise_notes:'', exercise_felt:'',
-  energy_level:0, mood:0, sleep_hours:0, daily_note:''
+  energy_level:0, mood:0, sleep_hours:0, daily_note:'', cigarettes_today:0
 };
 let saveTimeout = null;
 
@@ -380,7 +380,7 @@ function renderMonthBar(){
   });
   bar.appendChild(sel);
   const rst=document.createElement('button'); rst.className='reset-btn'; rst.textContent='↺ Reset month';
-  rst.addEventListener('click',()=>{ if(confirm('Reset tracking for this month?')){ logState={water_cups:0,coffee_cups:0,breakfast_done:false,lunch_done:false,snack_done:false,dinner_done:false,exercise_done:false,exercise_notes:'',exercise_felt:'',energy_level:0,mood:0,sleep_hours:0,daily_note:''}; saveLog(true); renderLogPanel(); } });
+  rst.addEventListener('click',()=>{ if(confirm('Reset tracking for this month?')){ logState={water_cups:0,coffee_cups:0,breakfast_done:false,lunch_done:false,snack_done:false,dinner_done:false,exercise_done:false,exercise_notes:'',exercise_felt:'',energy_level:0,mood:0,sleep_hours:0,daily_note:'',cigarettes_today:0}; saveLog(true); renderLogPanel(); } });
   bar.appendChild(rst);
 }
 
@@ -419,9 +419,10 @@ async function loadLog(){
     const res=await fetch(`/api/log/${currentMonthKey}/${selectedDay}`);
     const data=await res.json();
     if(Object.keys(data).length===0){
-      logState={water_cups:0,coffee_cups:0,breakfast_done:false,lunch_done:false,snack_done:false,dinner_done:false,exercise_done:false,exercise_notes:'',exercise_felt:'',energy_level:0,mood:0,sleep_hours:0,daily_note:''};
+      logState={water_cups:0,coffee_cups:0,breakfast_done:false,lunch_done:false,snack_done:false,dinner_done:false,exercise_done:false,exercise_notes:'',exercise_felt:'',energy_level:0,mood:0,sleep_hours:0,daily_note:'',cigarettes_today:0};
     } else {
-      logState=data;
+      // Merge with defaults so new fields don't cause undefined errors
+      logState={water_cups:0,coffee_cups:0,breakfast_done:false,lunch_done:false,snack_done:false,dinner_done:false,exercise_done:false,exercise_notes:'',exercise_felt:'',energy_level:0,mood:0,sleep_hours:0,daily_note:'',cigarettes_today:0,...data};
     }
   }catch(e){}
 }
@@ -658,12 +659,20 @@ function togglePrep(btn){ const b=btn.nextElementSibling; b.classList.toggle('op
 // FULL RENDER
 // ============================================================
 function renderAll(){
-  renderMonthBar(); renderWeekNav(); renderGrid();
-  document.getElementById('mainContent').innerHTML=activeTab==='diet'?renderDiet():renderExercise();
-  document.getElementById('prevBtn').disabled=selectedDay===0;
-  document.getElementById('nextBtn').disabled=selectedDay===29;
-  document.getElementById('dayCtr').textContent=`Day ${selectedDay+1} of 30`;
-  renderLogPanel();
+  try {
+    renderMonthBar(); renderWeekNav(); renderGrid();
+  } catch(e) { console.error('renderGrid error:', e); }
+  try {
+    document.getElementById('mainContent').innerHTML=activeTab==='diet'?renderDiet():renderExercise();
+  } catch(e) { console.error('renderContent error:', e); document.getElementById('mainContent').innerHTML='<div style="padding:1rem;color:var(--terracotta);">Content error: '+e.message+'</div>'; }
+  try {
+    document.getElementById('prevBtn').disabled=selectedDay===0;
+    document.getElementById('nextBtn').disabled=selectedDay===29;
+    document.getElementById('dayCtr').textContent=`Day ${selectedDay+1} of 30`;
+  } catch(e) { console.error('nav error:', e); }
+  try {
+    renderLogPanel();
+  } catch(e) { console.error('renderLogPanel error:', e); }
 }
 
 // ============================================================
